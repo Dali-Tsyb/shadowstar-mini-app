@@ -1,12 +1,22 @@
-# React + Vite
+# 🧙 Telegram Mini App for Dungeons & Dragons
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Мы с моим молодым человеком разрабатываем мини-приложение для Telegram, которое позволит устраивать онлайн игры в "Подземелья и драконы". Здесь вы можете следить за тем, как я создаю frontend часть приложения и интегрирую backend, разработанный им :)
 
-Currently, two official plugins are available:
+Me and my boyfriend want to create a Telegram mini app that supports online Dungeons & Dragons games. Here you can see my progress as I develop frontend part and integrate it with backend created by him :)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Project Goal
 
-## Expanding the ESLint configuration
+Это приложение поможет мастерам и игрокам управлять своими игровыми сессиями в одном месте - без нужды в дополнительном оборудовании для карточек персонажей, карт и их объектов.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This app is designed to help game masters and players manage their DnD sessions in one place - without needing additional software for character sheets, maps, or item tracking.
+
+## 🛠️ Stack
+
+- React.js (Vite-based setup)
+- Planning to integrate with:
+  - Backend via Axios
+  - Telegram API for mini app deployment
+
+---
+
+> Built by [@Dali-Tsyb](https://github.com/Dali-Tsyb)
