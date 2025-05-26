@@ -2,27 +2,31 @@
 
 Me and my boyfriend want to create a Telegram mini app that supports online Dungeons & Dragons games. Here you can see my progress as I develop frontend part and integrate it with backend created by him :)
 
-Мы с моим молодым человеком разрабатываем мини-приложение для Telegram, которое позволит устраивать онлайн игры в "Подземелья и драконы". Здесь вы можете следить за тем, как я создаю frontend часть приложения и интегрирую backend, разработанный им :)
-
 ## 🎯 Project Goal
 
 This app is designed to help game masters and players manage their DnD sessions in one place - without needing additional software for character sheets, maps, or item tracking.
-
-Это приложение поможет мастерам и игрокам управлять своими игровыми сессиями в одном месте - без нужды в дополнительном оборудовании для карточек персонажей, карт и их объектов.
 
 ## 🛠️ Stack
 
 - React.js (Vite-based setup)
 - Bootstrap 5
+- React Router
+- Swiper.js
 - Planning to integrate with:
   - Backend via Axios
   - Telegram API for mini app deployment
 
 ## 🚧 Project Status
 
-Right now I'm creating all necessary assets (icons, animation etc.) to complete the first page of an app. Also I'm planning to add a character page soon and integrate it with backend server!
+I've recently set up routing to add second page of my app and added Swiper.js slider with 'cards' animation to make it look even more like a real dnd game! Right now I'm testing backend requests and integrating server logic into frontend. At this moment my to do list looks like this:
+- divide current component into smaller chunks for reusability & easier maintenance
+- test backend server
+- integrate it with frontend
+- fix some UI flaws (submitting game-code, selecting character etc.)
+- add inventory page
+- add abilities page
 
-В данный момент я занимаюсь созданием иконок, анимаций и т.д. для завершения первой страницы приложения. В скором времени планирую добавить страницу персонажа и присоединить backend сервер.
+...and a lot more waiting ahead!
 
 ---
 
