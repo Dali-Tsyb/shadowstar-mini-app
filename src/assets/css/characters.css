@@ -1,0 +1,102 @@
+.blocks-container {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   gap: 0.2rem;
+   grid-template-areas:
+      "name name class class"
+      "avatar avatar avatar characteristics"
+      "stats stats stats characteristics"
+      "abilities abilities inventory inventory"
+      "edit edit edit edit";
+   padding: 1rem;
+}
+.grid-area-navigation {
+   grid-area: navigation;
+}
+.grid-area-campaign {
+   grid-area: campaign;
+}
+.grid-area-name {
+   grid-area: name;
+}
+.grid-area-class {
+   grid-area: class;
+}
+.grid-area-avatar {
+   grid-area: avatar;
+}
+.grid-area-characteristics {
+   grid-area: characteristics;
+}
+.grid-area-stats {
+   grid-area: stats;
+}
+.grid-area-abilities {
+   grid-area: abilities;
+}
+.grid-area-inventory {
+   grid-area: inventory;
+}
+.grid-area-edit {
+   grid-area: edit;
+}
+.grid-area-quantity {
+   grid-area: quantity;
+}
+button {
+   font-size: 0.8rem;
+}
+
+.stats {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.stats:nth-child(1) {
+   background: url(../src/assets/images/hp-icon.webp);
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   width: 3.5em;
+   height: 3.5em;
+}
+.stats:nth-child(2) {
+   background: url(../src/assets/images/shard-icon.webp);
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   width: 4rem;
+   height: 4rem;
+}
+.stats:nth-child(3) {
+   background: url(../src/assets/images/shield-icon.webp);
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   width: 4rem;
+   height: 4rem;
+}
+.stats span {
+   font-size: 0.8rem;
+   border-radius: 100%;
+   width: 1.2rem;
+   height: 1.2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 0.5rem;
+   background-color: #4c3825;
+}
+.characteristics {
+   display: flex;
+   flex-direction: column;
+   gap: 0.2rem;
+   padding: 0.2rem;
+   align-items: center;
+}
+.characteristics span:nth-child(1) {
+   font-weight: 700;
+}
+.characteristics span:nth-child(2) {
+   opacity: 0.7;
+}

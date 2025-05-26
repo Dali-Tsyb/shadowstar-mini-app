@@ -1,5 +1,6 @@
-import "./home.css";
-import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "../assets/css/home.css";
+import { useState } from "react";
 
 function HomePage() {
    const [role, setRole] = useState("master");
@@ -7,14 +8,14 @@ function HomePage() {
    return (
       <>
          <div
-            className="d-flex flex-column gap-3 h-100 justify-content-between"
+            className="d-flex flex-column gap-3 h-100 justify-content-between p-3"
             style={{
                alignItems: "stretch",
             }}
          >
             <div className="title-container">
                <img
-                  src="/src/assets/title-bg.webp"
+                  src="src/assets/images/title-bg.webp"
                   alt="title bg"
                   className="w-100"
                />
@@ -22,17 +23,17 @@ function HomePage() {
                   D&D
                </h1>
             </div>
-            <div
-               className="d-flex justify-content-center align-items-center rounded"
-               style={{ border: "3px solid #382610" }}
-            >
+            <div className="d-flex justify-content-center align-items-center rounded">
                <button
                   className={
                      role === "player"
-                        ? "role-button p-2 active"
-                        : "role-button p-2"
+                        ? "role-button brown-bg beige-text p-2"
+                        : "role-button bg-transparent brown-text beige-bg p-2"
                   }
-                  style={{ borderRight: "3px solid #382610" }}
+                  style={{
+                     border: "2px solid #382610",
+                     borderRadius: ".375rem 0 0 .375rem",
+                  }}
                   onClick={() => setRole("player")}
                >
                   Игрок
@@ -40,9 +41,14 @@ function HomePage() {
                <button
                   className={
                      role === "master"
-                        ? "role-button p-2 active"
-                        : "role-button p-2"
+                        ? "role-button brown-bg beige-text p-2"
+                        : "role-button beige-bg brown-text p-2"
                   }
+                  style={{
+                     border: "2px solid #382610",
+                     borderLeft: "none",
+                     borderRadius: "0 .375rem .375rem 0",
+                  }}
                   onClick={() => {
                      setRole("master");
                   }}
@@ -54,35 +60,38 @@ function HomePage() {
                <input
                   type="text"
                   placeholder="Введите код игры"
-                  className="w-100 rounded bg-transparent fw-semibold game-code-input p-2"
-                  style={{ border: "3px solid #382610" }}
+                  className="w-100 rounded bg-transparent fw-semibold brown-text game-code-input p-2 brown-border"
                />
             </div>
-            <div className="home-map-container">
-               <img
-                  src="/src/assets/home-map-img.webp"
-                  alt="map"
-                  className="home-map"
-               />
-            </div>
+            <img
+               src="src/assets/images/home-map-img.webp"
+               alt="map"
+               className="brown-border rounded w-100"
+            />
             <div className="d-flex justify-content-between align-items-center gap-3">
-               <button className="profile-button rounded p-2">
+               <Link to="/characters">
+                  <button className="profile-button base-button rounded p-2">
+                     <img
+                        className="w-100"
+                        src="src/assets/images/profile-icon.webp"
+                        alt="profile"
+                     />
+                  </button>
+               </Link>
+
+               <button className="settings-button base-button rounded p-2">
                   <img
                      className="w-100"
-                     src="/src/assets/profile-icon.webp"
-                     alt="profile"
-                  />
-               </button>
-               <button className="settings-button rounded p-2">
-                  <img
-                     className="w-100"
-                     src="/src/assets/settings-icon.webp"
+                     src="src/assets/images/settings-icon.webp"
                      alt="settings"
                   />
                </button>
             </div>
             <div>
-               <button className="donate-button w-100 text-uppercase fw-bold p-2 rounded">
+               <button
+                  className="base-button brown-bg beige-text rounded w-100"
+                  style={{ fontSize: "1rem" }}
+               >
                   Поддержать проект
                </button>
             </div>

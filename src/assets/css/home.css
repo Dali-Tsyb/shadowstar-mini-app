@@ -12,8 +12,6 @@
 
 .role-button {
    border: none;
-   background-color: #d3b78863;
-   color: #382610;
    font-size: 1.2rem;
    width: 50%;
    height: 100%;
@@ -21,10 +19,6 @@
    text-transform: uppercase;
    transition: all 0.2s ease-in-out;
    cursor: pointer;
-}
-.role-button.active {
-   background-color: #60472f;
-   color: #e2cfae;
 }
 
 .game-code-input {
@@ -40,39 +34,11 @@
 .home-map-container {
    height: fit-content;
    overflow: hidden;
-   border: 4px solid #382610;
    border-radius: 0.6rem;
-}
-.home-map {
-   width: -webkit-fill-available;
-   transform: scale(1);
 }
 
 .profile-button,
 .settings-button {
-   border: 3px solid #382610;
    background-color: #d3b78863;
-   color: #382610;
-   font-size: 1.2rem;
    width: 4.5rem;
-   font-weight: 800;
-   text-transform: uppercase;
-   transition: all 0.2s ease-in-out;
-   cursor: pointer;
-}
-.profile-button:active,
-.settings-button:active {
-   transform: scale(0.9);
-}
-
-.donate-button {
-   border: 3px solid #382610;
-   background-color: #60472f;
-   color: #e2cfae;
-   font-size: 1rem;
-   transition: all 0.2s ease-in-out;
-   cursor: pointer;
-}
-.donate-button:active {
-   transform: scale(0.9);
 }
