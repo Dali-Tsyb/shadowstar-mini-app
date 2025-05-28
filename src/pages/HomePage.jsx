@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import "../assets/css/home.css";
 import { useState } from "react";
+import titleBg from "../assets/images/title-bg.webp";
+import homeMap from "../assets/images/home-map-img.webp";
+import profileIcon from "../assets/images/profile-icon.webp";
+import settingsIcon from "../assets/images/settings-icon.webp";
 
 function HomePage() {
    const [role, setRole] = useState("master");
@@ -14,11 +18,7 @@ function HomePage() {
             }}
          >
             <div className="title-container">
-               <img
-                  src="src/assets/images/title-bg.webp"
-                  alt="title bg"
-                  className="w-100"
-               />
+               <img src={titleBg} alt="title bg" className="w-100" />
                <h1 className="title-text d-flex justify-content-center align-items-center w-100 h-100">
                   D&D
                </h1>
@@ -64,7 +64,7 @@ function HomePage() {
                />
             </div>
             <img
-               src="src/assets/images/home-map-img.webp"
+               src={homeMap}
                alt="map"
                className="brown-border rounded w-100"
             />
@@ -73,7 +73,7 @@ function HomePage() {
                   <button className="profile-button base-button rounded p-2">
                      <img
                         className="w-100"
-                        src="src/assets/images/profile-icon.webp"
+                        src={profileIcon}
                         alt="profile"
                      />
                   </button>
@@ -82,7 +82,7 @@ function HomePage() {
                <button className="settings-button base-button rounded p-2">
                   <img
                      className="w-100"
-                     src="src/assets/images/settings-icon.webp"
+                     src={settingsIcon}
                      alt="settings"
                   />
                </button>

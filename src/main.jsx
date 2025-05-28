@@ -3,16 +3,14 @@ import "./assets/css/index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom/client";
+import textureBg from "./assets/images/old-paper-texture.jpg";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <StrictMode>
       <BrowserRouter>
          <div className="body-container">
             <div className="bg-container">
-               <img
-                  src="src/assets/images/old-paper-texture.jpg"
-                  className="texture"
-               />
+               <img src={textureBg} alt="texture" className="texture" />
                <App />
             </div>
          </div>

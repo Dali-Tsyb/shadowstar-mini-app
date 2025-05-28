@@ -7,6 +7,9 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import { useRef, useState } from "react";
 import { EffectCards } from "swiper/modules";
+import backArrowIcon from "../assets/images/back-arrow.svg";
+import characterAvatar from "../assets/images/character-avatar.png";
+import arrowIcon from "../assets/images/arrow.svg";
 
 const characters = [
    { name: "Крыса Лариса", class: "Зверь" },
@@ -35,8 +38,8 @@ export default function CharacterPage() {
                   >
                      <img
                         className="w-100"
-                        src="/src/assets/images/back-arrow.svg"
-                        alt=""
+                        src={backArrowIcon}
+                        alt="back"
                      />
                   </button>
                </a>
@@ -83,8 +86,8 @@ export default function CharacterPage() {
                                  display: "block",
                                  width: "100%",
                               }}
-                              src="/src/assets/images/character-avatar.png"
-                              alt=""
+                              src={characterAvatar}
+                              alt="avatar"
                            />
                         </div>
                         <div className="d-flex flex-column justify-content-between align-items-center grid-area-characteristics brown-border px-2 py-3 beige-bg">
@@ -150,8 +153,8 @@ export default function CharacterPage() {
                   >
                      <img
                         className="w-100"
-                        src="/src/assets/images/arrow.svg"
-                        alt=""
+                        src={arrowIcon}
+                        alt="prev"
                         style={{ transform: "rotate(270deg)" }}
                      />
                   </button>
@@ -170,8 +173,8 @@ export default function CharacterPage() {
                   >
                      <img
                         className="w-100"
-                        src="/src/assets/images/arrow.svg"
-                        alt=""
+                        src={arrowIcon}
+                        alt="next"
                         style={{ transform: "rotate(90deg)" }}
                      />
                   </button>
