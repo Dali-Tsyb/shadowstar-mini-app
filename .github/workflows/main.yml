@@ -1,43 +1,42 @@
 name: Deploy Frontend to Nginx Server
 
 on:
-  push:
-    branches: [deploy]
+   push:
+      branches: [deploy]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+   deploy:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+         - name: Setup Node.js
+           uses: actions/setup-node@v3
+           with:
+              node-version: 18
 
-      - name: Install dependencies
-        run: npm ci
+         - name: Install dependencies
+           run: npm ci
 
-      - name: Build frontend
-        run: npm run build
+         - name: Build frontend
+           run: npm run build
 
-      - name: Copy build to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
-          target: ${{ secrets.DEPLOY_PATH }}
-          
-      - name: SSH and reload nginx
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo systemctl reload nginx
-            
+         - name: Copy build to server
+           uses: appleboy/scp-action@v0.1.7
+           with:
+              host: ${{ secrets.SSH_HOST }}
+              username: ${{ secrets.SSH_USER }}
+              key: ${{ secrets.SSH_PRIVATE_KEY }}
+              source: "dist/*"
+              target: ${{ secrets.DEPLOY_PATH }}
+
+         - name: SSH and reload nginx
+           uses: appleboy/ssh-action@v1.0.0
+           with:
+              host: ${{ secrets.SSH_HOST }}
+              username: ${{ secrets.SSH_USER }}
+              key: ${{ secrets.SSH_PRIVATE_KEY }}
+              script: |
+                 sudo systemctl reload nginx
