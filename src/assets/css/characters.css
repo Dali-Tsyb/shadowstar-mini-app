@@ -1,23 +1,88 @@
+.swiper-slide {
+   will-change: transform;
+   backface-visibility: hidden;
+   transform-style: preserve-3d;
+}
+
 .blocks-container {
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-columns: repeat(6, 1fr);
    gap: 0.2rem;
    grid-template-areas:
-      "name name class class"
-      "avatar avatar avatar characteristics"
-      "stats stats stats characteristics"
-      "abilities abilities inventory inventory"
-      "edit edit edit edit";
+      "name name name name class class"
+      "avatar avatar avatar avatar characteristics characteristics"
+      "stats stats stats stats characteristics characteristics"
+      "abilities abilities abilities inventory inventory inventory"
+      "select select select select select edit";
    padding: 1rem;
+   will-change: transform;
+   position: relative;
+   transition: transform 0.2s ease;
+   overflow: auto;
 }
-.grid-area-navigation {
-   grid-area: navigation;
+.blocks-container * {
+   font-size: clamp(0.5rem, 3.3vw, 4rem);
+}
+.header-btns a button,
+.footer-btns button {
+   width: clamp(2rem, 3vw, 3.5rem);
+   height: clamp(2rem, 3vw, 3.5rem);
+   padding: clamp(0.2rem, 1vw, 1rem);
+}
+.header-btns button {
+   font-size: clamp(0.5rem, 3.3vw, 4rem);
+   padding: clamp(0.2rem, 2.2vw, 1rem);
+}
+@keyframes pulseGlow {
+   0% {
+      transform: scale(1);
+   }
+   50% {
+      transform: scale(1.03);
+   }
+   100% {
+      transform: scale(1);
+   }
+}
+
+.blocks-container.pulse {
+   animation: pulseGlow 0.6s ease;
+   position: relative;
+   overflow: hidden;
+}
+.blocks-container.pulse::before {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: -100%;
+   width: 50%;
+   height: 100%;
+   background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+   );
+   transform: skewX(-20deg);
+   animation: shine 1s ease-out forwards;
+   pointer-events: none;
+   z-index: 10;
+}
+
+@keyframes shine {
+   0% {
+      left: -100%;
+   }
+   100% {
+      left: 180%;
+   }
 }
 .grid-area-campaign {
    grid-area: campaign;
 }
 .grid-area-name {
    grid-area: name;
+   font-size: clamp(1rem, 2.5vw, 4rem);
 }
 .grid-area-class {
    grid-area: class;
@@ -37,47 +102,29 @@
 .grid-area-inventory {
    grid-area: inventory;
 }
+.grid-area-select {
+   grid-area: select;
+   transition: all 0.2s ease-in-out;
+}
 .grid-area-edit {
    grid-area: edit;
-}
-.grid-area-quantity {
-   grid-area: quantity;
-}
-button {
-   font-size: 0.8rem;
 }
 
 .stats {
    display: flex;
    justify-content: center;
    align-items: center;
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   width: clamp(3.5rem, 2vw, 4rem);
+   height: clamp(3.5rem, 2vw, 4rem);
 }
 .stats:nth-child(1) {
-   background: url(../src/assets/images/hp-icon.webp);
-   background-size: contain;
-   background-repeat: no-repeat;
-   background-position: center;
-   width: 3.5em;
-   height: 3.5em;
-}
-.stats:nth-child(2) {
-   background: url(../src/assets/images/shard-icon.webp);
-   background-size: contain;
-   background-repeat: no-repeat;
-   background-position: center;
-   width: 4rem;
-   height: 4rem;
-}
-.stats:nth-child(3) {
-   background: url(../src/assets/images/shield-icon.webp);
-   background-size: contain;
-   background-repeat: no-repeat;
-   background-position: center;
-   width: 4rem;
-   height: 4rem;
+   width: clamp(3.2rem, 2vw, 4rem);
+   height: clamp(3.2rem, 2vw, 4rem);
 }
 .stats span {
-   font-size: 0.8rem;
    border-radius: 100%;
    width: 1.2rem;
    height: 1.2rem;
@@ -95,8 +142,30 @@ button {
    align-items: center;
 }
 .characteristics span:nth-child(1) {
-   font-weight: 700;
+   font-weight: 800;
+   font-size: clamp(1rem, 3.4vw, 1rem);
 }
 .characteristics span:nth-child(2) {
    opacity: 0.7;
+   font-size: clamp(0.8rem, 3.4vw, 1rem);
+}
+
+.header-btns,
+.footer-btns {
+   position: absolute;
+   left: 0;
+   right: 0;
+   z-index: 10;
+   display: flex;
+}
+
+.header-btns {
+   top: 0;
+}
+.footer-btns {
+   bottom: 0;
+}
+.swiper {
+   padding-top: 4rem !important;
+   padding-bottom: 4rem !important;
 }

@@ -1,5 +1,4 @@
 :root {
-   line-height: 1.5;
    font-weight: 400;
    font-synthesis: none;
    text-rendering: optimizeLegibility;
@@ -18,33 +17,34 @@
 
 body {
    margin: 0;
-   display: flex;
-   place-items: center;
-   min-height: 100vh;
+   padding: 0;
 }
 
-.body-container {
-   width: 100vw;
+html,
+body,
+#root {
+   height: 100%;
+   margin: 0;
+   padding: 0;
 }
 .bg-container {
-   background: #e2cfae;
    background: radial-gradient(
       circle,
       rgba(226, 207, 174, 1) 0%,
       rgba(226, 207, 174, 1) 81%,
       rgba(211, 186, 146, 1) 100%
    );
-   position: relative;
-   height: 100vh;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
 }
 
 .texture {
    position: fixed;
    top: 0;
    left: 0;
-   width: 100%;
    height: 100%;
-   object-fit: fill;
+   width: 100%;
    mix-blend-mode: multiply;
    pointer-events: none;
    z-index: 100000;
@@ -52,11 +52,14 @@ body {
 
 .base-button {
    border: 2px solid #382610;
-   transition: all 0.1s;
+   transition: transform 0.1s ease;
+   will-change: transform;
+   transform-style: preserve-3d;
+   backface-visibility: hidden;
    cursor: pointer;
    font-weight: 700;
    text-transform: uppercase;
-   padding: 0.5rem;
+   padding: 0.7rem;
 }
 .brown-border {
    border: 2px solid #382610;
@@ -66,6 +69,9 @@ body {
 }
 .base-button:active {
    transform: scale(0.9);
+}
+.base-button:active:disabled {
+   transform: scale(1);
 }
 .brown-bg {
    background-color: #60472f;

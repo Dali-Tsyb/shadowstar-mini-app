@@ -5,20 +5,17 @@ import titleBg from "../assets/images/title-bg.webp";
 import homeMap from "../assets/images/home-map-img.webp";
 import profileIcon from "../assets/images/profile-icon.webp";
 import settingsIcon from "../assets/images/settings-icon.webp";
+import arrowIcon from "../assets/images/arrow.svg";
 
-function HomePage() {
+export default function HomePage() {
    const [role, setRole] = useState("master");
+   const [gameCode, setGameCode] = useState("");
 
    return (
       <>
-         <div
-            className="d-flex flex-column gap-3 h-100 justify-content-between p-3"
-            style={{
-               alignItems: "stretch",
-            }}
-         >
+         <div className="p-3 d-flex flex-column justify-content-between gap-3 vh-100 ">
             <div className="title-container">
-               <img src={titleBg} alt="title bg" className="w-100" />
+               <img src={titleBg} alt="title bg" />
                <h1 className="title-text d-flex justify-content-center align-items-center w-100 h-100">
                   D&D
                </h1>
@@ -27,13 +24,9 @@ function HomePage() {
                <button
                   className={
                      role === "player"
-                        ? "role-button brown-bg beige-text p-2"
-                        : "role-button bg-transparent brown-text beige-bg p-2"
+                        ? "role-button brown-bg beige-text"
+                        : "role-button beige-bg brown-text"
                   }
-                  style={{
-                     border: "2px solid #382610",
-                     borderRadius: ".375rem 0 0 .375rem",
-                  }}
                   onClick={() => setRole("player")}
                >
                   Игрок
@@ -41,14 +34,9 @@ function HomePage() {
                <button
                   className={
                      role === "master"
-                        ? "role-button brown-bg beige-text p-2"
-                        : "role-button beige-bg brown-text p-2"
+                        ? "role-button brown-bg beige-text"
+                        : "role-button beige-bg brown-text"
                   }
-                  style={{
-                     border: "2px solid #382610",
-                     borderLeft: "none",
-                     borderRadius: "0 .375rem .375rem 0",
-                  }}
                   onClick={() => {
                      setRole("master");
                   }}
@@ -56,42 +44,43 @@ function HomePage() {
                   Мастер
                </button>
             </div>
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="d-flex justify-content-center align-items-center game-code-input">
                <input
                   type="text"
                   placeholder="Введите код игры"
-                  className="w-100 rounded bg-transparent fw-semibold brown-text game-code-input p-2 brown-border"
+                  className={`w-100 rounded bg-transparent fw-semibold brown-text brown-border ${
+                     gameCode ? "pe-5" : ""
+                  } `}
+                  onChange={(e) => setGameCode(e.target.value)}
                />
+               {gameCode && (
+                  <button
+                     type="submit"
+                     onClick={() => console.log(gameCode)}
+                     className="brown-bg brown-border rounded base-button submit-code p-0"
+                  >
+                     <img src={arrowIcon} className="w-100" alt="submit" />
+                  </button>
+               )}
             </div>
-            <img
-               src={homeMap}
-               alt="map"
-               className="brown-border rounded w-100"
-            />
-            <div className="d-flex justify-content-between align-items-center gap-3">
+            <div className=" d-flex justify-content-center align-items-center  home-map overflow-hidden rounded">
+               <img src={homeMap} alt="map" className="brown-border rounded" />
+            </div>
+
+            <div className="d-flex justify-content-between align-items-center gap-3  btns">
                <Link to="/characters">
                   <button className="profile-button base-button rounded p-2">
-                     <img
-                        className="w-100"
-                        src={profileIcon}
-                        alt="profile"
-                     />
+                     <img className="w-100" src={profileIcon} alt="profile" />
                   </button>
                </Link>
-
-               <button className="settings-button base-button rounded p-2">
-                  <img
-                     className="w-100"
-                     src={settingsIcon}
-                     alt="settings"
-                  />
-               </button>
+               <Link to="#">
+                  <button className="settings-button base-button rounded p-2">
+                     <img className="w-100" src={settingsIcon} alt="settings" />
+                  </button>
+               </Link>
             </div>
             <div>
-               <button
-                  className="base-button brown-bg beige-text rounded w-100"
-                  style={{ fontSize: "1rem" }}
-               >
+               <button className="base-button brown-bg beige-text rounded w-100 support-btn">
                   Поддержать проект
                </button>
             </div>
@@ -99,5 +88,3 @@ function HomePage() {
       </>
    );
 }
-
-export default HomePage;
