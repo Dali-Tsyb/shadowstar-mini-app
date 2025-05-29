@@ -10,24 +10,23 @@ import { EffectCards } from "swiper/modules";
 import backArrowIcon from "../assets/images/back-arrow.svg";
 import arrowIcon from "../assets/images/arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
-
-const characters = [
-   { name: "Крыса Лариса", class: "Зверь" },
-   { name: "Пэлиас", class: "Эльф" },
-   { name: "Талала", class: "Гном" },
-   { name: "Эрик Пэнисов", class: "Гном" },
-   { name: "Капучин", class: "Бес" },
-   { name: "Миша", class: "Бес" },
-   { name: "Дан Балан", class: "Вампир" },
-   { name: "Юлиан", class: "Великан" },
-   { name: "Вампирбек", class: "Вампир" },
-   { name: "Ангелин", class: "Падший ангел" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { selectCharacter } from "../store/slices/characterSlice.js";
 
 export default function CharacterPage() {
    const swiperRef = useRef(null);
    const [activeIndex, setActiveIndex] = useState(0);
-   const [selectedCharacter, setSelectedCharacter] = useState(null);
+   const dispatch = useDispatch();
+
+   const characters = useSelector((state) => state.character.characters);
+
+   const selectedCharacter = useSelector(
+      (state) => state.character.selectedCharacter
+   );
+
+   const handleSelect = () => {
+      dispatch(selectCharacter(characters[activeIndex]));
+   };
 
    return (
       <>
@@ -64,7 +63,7 @@ export default function CharacterPage() {
                         character={character}
                         index={index}
                         selectedCharacter={selectedCharacter}
-                        setSelectedCharacter={setSelectedCharacter}
+                        setSelectedCharacter={handleSelect}
                      />
                   </SwiperSlide>
                ))}
