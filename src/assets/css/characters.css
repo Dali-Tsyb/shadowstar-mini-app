@@ -11,10 +11,10 @@
    gap: 0.2rem;
    grid-template-areas:
       "name name name name class class"
-      "avatar avatar avatar avatar avatar characteristics"
-      "stats stats stats stats stats characteristics"
+      "avatar avatar avatar avatar characteristics characteristics"
+      "stats stats stats stats characteristics characteristics"
       "abilities abilities abilities inventory inventory inventory"
-      "select select select select edit edit";
+      "select select select select select select";
    padding: 1rem;
    will-change: transform;
    position: relative;

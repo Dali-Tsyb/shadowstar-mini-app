@@ -28,13 +28,6 @@ export default function CharacterPage() {
       dispatch(selectCharacter(characters[activeIndex]));
    };
 
-   const addCharacter = () => {
-      //add to store
-      characters.push({ name: "Новый персонаж", class: "Человек" });
-      //show its slide
-      swiperRef.current.slideTo(characters.length - 1);
-   };
-
    return (
       <>
          <div className="d-flex flex-column justify-content-center align-items-center h-100 position-relative">
@@ -47,7 +40,6 @@ export default function CharacterPage() {
 
                <button
                   className="base-button brown-bg beige-text rounded"
-                  onClick={addCharacter}
                >
                   + Новый персонаж
                </button>
