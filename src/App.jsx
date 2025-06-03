@@ -16,14 +16,9 @@ export default function App() {
    }, []);
 
    return (
-      <div
-         className="d-flex flex-column flex-grow-1"
-         style={{ height: "calc(var(--vh, 1vh) * 100)" }}
-      >
-         <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/characters" element={<CharactersPage />} />
-         </Routes>
-      </div>
+      <Routes>
+         <Route path="/" element={<HomePage />} />
+         <Route path="/characters" element={<CharactersPage />} />
+      </Routes>
    );
 }

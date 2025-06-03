@@ -18,10 +18,25 @@ const initialState = {
 
 export const characterSlice = createSlice({
    name: "character",
-   initialState,
+   initialState: initialState,
    reducers: {
       selectCharacter: (state, action) => {
          state.selectedCharacter = action.payload;
+      },
+      setCharacters: (state, action) => {
+         state.characters = action.payload;
+      },
+      addCharacter: (state, action) => {
+         state.list.push(action.payload);
+      },
+      updateCharacter: (state, action) => {
+         const index = state.list.findIndex((c) => c.id === action.payload.id);
+         if (index !== -1) {
+            state.list[index] = action.payload;
+         }
+      },
+      deleteCharacter: (state, action) => {
+         state.list = state.list.filter((c) => c.id !== action.payload);
       },
    },
 });

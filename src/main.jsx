@@ -11,7 +11,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
    <StrictMode>
       <BrowserRouter>
          <Provider store={store}>
-            <div className="bg-container">
+            <div
+               className="d-flex flex-column flex-grow-1 h-100 bg-container"
+               style={{ padding: "5vh 0" }}
+            >
                <img src={textureBg} alt="texture" className="texture" />
                <App />
             </div>

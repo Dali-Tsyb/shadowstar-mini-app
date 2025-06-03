@@ -13,7 +13,7 @@ export default function HomePage() {
 
    return (
       <>
-         <div className="p-3 d-flex flex-column justify-content-between gap-3 vh-100 ">
+         <div className="px-4 d-flex flex-column justify-content-between gap-3 h-100">
             <div className="title-container">
                <img src={titleBg} alt="title bg" />
                <h1 className="title-text d-flex justify-content-center align-items-center w-100 h-100">
@@ -63,7 +63,7 @@ export default function HomePage() {
                   </button>
                )}
             </div>
-            <div className=" d-flex justify-content-center align-items-center  home-map overflow-hidden rounded">
+            <div className=" d-flex justify-content-center align-items-center home-map overflow-hidden rounded">
                <img src={homeMap} alt="map" className="brown-border rounded" />
             </div>
 

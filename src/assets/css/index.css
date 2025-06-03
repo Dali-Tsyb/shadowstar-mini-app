@@ -15,11 +15,6 @@
    outline: none;
 }
 
-body {
-   margin: 0;
-   padding: 0;
-}
-
 html,
 body,
 #root {
@@ -34,8 +29,7 @@ body,
       rgba(226, 207, 174, 1) 81%,
       rgba(211, 186, 146, 1) 100%
    );
-   min-height: 100vh;
-   display: flex;
+   height: 100%;
    flex-direction: column;
 }
 
@@ -59,7 +53,7 @@ body,
    cursor: pointer;
    font-weight: 700;
    text-transform: uppercase;
-   padding: 0.7rem;
+   padding: clamp(0.2rem, 1.7vw, 1rem);
 }
 .brown-border {
    border: 2px solid #382610;
@@ -77,10 +71,10 @@ body,
    background-color: #60472f;
 }
 .beige-bg {
-   background-color: #e2cfae;
+   background-color: #e9d5b4;
 }
 .dark-beige-bg {
-   background-color: #a69579;
+   background-color: #988566;
 }
 .brown-text {
    color: #382610 !important;

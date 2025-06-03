@@ -34,21 +34,15 @@
                   );
 
                if (isMobile) {
-                  Telegram.WebApp.requestFullscreen();
+                  if (
+                     Telegram.WebApp.version &&
+                     parseFloat(Telegram.WebApp.version) >= 8.0
+                  ) {
+                     Telegram.WebApp.requestFullscreen();
+                  } 
                } else {
                   Telegram.WebApp.expand();
                }
-
-               Telegram.WebApp.onEvent("fullscreenChanged", () => {
-                  console.log(
-                     "Fullscreen mode changed:",
-                     Telegram.WebApp.isFullscreen
-                  );
-               });
-
-               Telegram.WebApp.onEvent("fullscreenFailed", () => {
-                  console.warn("Failed to enter fullscreen mode");
-               });
             }
          });
       </script>

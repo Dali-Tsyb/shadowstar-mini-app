@@ -28,9 +28,16 @@ export default function CharacterPage() {
       dispatch(selectCharacter(characters[activeIndex]));
    };
 
+   const addCharacter = () => {
+      //add to store
+      characters.push({ name: "Новый персонаж", class: "Человек" });
+      //show its slide
+      swiperRef.current.slideTo(characters.length - 1);
+   };
+
    return (
       <>
-         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+         <div className="d-flex flex-column justify-content-center align-items-center h-100 position-relative">
             <div className="d-flex justify-content-between align-items-center p-3 pb-0 header-btns">
                <a href="/">
                   <button className="base-button brown-bg rounded">
@@ -38,7 +45,10 @@ export default function CharacterPage() {
                   </button>
                </a>
 
-               <button className="base-button brown-bg beige-text rounded">
+               <button
+                  className="base-button brown-bg beige-text rounded"
+                  onClick={addCharacter}
+               >
                   + Новый персонаж
                </button>
             </div>
@@ -69,13 +79,13 @@ export default function CharacterPage() {
                ))}
             </Swiper>
 
-            <div className="d-flex justify-content-between align-items-center footer-btns p-3">
+            <div className="d-flex justify-content-between align-items-center footer-btns p-3 pt-0">
                <button
-                  className="base-button brown-bg rounded"
+                  className="base-button p-0 brown-bg rounded"
                   onClick={() => swiperRef.current?.slidePrev()}
                >
                   <img
-                     className="w-100"
+                     className="w-100 m-auto"
                      src={arrowIcon}
                      alt="prev"
                      style={{ transform: "rotate(270deg)" }}
@@ -90,11 +100,11 @@ export default function CharacterPage() {
                   <span className="brown-text">{characters.length}</span>
                </div>
                <button
-                  className="base-button brown-bg rounded"
+                  className="base-button p-0 brown-bg rounded"
                   onClick={() => swiperRef.current?.slideNext()}
                >
                   <img
-                     className="w-100"
+                     className="w-100 m-auto"
                      src={arrowIcon}
                      alt="next"
                      style={{ transform: "rotate(90deg)" }}

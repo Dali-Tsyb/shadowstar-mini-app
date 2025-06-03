@@ -49,30 +49,32 @@ export default function CharacterCard(props) {
                alt="avatar"
             />
          </div>
-         <div className="d-flex flex-column justify-content-between align-items-center grid-area-characteristics brown-border px-2 py-3 beige-bg">
-            <div className="characteristics">
-               <span>+1</span>
-               <span>ЛВК</span>
-            </div>
-            <div className="characteristics">
-               <span>-2</span>
-               <span>СИЛ</span>
-            </div>
-            <div className="characteristics">
-               <span>-1</span>
-               <span>ВНС</span>
-            </div>
-            <div className="characteristics">
-               <span>-2</span>
-               <span>ИНТ</span>
-            </div>
-            <div className="characteristics">
-               <span>0</span>
-               <span>ХРЗ</span>
-            </div>
-            <div className="characteristics">
-               <span>0</span>
-               <span>МДР</span>
+         <div className="grid-area-characteristics brown-border p-3 py-2 beige-bg touch-area">
+            <div className="d-flex flex-column justify-content-between align-items-center h-100 w-100">
+               <div className="characteristics">
+                  <span>+1</span>
+                  <span>ЛВК</span>
+               </div>
+               <div className="characteristics">
+                  <span>-2</span>
+                  <span>СИЛ</span>
+               </div>
+               <div className="characteristics">
+                  <span>-1</span>
+                  <span>ВНС</span>
+               </div>
+               <div className="characteristics">
+                  <span>-2</span>
+                  <span>ИНТ</span>
+               </div>
+               <div className="characteristics">
+                  <span>0</span>
+                  <span>ХРЗ</span>
+               </div>
+               <div className="characteristics">
+                  <span>0</span>
+                  <span>МДР</span>
+               </div>
             </div>
          </div>
          <div className="d-flex justify-content-between align-items-center grid-area-stats brown-border px-2 py-1 beige-bg">
@@ -119,7 +121,7 @@ export default function CharacterCard(props) {
             className="grid-area-edit base-button brown-bg beige-text w-100 p-2"
             style={{ borderRadius: "0 0 0.375rem 0" }}
          >
-            <img src={editIcon} className="w-100" alt="edit" />
+            <img src={editIcon} alt="edit" />
          </button>
       </div>
    );
