@@ -1,9 +1,8 @@
-.swiper-slide {
-   will-change: transform;
-   backface-visibility: hidden;
-   transform-style: preserve-3d;
+/*no characters text*/
+.no-chars-text {
+   animation: blink 4s ease-in-out infinite;
 }
-
+/*character card*/
 .blocks-container {
    display: grid;
    grid-template-columns: repeat(6, 1fr);
@@ -21,29 +20,26 @@
    transition: transform 0.2s ease;
    overflow: auto;
 }
-.blocks-container * {
+/*character creation card*/
+.create-blocks-container {
+   display: grid;
+   grid-template-columns: repeat(6, 1fr);
+   grid-template-rows: 1fr 1fr 7fr 2fr;
+   gap: 0.2rem;
+   grid-template-areas:
+      "name name name name race race"
+      "name name name name profession profession"
+      "hint hint hint hint characteristics characteristics"
+      "stats stats stats stats characteristics characteristics";
+   padding: 1rem;
+   will-change: transform;
+   position: relative;
+   transition: transform 0.2s ease;
+   overflow: auto;
+}
+.blocks-container *,
+.create-blocks-container * {
    font-size: clamp(0.5rem, 3.3vw, 4rem);
-}
-.header-btns a button,
-.footer-btns button {
-   width: clamp(2rem, 3vw, 3.5rem);
-   height: clamp(2rem, 3vw, 3.5rem);
-   padding: clamp(0.2rem, 1vw, 1rem);
-}
-.header-btns button {
-   font-size: clamp(0.5rem, 3.3vw, 4rem);
-   padding: clamp(0.2rem, 2.2vw, 1rem);
-}
-@keyframes pulseGlow {
-   0% {
-      transform: scale(1);
-   }
-   50% {
-      transform: scale(1.03);
-   }
-   100% {
-      transform: scale(1);
-   }
 }
 
 .blocks-container.pulse {
@@ -69,7 +65,19 @@
    pointer-events: none;
    z-index: 10;
 }
-
+/*glow animation for character selection*/
+@keyframes pulseGlow {
+   0% {
+      transform: scale(1);
+   }
+   50% {
+      transform: scale(1.03);
+   }
+   100% {
+      transform: scale(1);
+   }
+}
+/*shine animation for character selection*/
 @keyframes shine {
    0% {
       left: -100%;
@@ -78,9 +86,8 @@
       left: 180%;
    }
 }
-.grid-area-campaign {
-   grid-area: campaign;
-}
+
+/*grid-area classes*/
 .grid-area-name {
    grid-area: name;
    font-size: clamp(1rem, 2.5vw, 4rem);
@@ -107,13 +114,35 @@
    grid-area: select;
    transition: all 0.2s ease-in-out;
 }
-.grid-area-edit {
-   grid-area: edit;
+/*specifically for character creation*/
+.grid-area-race {
+   grid-area: race;
 }
-.grid-area-edit img {
-   width: clamp(2rem, 7vw, 5.5rem);
+.grid-area-profession {
+   grid-area: profession;
+}
+.grid-area-hint {
+   grid-area: hint;
+}
+.grid-area-hint span {
+   animation: blink 3s ease-in-out infinite;
+}
+@keyframes blink {
+   0% {
+      opacity: 0;
+   }
+   30% {
+      opacity: 1;
+   }
+   70% {
+      opacity: 1;
+   }
+   100% {
+      opacity: 0;
+   }
 }
 
+/*characteristics and stats*/
 .stats {
    display: flex;
    justify-content: center;
@@ -145,15 +174,37 @@
    gap: 0.2rem;
    align-items: center;
 }
-.characteristics span:nth-child(1) {
+.characteristics > span:nth-child(1) {
    font-weight: 800;
    font-size: clamp(1rem, 3.4vw, 1rem);
 }
-.characteristics span:nth-child(2) {
+.characteristics > span:nth-child(2) {
    opacity: 0.7;
    font-size: clamp(0.8rem, 3.4vw, 1rem);
 }
+/*specifically for character creation*/
+.characteristics div span:nth-child(1),
+.characteristics div span:nth-child(3) {
+   width: 1rem;
+   height: 1.1rem;
+   border-radius: 100%;
+}
+.characteristics div span:nth-child(2) {
+   font-weight: 800;
+   font-size: clamp(1rem, 3.4vw, 1rem);
+}
 
+/*buttons at the under card and over it*/
+.header-btns a button,
+.footer-btns button {
+   width: clamp(2rem, 3vw, 3.5rem);
+   height: clamp(2rem, 3vw, 3.5rem);
+   padding: clamp(0.2rem, 1vw, 1rem);
+}
+.header-btns button {
+   font-size: clamp(0.5rem, 3.3vw, 4rem);
+   padding: clamp(0.2rem, 2.2vw, 1rem);
+}
 .header-btns,
 .footer-btns {
    position: absolute;
@@ -170,6 +221,12 @@
    bottom: 0;
 }
 .swiper {
-   padding-top: 5rem !important;
+   padding-top: 4.3rem !important;
    padding-bottom: 4rem !important;
+}
+/*optimization for swiper*/
+.swiper-slide {
+   will-change: transform;
+   backface-visibility: hidden;
+   transform-style: preserve-3d;
 }

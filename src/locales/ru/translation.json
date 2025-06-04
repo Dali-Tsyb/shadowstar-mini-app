@@ -1,0 +1,12 @@
+{
+   "races": {
+      "Orc": "Орк",
+      "Elf": "Эльф",
+      "Human": "Человек"
+   },
+   "professions": {
+      "Fighter": "Воин",
+      "Wizard": "Маг",
+      "Rogue": "Плут"
+   }
+}

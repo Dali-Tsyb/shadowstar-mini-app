@@ -1,7 +1,6 @@
 import hpIcon from "../assets/images/hp-icon.webp";
 import shardIcon from "../assets/images/shard-icon.webp";
 import shieldIcon from "../assets/images/shield-icon.webp";
-import editIcon from "../assets/images/edit-icon.webp";
 import characterAvatar from "../assets/images/character-avatar.webp";
 import { useState } from "react";
 
@@ -30,10 +29,19 @@ export default function CharacterCard(props) {
             {props.character.name}
          </div>
          <div
-            className="grid-area-class brown-border p-2 brown-bg beige-text text-uppercase text-center fw-bold d-flex justify-content-center align-items-center"
+            className="grid-area-class brown-border p-2 brown-bg d-flex flex-column justify-content-center align-items-center gap-1"
             style={{ borderRadius: "0 0.375rem 0 0" }}
          >
-            {props.character.class}
+            <span className="beige-text text-uppercase text-center fw-bold">
+               {props.character.race}
+            </span>
+            <span className="beige-bg" style={{ width: "20%", height: "1px"}}></span>
+            <span
+               className="beige-text text-uppercase text-center fw-bold"
+               style={{ opacity: 0.8 }}
+            >
+               {props.character.class}
+            </span>
          </div>
          <div className="grid-area-avatar brown-border overflow-hidden dark-beige-bg">
             <img

@@ -12,17 +12,19 @@ This app is designed to help game masters and players manage their DnD sessions 
 - Bootstrap 5
 - React Router
 - Swiper.js
+- Axios
+- react-i18next
 - Planning to integrate with:
-  - Backend via Axios
   - Redux
 
 ## 🚧 Project Status
 
 I've recently set up routing to add second page of my app and added Swiper.js slider with 'cards' animation to make it look even more like a real dnd game! Right now I'm testing backend requests and integrating server logic into frontend. At this moment my to do list looks like this:
 - ✅ divide current component into smaller chunks for reusability & easier maintenance
-- test backend server
-- integrate it with frontend
+- ✅ test backend server
+- ✅ integrate it with frontend
 - ✅ fix some UI flaws (submitting game-code, selecting character etc.)
+- add character creation
 - add inventory page
 - add abilities page
 
@@ -30,4 +32,4 @@ I've recently set up routing to add second page of my app and added Swiper.js sl
 
 ---
 
-> Built by [@Dali-Tsyb](https://github.com/Dali-Tsyb)
+> Built by [@Dali](https://github.com/Dali-Tsyb) and [@Petr](https://github.com/CraSchKook)

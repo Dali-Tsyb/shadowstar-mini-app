@@ -17,7 +17,7 @@ export default function HomePage() {
             <div className="title-container">
                <img src={titleBg} alt="title bg" />
                <h1 className="title-text d-flex justify-content-center align-items-center w-100 h-100">
-                  D&D
+                  Shadow Star
                </h1>
             </div>
             <div className="d-flex justify-content-center align-items-center rounded">
@@ -46,7 +46,7 @@ export default function HomePage() {
             </div>
             <div className="d-flex justify-content-center align-items-center game-code-input">
                <input
-                  type="text"
+                  type="number"
                   placeholder="Введите код игры"
                   className={`w-100 rounded bg-transparent fw-semibold brown-text brown-border ${
                      gameCode ? "pe-5" : ""

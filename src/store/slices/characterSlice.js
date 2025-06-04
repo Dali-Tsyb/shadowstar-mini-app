@@ -1,46 +1,55 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getCharacters } from "/src/services/characterService";
+import { createCharacter } from "../../services/characterService";
 
-const initialState = {
-   characters: [
-      { name: "Крыса Лариса", class: "Зверь" },
-      { name: "Пэлиас", class: "Эльф" },
-      { name: "Талала", class: "Гном" },
-      { name: "Эрик Пэнисов", class: "Гном" },
-      { name: "Капучин", class: "Бес" },
-      { name: "Миша", class: "Бес" },
-      { name: "Дан Балан", class: "Вампир" },
-      { name: "Юлиан", class: "Великан" },
-      { name: "Вампирбек", class: "Вампир" },
-      { name: "Ангелин", class: "Падший ангел" },
-   ],
-   selectedCharacter: null,
-};
+export const loadCharacters = createAsyncThunk("characters/load", async () => {
+   const data = await getCharacters();
+   return data;
+});
 
 export const characterSlice = createSlice({
    name: "character",
-   initialState: initialState,
+   initialState: {
+      charactersList: [],
+      status: "idle",
+      error: null,
+      selectedCharacter: null,
+   },
    reducers: {
       selectCharacter: (state, action) => {
          state.selectedCharacter = action.payload;
       },
       setCharacters: (state, action) => {
-         state.characters = action.payload;
+         state.charactersList = action.payload;
       },
-      addCharacter: (state, action) => {
-         state.list.push(action.payload);
+      addCharacter: async (state, action) => {
+         const data = await createCharacter(action.payload);
+         state.charactersList = [...state.charactersList, data];
       },
-      updateCharacter: (state, action) => {
-         const index = state.list.findIndex((c) => c.id === action.payload.id);
-         if (index !== -1) {
-            state.list[index] = action.payload;
-         }
-      },
-      deleteCharacter: (state, action) => {
-         state.list = state.list.filter((c) => c.id !== action.payload);
-      },
+   },
+   extraReducers: (builder) => {
+      builder
+         .addCase(loadCharacters.pending, (state) => {
+            state.status = "loading";
+         })
+         .addCase(loadCharacters.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.charactersList = action.payload;
+         })
+         .addCase(loadCharacters.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message;
+         });
    },
 });
 
-export const { selectCharacter } = characterSlice.actions;
+export const {
+   selectCharacter,
+   setCharacters,
+   addCharacter,
+   updateCharacter,
+   removeCharacter,
+   deleteCharacter,
+} = characterSlice.actions;
 
 export default characterSlice.reducer;
