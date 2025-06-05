@@ -18,7 +18,7 @@ import {
 } from "../store/slices/characterSlice.js";
 import CreateCharacterCard from "../components/CreateCharacterCard.jsx";
 import { addCharacter } from "../store/slices/characterSlice";
-import DeleteCharacterModal from "../components/deleteCharacterModal.jsx";
+import DeleteCharacterModal from "../components/DeleteCharacterModal.jsx";
 import { Link } from "react-router-dom";
 
 export default function CharacterPage() {
