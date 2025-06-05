@@ -1,25 +1,52 @@
 import { Link } from "react-router-dom";
 import "../assets/css/home.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import titleBg from "../assets/images/title-bg.webp";
 import homeMap from "../assets/images/home-map-img.webp";
 import profileIcon from "../assets/images/profile-icon.webp";
 import settingsIcon from "../assets/images/settings-icon.webp";
 import arrowIcon from "../assets/images/arrow.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { updateRole } from "../store/slices/playerSlice";
+import DemoVersionModal from "../components/DemoVersionModal";
 
 export default function HomePage() {
-   const [role, setRole] = useState("master");
+   const dispatch = useDispatch();
+   
+
+   //current user
+   const player = useSelector((state) => state.player.currentPlayer);
+
+   //current role
+   const [role, setRole] = useState(null);
+   //change roles
+   useEffect(() => {
+      if (player?.active_as) {
+         setRole(player.active_as);
+      }
+   }, [player?.active_as]);
+   //change role
+   const handleRoleChange = (newRole) => {
+      dispatch(updateRole(newRole));
+   };
+
+   //session code
    const [gameCode, setGameCode] = useState("");
+   const handleConnectToSession = (code) => {
+      console.log(code);
+   };
 
    return (
       <>
          <div className="px-4 d-flex flex-column justify-content-between gap-3 h-100">
+            {/* TITLE */}
             <div className="title-container">
                <img src={titleBg} alt="title bg" />
                <h1 className="title-text d-flex justify-content-center align-items-center w-100 h-100">
                   Shadow Star
                </h1>
             </div>
+            {/* ROLES SWITCH */}
             <div className="d-flex justify-content-center align-items-center rounded">
                <button
                   className={
@@ -27,7 +54,9 @@ export default function HomePage() {
                         ? "role-button brown-bg beige-text"
                         : "role-button beige-bg brown-text"
                   }
-                  onClick={() => setRole("player")}
+                  onClick={() => {
+                     handleRoleChange("player");
+                  }}
                >
                   Игрок
                </button>
@@ -38,12 +67,13 @@ export default function HomePage() {
                         : "role-button beige-bg brown-text"
                   }
                   onClick={() => {
-                     setRole("master");
+                     handleRoleChange("master");
                   }}
                >
                   Мастер
                </button>
             </div>
+            {/* GAME CODE INPUT */}
             <div className="d-flex justify-content-center align-items-center game-code-input">
                <input
                   type="number"
@@ -56,18 +86,19 @@ export default function HomePage() {
                {gameCode && (
                   <button
                      type="submit"
-                     onClick={() => console.log(gameCode)}
+                     onClick={() => handleConnectToSession(gameCode)}
                      className="brown-bg brown-border rounded base-button submit-code p-0"
                   >
                      <img src={arrowIcon} className="w-100" alt="submit" />
                   </button>
                )}
             </div>
+            {/* MAP */}
             <div className=" d-flex justify-content-center align-items-center home-map overflow-hidden rounded">
                <img src={homeMap} alt="map" className="brown-border rounded" />
             </div>
-
-            <div className="d-flex justify-content-between align-items-center gap-3  btns">
+            {/* BUTTONS */}
+            <div className="d-flex justify-content-between align-items-center gap-3 btns">
                <Link to="/characters">
                   <button className="profile-button base-button rounded p-2">
                      <img className="w-100" src={profileIcon} alt="profile" />
@@ -79,12 +110,14 @@ export default function HomePage() {
                   </button>
                </Link>
             </div>
+            {/* SUPPORT BUTTON */}
             <div>
                <button className="base-button brown-bg beige-text rounded w-100 support-btn">
                   Поддержать проект
                </button>
             </div>
          </div>
+         <DemoVersionModal />
       </>
    );
 }

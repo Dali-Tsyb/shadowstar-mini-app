@@ -1,13 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProfessions } from "../../services/professionService";
+import { getProfessionsService } from "../../services/professionService";
 
-export const loadProfessions = createAsyncThunk(
-   "professions/load",
-   async () => {
-      const data = await getProfessions();
-      return data;
-   }
-);
+export const getProfessions = createAsyncThunk("professions/load", async () => {
+   const data = await getProfessionsService();
+   return data;
+});
 
 export const professionSlice = createSlice({
    name: "profession",
@@ -19,14 +16,14 @@ export const professionSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(loadProfessions.pending, (state) => {
+         .addCase(getProfessions.pending, (state) => {
             state.status = "loading";
          })
-         .addCase(loadProfessions.fulfilled, (state, action) => {
+         .addCase(getProfessions.fulfilled, (state, action) => {
             state.status = "succeeded";
             state.professionsList = action.payload;
          })
-         .addCase(loadProfessions.rejected, (state, action) => {
+         .addCase(getProfessions.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
          });

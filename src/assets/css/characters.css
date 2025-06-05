@@ -13,7 +13,7 @@
       "avatar avatar avatar avatar characteristics characteristics"
       "stats stats stats stats characteristics characteristics"
       "abilities abilities abilities inventory inventory inventory"
-      "select select select select select select";
+      "select select select select select delete";
    padding: 1rem;
    will-change: transform;
    position: relative;
@@ -114,6 +114,9 @@
    grid-area: select;
    transition: all 0.2s ease-in-out;
 }
+.grid-area-delete {
+   grid-area: delete;
+}
 /*specifically for character creation*/
 .grid-area-race {
    grid-area: race;
@@ -183,15 +186,26 @@
    font-size: clamp(0.8rem, 3.4vw, 1rem);
 }
 /*specifically for character creation*/
-.characteristics div span:nth-child(1),
-.characteristics div span:nth-child(3) {
+.characteristics div button {
    width: 1rem;
    height: 1.1rem;
    border-radius: 100%;
 }
-.characteristics div span:nth-child(2) {
+.characteristics div button:disabled {
+   opacity: 0.5;
+}
+.characteristics div button:disabled:active {
+   transform: scale(1);
+}
+.characteristics div span {
    font-weight: 800;
    font-size: clamp(1rem, 3.4vw, 1rem);
+}
+.characteristics-btn {
+   transition: all 0.1s ease-in-out;
+}
+.characteristics-btn:active {
+   transform: scale(0.8);
 }
 
 /*buttons at the under card and over it*/

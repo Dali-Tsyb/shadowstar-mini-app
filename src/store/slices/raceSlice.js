@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getRaces } from "../../services/raceService";
+import { getRacesService } from "../../services/raceService";
 
-export const loadRaces = createAsyncThunk("races/load", async () => {
-   const data = await getRaces();
+export const getRaces = createAsyncThunk("races/load", async () => {
+   const data = await getRacesService();
    return data;
 });
 
@@ -16,14 +16,14 @@ export const raceSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(loadRaces.pending, (state) => {
+         .addCase(getRaces.pending, (state) => {
             state.status = "loading";
          })
-         .addCase(loadRaces.fulfilled, (state, action) => {
+         .addCase(getRaces.fulfilled, (state, action) => {
             state.status = "succeeded";
             state.racesList = action.payload;
          })
-         .addCase(loadRaces.rejected, (state, action) => {
+         .addCase(getRaces.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
          });

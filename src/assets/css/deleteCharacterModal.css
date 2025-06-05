@@ -1,0 +1,9 @@
+* {
+   font-size: clamp(0.9rem, 1vw, 3rem);
+}
+.modal-content {
+   margin: 0 2rem;
+}
+.btn {
+   font-size: clamp(0.8rem, 1vw, 3rem);
+}

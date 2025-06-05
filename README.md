@@ -19,12 +19,10 @@ This app is designed to help game masters and players manage their DnD sessions 
 
 ## 🚧 Project Status
 
-I've recently set up routing to add second page of my app and added Swiper.js slider with 'cards' animation to make it look even more like a real dnd game! Right now I'm testing backend requests and integrating server logic into frontend. At this moment my to do list looks like this:
-- ✅ divide current component into smaller chunks for reusability & easier maintenance
-- ✅ test backend server
-- ✅ integrate it with frontend
-- ✅ fix some UI flaws (submitting game-code, selecting character etc.)
-- add character creation
+Now you can create your own characters! I've finally finished character creation module, added translation library (only russian for now), integrated backend and set up authorization through Telegram API! Me and my bf tried to develop character's logic to be very competitive and customizable but still limited, so that players could get creative with their strategy. Right now I'm fixing minor bugs, adding vibe to the UX process and moving our app to the first MVP stage. At this moment my to do list looks like this:
+- add 'roles' logic
+- add character editing
+- add bestiary to the home page
 - add inventory page
 - add abilities page
 

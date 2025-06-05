@@ -1,0 +1,36 @@
+import "../assets/css/deleteCharacterModal.css";
+
+export default function DeleteCharacterModal({ onConfirm, id }) {
+   return (
+      <div className="modal fade" id="deleteCharacterModal">
+         <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content p-1 beige-bg brown-border">
+               <div className="modal-body">
+                  Вы действительно хотите удалить этого персонажа?
+               </div>
+               <div className="modal-footer border-0">
+                  <button
+                     type="button"
+                     className="btn dark-beige-bg brown-border brown-text"
+                     data-bs-dismiss="modal"
+                     onClick={() => document.activeElement?.blur()}
+                  >
+                     Закрыть
+                  </button>
+                  <button
+                     type="button"
+                     className="btn brown-bg brown-border beige-text"
+                     data-bs-dismiss="modal"
+                     onClick={() => {
+                        onConfirm(id);
+                        document.activeElement?.blur();
+                     }}
+                  >
+                     Удалить
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   );
+}
