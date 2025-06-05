@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import CharactersPage from "./pages/CharactersPage";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRaces } from "./store/slices/raceSlice";
 import { getProfessions } from "./store/slices/professionSlice";
@@ -19,7 +17,7 @@ export default function App() {
       window.addEventListener("resize", setVH);
       return () => window.removeEventListener("resize", setVH);
    }, []);
-   
+
    //fetching data
    const dispatch = useDispatch();
    const raceStatus = useSelector((state) => state.race.status);
@@ -44,28 +42,51 @@ export default function App() {
       }
    }, [dispatch, raceStatus, profStatus, charStatus, playerStatus]);
 
-   const isLoading =
-      raceStatus !== "succeeded" ||
-      profStatus !== "succeeded" ||
-      charStatus !== "succeeded" ||
-      playerStatus !== "succeeded";
-
-   if (isLoading) {
-      return (
-         <div className="d-flex justify-content-center align-items-center h-100">
-            <div>
-               <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Загрузка...</span>
-               </div>
-            </div>
-         </div>
-      );
-   }
+   const HomePage = React.lazy(() => import("./pages/HomePage"));
+   const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
 
    return (
       <Routes>
-         <Route path="/" element={<HomePage />} />
-         <Route path="/characters" element={<CharactersPage />} />
+         <Route
+            path="/"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <HomePage />
+               </React.Suspense>
+            }
+         />
+         <Route
+            path="/characters"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <CharactersPage />
+               </React.Suspense>
+            }
+         />
       </Routes>
    );
 }

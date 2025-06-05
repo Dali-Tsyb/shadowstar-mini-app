@@ -2,7 +2,7 @@ import hpIcon from "../assets/images/hp-icon.webp";
 import shieldIcon from "../assets/images/shield-icon.webp";
 import { useEffect, useRef, useState } from "react";
 import arrowIcon from "../assets/images/arrow.svg";
-import BasicDropdown from "../components/BasicDropdown";
+import BasicDropdown from "./BasicDropdown.jsx";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
