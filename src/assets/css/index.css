@@ -11,9 +11,26 @@
    line-height: normal;
    list-style: none;
 }
+input,
+textarea {
+   font-size: clamp(1rem, 3vw, 1rem);
+   padding: 0.8rem;
+   background-color: transparent;
+}
+input::placeholder,
+textarea::placeholder {
+   color: #382610;
+   opacity: 0.8;
+}
+label {
+   font-weight: 800;
+   font-size: clamp(1rem, 3vw, 1rem);
+}
 
 *:focus {
    outline: none;
+   border: none;
+   box-shadow: none;
 }
 
 html,

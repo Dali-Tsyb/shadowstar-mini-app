@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../assets/css/home.css";
+import "../assets/css/characters.css";
 import { useEffect, useState } from "react";
 import titleBg from "../assets/images/title-bg.webp";
 import homeMap from "../assets/images/home-map-img.webp";
@@ -9,13 +10,20 @@ import arrowIcon from "../assets/images/arrow.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { updateRole } from "../store/slices/playerSlice";
 import DemoVersionModal from "../components/DemoVersionModal";
+import AddSessionCanvas from "../components/AddSessionCanvas";
+import SessionsListCanvas from "../components/SessionsListCanvas";
+import editIcon from "../assets/images/edit-icon.webp";
+import { setCurrentSession } from "../store/slices/sessionSlice";
+import { Modal } from "bootstrap";
+import DOMPurify from "dompurify";
 
 export default function HomePage() {
    const dispatch = useDispatch();
-   
 
    //current user
    const player = useSelector((state) => state.player.currentPlayer);
+
+   const currentSession = useSelector((state) => state.session.currentSession);
 
    //current role
    const [role, setRole] = useState(null);
@@ -32,8 +40,21 @@ export default function HomePage() {
 
    //session code
    const [gameCode, setGameCode] = useState("");
+   const sessions = useSelector((state) => state.session.sessionsList);
+
    const handleConnectToSession = (code) => {
-      console.log(code);
+      const session = sessions.find((s) => s.id == code);
+      if (session) {
+         dispatch(setCurrentSession(session));
+         setGameCode("");
+      } else {
+         const bsModal = new Modal(document.getElementById("errorModal"));
+         bsModal.show();
+      }
+   };
+
+   const handleChangeCurrentSession = () => {
+      dispatch(setCurrentSession(null));
    };
 
    return (
@@ -56,6 +77,7 @@ export default function HomePage() {
                   }
                   onClick={() => {
                      handleRoleChange("player");
+                     setRole("player");
                   }}
                >
                   Игрок
@@ -67,36 +89,154 @@ export default function HomePage() {
                         : "role-button beige-bg brown-text"
                   }
                   onClick={() => {
-                     handleRoleChange("master");
+                     if (player?.role === "master") {
+                        handleRoleChange("master");
+                     }
+                     setRole("master");
                   }}
                >
                   Мастер
                </button>
             </div>
             {/* GAME CODE INPUT */}
-            <div className="d-flex justify-content-center align-items-center game-code-input">
-               <input
-                  type="number"
-                  placeholder="Введите код игры"
-                  className={`w-100 rounded bg-transparent fw-semibold brown-text brown-border ${
-                     gameCode ? "pe-5" : ""
-                  } `}
-                  onChange={(e) => setGameCode(e.target.value)}
-               />
-               {gameCode && (
+            {role === "player" && !currentSession?.id && (
+               <div className="d-flex justify-content-center align-items-center game-code-input">
+                  <input
+                     type="number"
+                     placeholder="Введите код игры"
+                     className={`w-100 rounded bg-transparent fw-semibold brown-text brown-border ${
+                        gameCode ? "pe-5" : ""
+                     } `}
+                     onChange={(e) => {
+                        const cleanValue = DOMPurify.sanitize(e.target.value, {
+                           ALLOWED_TAGS: [],
+                           ALLOWED_ATTR: [],
+                        });
+
+                        setGameCode(cleanValue);
+                     }}
+                  />
+
+                  {gameCode && (
+                     <button
+                        type="submit"
+                        onClick={() => handleConnectToSession(gameCode)}
+                        className="brown-bg brown-border rounded base-button submit-code p-0"
+                     >
+                        <img src={arrowIcon} className="w-100" alt="submit" />
+                     </button>
+                  )}
+               </div>
+            )}
+            {role === "player" && currentSession?.id && (
+               <div className="d-flex justify-content-center align-items-center game-code-input">
+                  <div className="d-flex flex-column gap-2">
+                     <div className="text-center fw-bold fs-6">
+                        {currentSession.name || "-"}
+                     </div>
+                     <div className="text-center fw-semibold">
+                        {currentSession.description || "-"}
+                     </div>
+                  </div>
+               </div>
+            )}
+            {/* ERROR */}
+            <div className="modal fade" id="errorModal">
+               <div className="modal-dialog mx-3 modal-dialog-centered">
+                  <div className="modal-content beige-bg p-3">
+                     <div className="modal-body text-center">
+                        Не удалось подключиться к игре. Проверьте правильность
+                        кода.
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* MASTER INTERFACE */}
+            {role === "master" && player?.active_as === "player" && (
+               <div className="d-flex flex-column gap-3 justify-content-between align-items-center game-code-input my-auto">
+                  <div className="d-flex flex-column gap-2 align-items-center">
+                     <div className="text-center fw-semibold fs-5 mb-4">
+                        Начни свое приключение!
+                     </div>
+                     {currentSession.id && (
+                        <div className="d-flex flex-column gap-2 brown-border border-bottom-0 border-end-0 border-start-0 mx-3 py-4">
+                           <div className="text-center fw-bold fs-6">
+                              {currentSession.name || "-"}
+                           </div>
+                           <div className="text-center fw-semibold">
+                              {currentSession.description || "-"}
+                           </div>
+                        </div>
+                     )}
+                  </div>
+                  {!currentSession.id && (
+                     <div className="d-flex gap-2">
+                        <button
+                           className="base-button beige-bg brown-text rounded support-btn"
+                           style={{ fontSize: "0.8rem" }}
+                           data-bs-toggle="offcanvas"
+                           data-bs-target="#addSessionCanvas"
+                        >
+                           Создать новую игру
+                        </button>
+                        <button
+                           className="base-button beige-bg brown-text rounded support-btn"
+                           data-bs-toggle="offcanvas"
+                           data-bs-target="#sessionsListCanvas"
+                           style={{ fontSize: "0.8rem" }}
+                        >
+                           Выбрать из списка
+                        </button>
+                     </div>
+                  )}
+               </div>
+            )}
+
+            {/* BECOME A MASTER */}
+            {role === "master" && player?.active_as === "player" && (
+               <div className="d-flex flex-column justify-content-center align-items-center game-code-input gap-4 my-auto">
+                  <div className="text-center fw-semibold fs-6 mx-3">
+                     Открой таинственные свитки <br /> Мастера Подземелий и
+                     создавай собственную историю!
+                  </div>
+                  <button className="base-button brown-bg beige-text rounded">
+                     Стать мастером
+                  </button>
+               </div>
+            )}
+
+            {/* MAP */}
+            {role === "player" && (
+               <div className="d-flex justify-content-center align-items-center home-map overflow-hidden rounded">
+                  <img
+                     src={homeMap}
+                     alt="map"
+                     className="brown-border rounded"
+                  />
+               </div>
+            )}
+
+            {/* PLAY BUTTON */}
+            <div className="d-flex gap-1">
+               <button
+                  className="base-button brown-bg beige-text rounded play-btn"
+                  style={{ flex: "1" }}
+                  disabled={!currentSession?.id}
+               >
+                  начать игру
+               </button>
+               {currentSession.id && (
                   <button
-                     type="submit"
-                     onClick={() => handleConnectToSession(gameCode)}
-                     className="brown-bg brown-border rounded base-button submit-code p-0"
+                     className="base-button brown-bg beige-text rounded"
+                     style={{ flex: "0.12" }}
+                     onClick={() => handleChangeCurrentSession()}
                   >
-                     <img src={arrowIcon} className="w-100" alt="submit" />
+                     <img className="w-100" src={editIcon} alt="" />
                   </button>
                )}
             </div>
-            {/* MAP */}
-            <div className=" d-flex justify-content-center align-items-center home-map overflow-hidden rounded">
-               <img src={homeMap} alt="map" className="brown-border rounded" />
-            </div>
+
             {/* BUTTONS */}
             <div className="d-flex justify-content-between align-items-center gap-3 btns">
                <Link to="/characters">
@@ -110,14 +250,10 @@ export default function HomePage() {
                   </button>
                </Link>
             </div>
-            {/* SUPPORT BUTTON */}
-            <div>
-               <button className="base-button brown-bg beige-text rounded w-100 support-btn">
-                  Поддержать проект
-               </button>
-            </div>
          </div>
          <DemoVersionModal />
+         <AddSessionCanvas />
+         <SessionsListCanvas />
       </>
    );
 }

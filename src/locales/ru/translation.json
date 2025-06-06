@@ -1,12 +1,31 @@
 {
    "races": {
-      "Orc": "Орк",
       "Elf": "Эльф",
-      "Human": "Человек"
+      "Human": "Человек",
+      "High Elf": "Высший эльф",
+      "Dwarf": "Дварф",
+      "Mountain Dwarf": "Горный дварф",
+      "Hill Dwarf": "Скалистый дварф",
+      "Halfling": "Полурослик",
+      "Gnome": "Гном",
+      "Half-Elf": "Полуэльф",
+      "Half-Orc": "Полуорк",
+      "Tiefling": "Тифлинг",
+      "Dragonborn": "Драконорожденный",
+      "Orc": "Орк"
    },
    "professions": {
+      "Wizard": "Волшебник",
+      "Barbarian": "Варвар",
+      "Bard": "Бард",
+      "Cleric": "Жрец",
+      "Druid": "Друид",
       "Fighter": "Воин",
-      "Wizard": "Маг",
-      "Rogue": "Плут"
+      "Monk": "Монах",
+      "Paladin": "Паладин",
+      "Ranger": "Следопыт",
+      "Rogue": "Плут",
+      "Sorcerer": "Колдун",
+      "Warlock": "Чародей"
    }
 }

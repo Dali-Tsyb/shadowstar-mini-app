@@ -8,7 +8,6 @@ import "swiper/css/effect-coverflow";
 import { useRef, useState } from "react";
 import { EffectCards } from "swiper/modules";
 import backArrowIcon from "../assets/images/back-arrow.svg";
-import arrowIcon from "../assets/images/arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -166,41 +165,6 @@ export default function CharacterPage() {
                      </SwiperSlide>
                   ))}
                </Swiper>
-            )}
-            {/* NAVIGATION */}
-            {characters && characters.length > 0 && (
-               <div className="d-flex justify-content-between align-items-center footer-btns p-4 py-0">
-                  <button
-                     className="base-button p-0 brown-bg rounded"
-                     onClick={() => swiperRef.current?.slidePrev()}
-                  >
-                     <img
-                        className="w-100 m-auto"
-                        src={arrowIcon}
-                        alt="prev"
-                        style={{ transform: "rotate(270deg)" }}
-                     />
-                  </button>
-                  <div
-                     className="d-flex gap-1 justify-content-center align-items-center w-100 overflow-hidden slide-count"
-                     style={{ maxWidth: "50%" }}
-                  >
-                     <span className="brown-text">{activeIndex + 1 || 1}</span>
-                     <span className="brown-text">/</span>
-                     <span className="brown-text">{characters.length}</span>
-                  </div>
-                  <button
-                     className="base-button p-0 brown-bg rounded"
-                     onClick={() => swiperRef.current?.slideNext()}
-                  >
-                     <img
-                        className="w-100 m-auto"
-                        src={arrowIcon}
-                        alt="next"
-                        style={{ transform: "rotate(90deg)" }}
-                     />
-                  </button>
-               </div>
             )}
             {/* DELETE MODAL */}
             <DeleteCharacterModal

@@ -1,0 +1,6 @@
+input::placeholder,
+textarea::placeholder,
+input,
+textarea {
+   text-align: left;
+}

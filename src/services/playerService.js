@@ -17,12 +17,11 @@ export const getPlayerService = async () => {
    }
 };
 
-export const updateRoleService = async (id, role, name) => {
-   console.log("service");
+export const updateRoleService = async (role) => {
    try {
-      const response = await axios.put(
-         `${API_URL}/players/${id}`,
-         { active_as: role, name: name },
+      const response = await axios.post(
+         `${API_URL}/players/switch_role?new_role=${role}`,
+         {},
          {
             headers: {
                Authorization: `Bearer ${localStorage.getItem("token")}`,

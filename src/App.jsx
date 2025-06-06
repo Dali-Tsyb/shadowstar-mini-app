@@ -5,6 +5,7 @@ import { getRaces } from "./store/slices/raceSlice";
 import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
+import { getSessions } from "./store/slices/sessionSlice.js";
 
 export default function App() {
    useEffect(() => {
@@ -24,6 +25,7 @@ export default function App() {
    const profStatus = useSelector((state) => state.profession.status);
    const charStatus = useSelector((state) => state.character.status);
    const playerStatus = useSelector((state) => state.player.status);
+   const sessionStatus = useSelector((state) => state.session.status);
    useEffect(() => {
       if (!localStorage.getItem("token")) {
          return;
@@ -40,7 +42,17 @@ export default function App() {
       if (playerStatus === "idle") {
          dispatch(getPlayer());
       }
-   }, [dispatch, raceStatus, profStatus, charStatus, playerStatus]);
+      if (sessionStatus === "idle") {
+         dispatch(getSessions());
+      }
+   }, [
+      dispatch,
+      raceStatus,
+      profStatus,
+      charStatus,
+      playerStatus,
+      sessionStatus,
+   ]);
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));

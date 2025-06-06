@@ -58,6 +58,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
    }, [characterForm.dexterity_user]);
 
    //count stats bonuses from race and profession
+   const [statPoints, setStatPoints] = useState(2);
    useEffect(() => {
       if (!characterForm.race_id || !characterForm.profession_id) return;
       setCharacterForm((prev) => ({
@@ -65,60 +66,48 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
          strength_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .strength_bonus *
-               2 +
+               .strength_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).strength_bonus *
-               2,
+            ).strength_bonus,
          dexterity_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .dexterity_bonus *
-               2 +
+               .dexterity_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).dexterity_bonus *
-               2,
+            ).dexterity_bonus,
          constitution_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .constitution_bonus *
-               2 +
+               .constitution_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).constitution_bonus *
-               2,
+            ).constitution_bonus,
          intelligence_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .intelligence_bonus *
-               2 +
+               .intelligence_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).intelligence_bonus *
-               2,
+            ).intelligence_bonus,
          wisdom_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .wisdom_bonus *
-               2 +
+               .wisdom_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).wisdom_bonus *
-               2,
+            ).wisdom_bonus,
          charisma_user:
             10 +
             races.find((race) => race.id === characterForm.race_id)
-               .charisma_bonus *
-               2 +
+               .charisma_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
-            ).charisma_bonus *
-               2,
+            ).charisma_bonus,
       }));
+      setStatPoints(2);
    }, [characterForm.race_id, characterForm.profession_id, races, professions]);
-   const [statPoints, setStatPoints] = useState(2);
 
    //error text for validation
    const [errorText, setErrorText] = useState("");
@@ -176,6 +165,34 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
          }
       }
    };
+
+   const handleChange = (e) => {
+      let input = e.target.value;
+
+      // 1. Remove any characters except letters (Latin, Cyrillic) and space
+      input = input.replace(/[^a-zA-Zа-яА-ЯёЁ ]/g, "");
+
+      // 2. Replace multiple spaces with a single space
+      input = input.replace(/\s{2,}/g, " ");
+
+      // 3. Trim leading/trailing spaces
+      input = input.trimStart();
+
+      // 4. Prevent input that doesn't start with a letter
+      if (input.length === 1 && !/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
+
+      setCharacterForm((prev) => ({ ...prev, name: input }));
+   };
+
+   const handleBlur = () => {
+      // On blur, remove trailing spaces and ensure it ends with a letter
+      let trimmed = characterForm.name.trim();
+      if (!/^[a-zA-Zа-яА-ЯёЁ].*[a-zA-Zа-яА-ЯёЁ]$/.test(trimmed)) {
+         trimmed = "";
+      }
+      setCharacterForm((prev) => ({ ...prev, name: trimmed }));
+   };
+
    //for step by step creation
    const [currentField, setCurrentField] = useState("name");
    const [fieldsShowing, setFieldsShowing] = useState(["name"]);
@@ -208,21 +225,16 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                type="text"
                value={characterForm.name}
                onChange={(e) => {
-                  const input = e.target.value;
-                  if (/^[a-zA-Zа-яА-ЯёЁ ]*$/.test(input)) {
-                     setCharacterForm((prev) => ({
-                        ...prev,
-                        name: e.target.value,
-                     }));
-                  }
+                  handleChange(e);
                }}
+               onBlur={handleBlur}
                onFocus={() => setCurrentField("name")}
                ref={nameInputRef}
             />
          </div>
          {/* RACE */}
          <div
-            className="grid-area-race brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative"
+            className="grid-area-race brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative w-100"
             style={{
                borderRadius: "0 0.375rem 0 0",
                opacity: fieldsShowing.includes("race") ? "1" : "0",
@@ -233,7 +245,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                toggleDropdown("race");
             }}
          >
-            <span className="beige-text">
+            <span className="beige-text" style={{ wordBreak: "break-all" }}>
                {characterForm.race_id
                   ? t(
                        `races.${
@@ -275,7 +287,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
          </div>
          {/* CLASS */}
          <div
-            className="grid-area-profession brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative"
+            className="grid-area-profession brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative w-100"
             style={{
                opacity: fieldsShowing.includes("profession") ? "1" : "0",
                transition: "opacity 0.2s ease-in-out",
@@ -285,7 +297,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                toggleDropdown("profession");
             }}
          >
-            <span className="beige-text">
+            <span className="beige-text" style={{ wordBreak: "break-all" }}>
                {characterForm.profession_id
                   ? t(
                        `professions.${
@@ -361,6 +373,9 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                transition: "opacity 0.2s ease-in-out",
                padding: "0.7rem",
             }}
+            onClick={() => {
+               setCurrentField("characteristics");
+            }}
          >
             {/* DEXTERITY */}
             <div className="characteristics">
@@ -374,7 +389,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.dexterity_user <= 4}
+                     disabled={
+                        characterForm.dexterity_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).dexterity_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).dexterity_bonus
+                     }
                   >
                      -
                   </button>
@@ -410,7 +435,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.strength_user <= 4}
+                     disabled={
+                        characterForm.strength_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).strength_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).strength_bonus
+                     }
                   >
                      -
                   </button>
@@ -446,7 +481,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.constitution_user <= 4}
+                     disabled={
+                        characterForm.constitution_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).constitution_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).constitution_bonus
+                     }
                   >
                      -
                   </button>
@@ -484,7 +529,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.intelligence_user <= 4}
+                     disabled={
+                        characterForm.intelligence_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).intelligence_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).intelligence_bonus
+                     }
                   >
                      -
                   </button>
@@ -521,7 +576,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.charisma_user <= 4}
+                     disabled={
+                        characterForm.charisma_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).charisma_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).charisma_bonus
+                     }
                   >
                      -
                   </button>
@@ -556,7 +621,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
-                     disabled={characterForm.wisdom_user <= 4}
+                     disabled={
+                        characterForm.wisdom_user <=
+                        4 +
+                           races.find(
+                              (race) => race.id === characterForm.race_id
+                           ).wisdom_bonus +
+                           professions.find(
+                              (profession) =>
+                                 profession.id === characterForm.profession_id
+                           ).wisdom_bonus
+                     }
                   >
                      -
                   </button>

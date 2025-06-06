@@ -5,13 +5,13 @@
 /*character card*/
 .blocks-container {
    display: grid;
-   grid-template-columns: repeat(6, 1fr);
+   grid-template-columns: repeat(6, auto);
    grid-template-rows: 1fr 7fr 2fr 1fr 1fr;
    gap: 0.2rem;
    grid-template-areas:
-      "name name name name class class"
-      "avatar avatar avatar avatar characteristics characteristics"
-      "stats stats stats stats characteristics characteristics"
+      "name name class class class class"
+      "avatar avatar avatar characteristics characteristics characteristics"
+      "stats stats stats characteristics characteristics characteristics"
       "abilities abilities abilities inventory inventory inventory"
       "select select select select select delete";
    padding: 1rem;
@@ -27,8 +27,8 @@
    grid-template-rows: 1fr 1fr 7fr 2fr;
    gap: 0.2rem;
    grid-template-areas:
-      "name name name name race race"
-      "name name name name profession profession"
+      "name name name race race race"
+      "name name name profession profession profession"
       "hint hint hint hint characteristics characteristics"
       "stats stats stats stats characteristics characteristics";
    padding: 1rem;
@@ -116,6 +116,9 @@
 }
 .grid-area-delete {
    grid-area: delete;
+}
+.grid-area-delete img {
+   max-width: clamp(1rem, 1vw, 2.5rem);
 }
 /*specifically for character creation*/
 .grid-area-race {
@@ -236,7 +239,7 @@
 }
 .swiper {
    padding-top: 4.3rem !important;
-   padding-bottom: 4rem !important;
+   padding-bottom: 1rem !important;
 }
 /*optimization for swiper*/
 .swiper-slide {

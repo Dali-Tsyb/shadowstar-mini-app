@@ -15,7 +15,7 @@ export default function DeleteCharacterModal({ onConfirm, id }) {
                      data-bs-dismiss="modal"
                      onClick={() => document.activeElement?.blur()}
                   >
-                     Закрыть
+                     Отмена
                   </button>
                   <button
                      type="button"

@@ -2,7 +2,7 @@ import hpIcon from "../assets/images/hp-icon.webp";
 import shardIcon from "../assets/images/shard-icon.webp";
 import shieldIcon from "../assets/images/shield-icon.webp";
 import characterAvatar from "../assets/images/character-avatar.webp";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import binIcon from "../assets/images/bin-icon.svg";
 
@@ -24,6 +24,27 @@ export default function CharacterCard({
       setTimeout(() => setPulsingIndex(null), 600);
    };
 
+   //characteristics swipe logic
+   const [showCharsAs, setShowCharsAs] = useState("bonus");
+   const touchStartY = useRef(null);
+
+   const handleTouchStart = (e) => {
+      touchStartY.current = e.touches[0].clientY;
+   };
+
+   const handleTouchEnd = (e) => {
+      const endY = e.changedTouches[0].clientY;
+      const diffY = touchStartY.current - endY;
+
+      if (diffY > 50) {
+         //detected swipe up
+         setShowCharsAs("value");
+      } else if (diffY < -50) {
+         //detected swipe down
+         setShowCharsAs("bonus");
+      }
+   };
+
    return (
       <div
          className={`blocks-container h-100 w-100 brown-border rounded dark-beige-bg ${
@@ -43,8 +64,11 @@ export default function CharacterCard({
             className="grid-area-class brown-border p-2 brown-bg d-flex flex-column justify-content-center align-items-center gap-1"
             style={{ borderRadius: "0 0.375rem 0 0" }}
          >
-            <span className="beige-text text-uppercase text-center fw-bold">
-               {t(`races.${character.race_ref.name}`)}
+            <span
+               className="beige-text text-uppercase text-center fw-bold "
+               style={{ wordBreak: "break-all" }}
+            >
+               {t(`races.${character.race.name}`)}
             </span>
             <span
                className="beige-bg"
@@ -73,47 +97,75 @@ export default function CharacterCard({
             />
          </div>
          {/* CHARACTERISTICS */}
-         <div className="grid-area-characteristics brown-border px-2 py-3 beige-bg d-flex flex-column justify-content-between align-items-center">
+         <div
+            className="grid-area-characteristics brown-border px-2 py-3 beige-bg d-flex flex-column justify-content-between align-items-center"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+         >
             <div className="characteristics">
-               <span>
-                  {character.dexterity > 10 ? "+" : ""}
-                  {Math.floor((character.dexterity - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.dexterity > 10 ? "+" : ""}
+                     {Math.floor((character.dexterity - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.dexterity}</span>
+               )}
                <span>ЛВК</span>
             </div>
             <div className="characteristics">
-               <span>
-                  {character.strength > 10 ? "+" : ""}
-                  {Math.floor((character.strength - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.strength > 10 ? "+" : ""}
+                     {Math.floor((character.strength - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.strength}</span>
+               )}
                <span>СИЛ</span>
             </div>
             <div className="characteristics">
-               <span>
-                  {character.constitution > 10 ? "+" : ""}
-                  {Math.floor((character.constitution - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.constitution > 10 ? "+" : ""}
+                     {Math.floor((character.constitution - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.constitution}</span>
+               )}
                <span>ВНС</span>
             </div>
             <div className="characteristics">
-               <span>
-                  {character.intelligence > 10 ? "+" : ""}
-                  {Math.floor((character.intelligence - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.intelligence > 10 ? "+" : ""}
+                     {Math.floor((character.intelligence - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.intelligence}</span>
+               )}
                <span>ИНТ</span>
             </div>
             <div className="characteristics">
-               <span>
-                  {character.wisdom > 10 ? "+" : ""}
-                  {Math.floor((character.wisdom - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.charisma > 10 ? "+" : ""}
+                     {Math.floor((character.charisma - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.charisma}</span>
+               )}
                <span>ХРЗ</span>
             </div>
             <div className="characteristics">
-               <span>
-                  {character.charisma > 10 ? "+" : ""}
-                  {Math.floor((character.charisma - 10) / 2)}
-               </span>
+               {showCharsAs === "bonus" ? (
+                  <span>
+                     {character.wisdom > 10 ? "+" : ""}
+                     {Math.floor((character.wisdom - 10) / 2)}
+                  </span>
+               ) : (
+                  <span>{character.wisdom}</span>
+               )}
                <span>МДР</span>
             </div>
          </div>

@@ -43,15 +43,9 @@
 .game-code-input {
    position: relative;
 }
-.game-code-input input {
-   text-align: center;
-   font-size: clamp(1rem, 3vw, 1rem);
-   padding: 0.8rem;
-}
+.game-code-input input,
 .game-code-input input::placeholder {
    text-align: center;
-   color: #382610;
-   opacity: 0.8;
 }
 .submit-code {
    position: absolute;
@@ -80,7 +74,10 @@
 .settings-button {
    background-color: #d3b78863;
 }
-.support-btn {
+.play-btn {
    padding: 0.8rem;
    font-size: clamp(1rem, 3vw, 1rem);
+}
+.play-btn:disabled {
+   opacity: 0.8;
 }

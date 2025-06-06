@@ -11,7 +11,7 @@ import { login } from "./services/authService";
 
 //authorization
 const initData = window.Telegram
-   ? "id=123446789&first_name=mister&username=propper&auth_date=1700000000&hash=56b755bbf32ff0fa1716476452b6973af80c040538ce766f956c630a6ba6160f"
+   ? "id=124456789&first_name=test&username=test&auth_date=1700000000&hash=06a5ad71c2d2322be7ecb8f03b317c9c27140768c7429ebce05c7a9dcde4e6c5"
    : {
         id: window.Telegram.WebApp.id,
         first_name: window.Telegram.WebAppUser.first_name,
@@ -30,7 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
          <Provider store={store}>
             <div
                className="d-flex flex-column flex-grow-1 h-100 bg-container"
-               style={{ padding: "7vh 0" }}
+               style={{ padding: "9vh 0 7vh 0" }}
             >
                <img src={textureBg} alt="texture" className="texture" />
                <App />
