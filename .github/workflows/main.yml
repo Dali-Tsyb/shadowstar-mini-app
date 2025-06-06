@@ -22,6 +22,8 @@ jobs:
 
          - name: Build frontend
            run: npm run build
+           env:
+              VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
          - name: Copy build to server
            uses: appleboy/scp-action@v0.1.7
