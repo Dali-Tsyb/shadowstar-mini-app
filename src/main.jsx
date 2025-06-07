@@ -10,21 +10,6 @@ import "./config/i18n";
 import { login } from "./services/authService";
 
 export default function Root() {
-   //authorization
-   const telegram = window.Telegram?.WebApp;
-
-   let initData = telegram?.initData || null;
-
-   //fallback for testing outside Telegram
-   if (!initData) {
-      initData =
-         "id=124456789&first_name=test&username=test&auth_date=1700000000&hash=06a5ad71c2d2322be7ecb8f03b317c9c27140768c7429ebce05c7a9dcde4e6c5";
-   }
-
-   if (initData) {
-      login(initData);
-   }
-
    useEffect(() => {
       // сразу пытаемся залогинить пользователя
       login().catch((err) =>
