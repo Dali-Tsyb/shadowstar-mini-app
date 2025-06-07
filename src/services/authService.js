@@ -1,4 +1,5 @@
 import axios from "axios";
+import { init } from "i18next";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -25,7 +26,7 @@ export async function login() {
             const queryString = queryParams.toString();
 
             const { data } = await axios.post(urlBase, {
-               queryString,
+               initData: queryString,
             });
             localStorage.setItem("token", data.access_token);
          } else if (window.Telegram?.WebApp?.initData) {
