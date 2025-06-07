@@ -26,7 +26,7 @@ export default function HomePage() {
    const currentSession = useSelector((state) => state.session.currentSession);
 
    //current role
-   const [role, setRole] = useState(null);
+   const [role, setRole] = useState('player');
    //change roles
    useEffect(() => {
       if (player?.active_as) {
@@ -153,7 +153,7 @@ export default function HomePage() {
             </div>
 
             {/* MASTER INTERFACE */}
-            {role === "master" && player?.active_as === "player" && (
+            {role === "master" && player?.active_as === "master" && (
                <div className="d-flex flex-column gap-3 justify-content-between align-items-center game-code-input my-auto">
                   <div className="d-flex flex-column gap-2 align-items-center">
                      <div className="text-center fw-semibold fs-5 mb-4">

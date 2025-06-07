@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRaces } from "./store/slices/raceSlice";
 import { getProfessions } from "./store/slices/professionSlice";
@@ -63,18 +63,17 @@ export default function App() {
       sessionStatus === "loading";
 
    //authentication
-   const [authError, setAuthError] = useState(null);
-   useEffect(() => {
-      login().catch((err) => {
-         console.error("Telegram login failed:", err.message);
-         setAuthError("Ошибка авторизации :(");
+   if (window.Telegram?.WebApp?.initData) {
+      login(window.Telegram.WebApp.initData).catch((error) => {
+         console.error(error);
       });
-      if (localStorage.getItem("token")) {
-         setAuthError(null);
-      } else {
-         setAuthError("Ошибка авторизации :(");
-      }
-   }, []);
+   } else if (window.location.search.includes("hash=")) {
+      login().catch((error) => {
+         console.error(error);
+      });
+   } else {
+      console.warn("Telegram auth data not found in WebApp.initData or URL");
+   }
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
@@ -91,12 +90,12 @@ export default function App() {
       );
    }
 
-   if (authError) {
+   if (!localStorage.getItem("token")) {
       return (
          <div className="d-flex justify-content-center align-items-center h-100">
             <div>
                <div className="fw-bold" role="alert">
-                  {authError}
+                  Ошибка авторизации :(
                </div>
             </div>
          </div>

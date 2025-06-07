@@ -62,7 +62,6 @@ export default function CharacterPage() {
    //send new character to backend
    const handleSendCharacter = (form) => {
       dispatch(addCharacter(form));
-      console.log(characters.length);
       setEditMode(false);
       setTimeout(() => {
          while (
