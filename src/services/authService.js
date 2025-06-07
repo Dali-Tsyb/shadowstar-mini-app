@@ -1,5 +1,4 @@
 import axios from "axios";
-import { init } from "i18next";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,15 +20,12 @@ export async function login() {
    if (!token || !isTokenValid(token)) {
       try {
          if (window.location.search.includes("hash=")) {
-            //query params
-            const queryString = window.location.search.substring(1);
+            // Передаём ровно ту строку, что пришла, без "?"
+            const initData = window.location.search.substring(1);
 
-            const { data } = await axios.post(urlBase, {
-               initData: queryString,
-            });
+            const { data } = await axios.post(urlBase, { initData });
             localStorage.setItem("token", data.access_token);
          } else if (window.Telegram?.WebApp?.initData) {
-            //Telegram.WebApp.initData
             const { data } = await axios.post(urlBase, {
                initData: window.Telegram.WebApp.initData,
             });
@@ -43,6 +39,5 @@ export async function login() {
          throw new Error(errMsg);
       }
    }
-
    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
