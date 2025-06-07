@@ -394,11 +394,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).dexterity_bonus +
+                           )?.dexterity_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).dexterity_bonus
+                           )?.dexterity_bonus
                      }
                   >
                      -
@@ -440,11 +440,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).strength_bonus +
+                           )?.strength_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).strength_bonus
+                           )?.strength_bonus
                      }
                   >
                      -
@@ -486,11 +486,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).constitution_bonus +
+                           )?.constitution_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).constitution_bonus
+                           )?.constitution_bonus
                      }
                   >
                      -
@@ -534,11 +534,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).intelligence_bonus +
+                           )?.intelligence_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).intelligence_bonus
+                           )?.intelligence_bonus
                      }
                   >
                      -
@@ -581,11 +581,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).charisma_bonus +
+                           )?.charisma_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).charisma_bonus
+                           )?.charisma_bonus
                      }
                   >
                      -
@@ -626,11 +626,11 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
-                           ).wisdom_bonus +
+                           )?.wisdom_bonus +
                            professions.find(
                               (profession) =>
                                  profession.id === characterForm.profession_id
-                           ).wisdom_bonus
+                           )?.wisdom_bonus
                      }
                   >
                      -

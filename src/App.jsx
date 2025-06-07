@@ -54,8 +54,27 @@ export default function App() {
       sessionStatus,
    ]);
 
+   const isLoading =
+      raceStatus === "loading" ||
+      profStatus === "loading" ||
+      charStatus === "loading" ||
+      playerStatus === "loading" ||
+      sessionStatus === "loading";
+
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
+
+   if (isLoading) {
+      return (
+         <div className="d-flex justify-content-center align-items-center h-100">
+            <div>
+               <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Загрузка...</span>
+               </div>
+            </div>
+         </div>
+      );
+   }
 
    return (
       <Routes>
