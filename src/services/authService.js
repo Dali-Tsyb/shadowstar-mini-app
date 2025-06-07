@@ -6,10 +6,12 @@ export const login = async (credentials) => {
    let response;
 
    if (typeof credentials === "string") {
+      console.log("body", credentials);
       response = await axios.post(`${API_URL}/auth/telegram`, {
          initData: credentials,
       });
    } else {
+      console.log("query", window.location.search);
       const query = window.location.search;
       response = await axios.post(`${API_URL}/auth/telegram${query}`);
    }
