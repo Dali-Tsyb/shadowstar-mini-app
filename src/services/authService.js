@@ -24,7 +24,9 @@ export async function login() {
             const queryParams = new URLSearchParams(window.location.search);
             const queryString = queryParams.toString();
 
-            const { data } = await axios.post(`${urlBase}?${queryString}`);
+            const { data } = await axios.post(urlBase, {
+               queryString,
+            });
             localStorage.setItem("token", data.access_token);
          } else if (window.Telegram?.WebApp?.initData) {
             //Telegram.WebApp.initData
