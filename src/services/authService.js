@@ -21,7 +21,7 @@ export const login = async () => {
    }
    try {
       const response = await axios.post(
-         `${API_URL}/login`,
+         `${API_URL}/auth/telegram`,
          {
             initData: JSON.stringify(window.Telegram.WebApp.initData),
          },
