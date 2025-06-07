@@ -12,6 +12,7 @@ import { login } from "./services/authService";
 export default function Root() {
    useEffect(() => {
       // сразу пытаемся залогинить пользователя
+      localStorage.removeItem("token");
       login().catch((err) =>
          console.error("Telegram login failed:", err.message)
       );
