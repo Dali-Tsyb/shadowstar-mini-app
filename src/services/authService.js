@@ -22,8 +22,7 @@ export async function login() {
       try {
          if (window.location.search.includes("hash=")) {
             //query params
-            const queryParams = new URLSearchParams(window.location.search);
-            const queryString = queryParams.toString();
+            const queryString = window.location.search.substring(1);
 
             const { data } = await axios.post(urlBase, {
                initData: queryString,
