@@ -10,6 +10,10 @@
    color: #382610;
    line-height: normal;
    list-style: none;
+   text-decoration: none !important;
+}
+a {
+   color: unset !important;
 }
 input,
 textarea {
@@ -72,6 +76,7 @@ body,
    font-weight: 700;
    text-transform: uppercase;
    padding: clamp(0.2rem, 1.7vw, 1rem);
+   scale: 1;
 }
 .brown-border {
    border: 2px solid #382610;
@@ -81,6 +86,10 @@ body,
 }
 .base-button:active {
    transform: scale(0.9);
+}
+.base-button:disabled {
+   opacity: 0.8;
+   cursor: not-allowed;
 }
 .base-button:active:disabled {
    transform: scale(1);

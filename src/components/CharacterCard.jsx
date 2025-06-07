@@ -5,6 +5,7 @@ import characterAvatar from "../assets/images/character-avatar.webp";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import binIcon from "../assets/images/bin-icon.svg";
+import { Link } from "react-router-dom";
 
 export default function CharacterCard({
    character,
@@ -38,10 +39,8 @@ export default function CharacterCard({
 
       if (diffY > 50) {
          //detected swipe up
-         setShowCharsAs("value");
-      } else if (diffY < -50) {
-         //detected swipe down
-         setShowCharsAs("bonus");
+         if (showCharsAs === "value") setShowCharsAs("bonus");
+         if (showCharsAs === "bonus") setShowCharsAs("value");
       }
    };
 
@@ -50,7 +49,6 @@ export default function CharacterCard({
          className={`blocks-container h-100 w-100 brown-border rounded dark-beige-bg ${
             pulsingIndex === index ? "pulse" : ""
          }`}
-         style={{ boxShadow: "0 0 0.5rem #382610" }}
       >
          {/* NAME */}
          <div
@@ -181,7 +179,13 @@ export default function CharacterCard({
                className="stats"
                style={{ backgroundImage: `url(${shardIcon})` }}
             >
-               <span className="fw-bold beige-text">{character.shards}</span>
+               <span className="fw-bold beige-text">
+                  {character.shards.green +
+                     character.shards.blue +
+                     character.shards.red +
+                     character.shards.black +
+                     character.shards.white}
+               </span>
             </div>
             <div
                className="stats"
@@ -191,20 +195,37 @@ export default function CharacterCard({
             </div>
          </div>
          {/* ABILITIES */}
-         <button className="grid-area-abilities base-button brown-bg beige-text d-flex align-items-center justify-content-center">
-            способности
-         </button>
+         <Link
+            className="grid-area-abilities"
+            to={`/characters/${character.id}/abilities`}
+         >
+            <button
+               className="w-100 h-100 base-button brown-bg beige-text"
+               role="button"
+               tabIndex="0"
+            >
+               способности
+            </button>
+         </Link>
          {/* INVENTORY */}
-         <button className="grid-area-inventory base-button brown-bg beige-text d-flex align-items-center justify-content-center">
-            инвентарь
-         </button>
+         <Link
+            className="grid-area-inventory"
+            to={`/characters/${character.id}/inventory`}
+         >
+            <button className="w-100 h-100 base-button brown-bg beige-text d-flex align-items-center justify-content-center">
+               инвентарь
+            </button>
+         </Link>
+
          {/* SELECT */}
          <button
             className={`grid-area-select base-button w-100 ${
                isSelected ? "beige-bg" : "brown-bg"
             }`}
-            style={{ borderRadius: "0 0 0 0.375rem" }}
+            style={{ borderRadius: "0 0 0 0.375rem", cursor: "pointer" }}
             onClick={handleSelect}
+            role="button"
+            tabIndex="0"
             disabled={isSelected}
          >
             <span
@@ -219,6 +240,8 @@ export default function CharacterCard({
             style={{ borderRadius: "0 0 0.375rem 0", padding: ".97rem" }}
             data-bs-toggle="modal"
             data-bs-target="#deleteCharacterModal"
+            role="button"
+            tabIndex="0"
          >
             <img src={binIcon} alt="delete" className="w-100" />
          </button>

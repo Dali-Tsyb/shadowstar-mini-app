@@ -19,6 +19,7 @@
    position: relative;
    transition: transform 0.2s ease;
    overflow: auto;
+   box-shadow: 0 0 0.7rem #382610;
 }
 /*character creation card*/
 .create-blocks-container {
@@ -100,6 +101,7 @@
 }
 .grid-area-characteristics {
    grid-area: characteristics;
+   overflow: auto;
 }
 .grid-area-stats {
    grid-area: stats;
@@ -190,7 +192,7 @@
 }
 /*specifically for character creation*/
 .characteristics div button {
-   width: 1rem;
+   width: 1.1rem;
    height: 1.1rem;
    border-radius: 100%;
 }
@@ -206,6 +208,8 @@
 }
 .characteristics-btn {
    transition: all 0.1s ease-in-out;
+   transform: scale(1);
+   padding: 0;
 }
 .characteristics-btn:active {
    transform: scale(0.8);
@@ -214,13 +218,13 @@
 /*buttons at the under card and over it*/
 .header-btns a button,
 .footer-btns button {
-   width: clamp(2rem, 3vw, 3.5rem);
-   height: clamp(2rem, 3vw, 3.5rem);
-   padding: clamp(0.2rem, 1vw, 1rem);
+   width: 2rem;
+   height: 2rem;
+   padding: 0.3rem;
 }
 .header-btns button {
-   font-size: clamp(0.5rem, 3.3vw, 4rem);
-   padding: clamp(0.2rem, 2.2vw, 1rem);
+   font-size: 0.9rem;
+   padding: 0.4rem;
 }
 .header-btns,
 .footer-btns {
@@ -242,8 +246,13 @@
    padding-bottom: 1rem !important;
 }
 /*optimization for swiper*/
+.swiper-slide-active {
+   z-index: 10;
+   transform: scale(1);
+}
 .swiper-slide {
+   transition: transform 0.3s ease, opacity 0.3s ease;
+   overflow: visible !important;
+   transform: translateZ(0);
    will-change: transform;
-   backface-visibility: hidden;
-   transform-style: preserve-3d;
 }

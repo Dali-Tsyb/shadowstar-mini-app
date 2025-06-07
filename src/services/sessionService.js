@@ -4,16 +4,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getSessionsService = async () => {
    try {
-      const response = await axios.get(`${API_URL}/sessions`, {
-         headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-         },
-      });
+      const response = await axios.get(`${API_URL}/sessions/`);
       return response.data;
    } catch (error) {
       console.error(error);
-      return null;
+      throw error;
    }
 };
 
@@ -28,6 +23,6 @@ export const addSessionService = async (data) => {
       return response.data;
    } catch (error) {
       console.error(error);
-      return null;
+      throw error;
    }
 };

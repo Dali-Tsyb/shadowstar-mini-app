@@ -1,12 +1,7 @@
 import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
 import { useRef, useState } from "react";
-import { EffectCards } from "swiper/modules";
 import backArrowIcon from "../assets/images/back-arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +14,8 @@ import CreateCharacterCard from "../components/CreateCharacterCard.jsx";
 import { addCharacter } from "../store/slices/characterSlice";
 import DeleteCharacterModal from "../components/DeleteCharacterModal.jsx";
 import { Link } from "react-router-dom";
+import { EffectCreative } from "swiper/modules";
+import "swiper/css/effect-creative";
 
 export default function CharacterPage() {
    const dispatch = useDispatch();
@@ -51,7 +48,7 @@ export default function CharacterPage() {
          ) {
             swiperRef.current.slideNext();
          }
-      }, 200);
+      }, 100);
    };
    //stop character creation and remove default character
    const handleStopCreation = () => {
@@ -62,12 +59,11 @@ export default function CharacterPage() {
    //send new character to backend
    const handleSendCharacter = (form) => {
       dispatch(addCharacter(form));
-      console.log(characters.length);
       setEditMode(false);
       setTimeout(() => {
          while (
             swiperRef.current &&
-            swiperRef.current.realIndex < swiperRef.current.slides.length - 1
+            swiperRef.current.realIndex < swiperRef.current.slides?.length - 1
          ) {
             swiperRef.current.slideNext();
          }
@@ -83,7 +79,7 @@ export default function CharacterPage() {
       <>
          <div className="d-flex flex-column justify-content-center align-items-center h-100 position-relative">
             {/* HEADER */}
-            <div className="d-flex justify-content-between align-items-center p-4 py-0 header-btns">
+            <div className="d-flex justify-content-between align-items-center px-4 header-btns">
                <Link to="/">
                   <button className="base-button brown-bg rounded">
                      <img className="w-100" src={backArrowIcon} alt="back" />
@@ -93,6 +89,8 @@ export default function CharacterPage() {
                {!editMode && (
                   <button
                      className="base-button brown-bg beige-text rounded"
+                     role="button"
+                     tabIndex="0"
                      onClick={handleAddCharacter}
                   >
                      + Новый персонаж
@@ -131,21 +129,35 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
-                  modules={[Navigation, EffectCoverflow, EffectCards]}
-                  effect={"cards"}
-                  cardsEffect={{
-                     perSlideOffset: 10,
-                     perSlideRotate: 1,
-                     slideShadows: false,
-                  }}
+                  modules={[EffectCreative]}
+                  effect="creative"
                   grabCursor={true}
                   loop={false}
+                  slidesPerView={1}
+                  centeredSlides={true}
                   onSwiper={(swiper) => (swiperRef.current = swiper)}
                   onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                   className="w-100 h-100 px-4"
+                  creativeEffect={{
+                     limitProgress: 2,
+                     perspective: false,
+                     prev: {
+                        translate: ["-50%", 0, 0],
+                        rotate: [0, 0, -3],
+                        scale: 0.9,
+                     },
+                     next: {
+                        translate: ["50%", 0, 0],
+                        rotate: [0, 0, 3],
+                        scale: 0.9,
+                     },
+                  }}
                >
                   {characters.map((character, index) => (
-                     <SwiperSlide key={index} className=" w-100">
+                     <SwiperSlide
+                        key={index}
+                        className=" w-100  character-slide"
+                     >
                         {character.id && (
                            <CharacterCard
                               character={character}

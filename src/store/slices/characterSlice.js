@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
    getCharactersService,
    addCharacterService,
+   updateCharacterService,
    deleteCharacterService,
 } from "/src/services/characterService";
 
@@ -14,6 +15,14 @@ export const addCharacter = createAsyncThunk("characters/add", async (data) => {
    const response = await addCharacterService(data);
    return response;
 });
+
+export const updateCharacter = createAsyncThunk(
+   "characters/update",
+   async (data) => {
+      const response = await updateCharacterService(data);
+      return response;
+   }
+);
 
 export const deleteCharacter = createAsyncThunk(
    "characters/delete",
@@ -50,14 +59,29 @@ export const characterSlice = createSlice({
          .addCase(getCharacters.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
+            state.charactersList = [];
          });
 
       builder
          .addCase(addCharacter.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.charactersList[state.charactersList.length - 1] = action.payload;
+            state.charactersList[state.charactersList.length - 1] =
+               action.payload;
          })
          .addCase(addCharacter.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message;
+         });
+
+      builder
+         .addCase(updateCharacter.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            const updatedIndex = state.charactersList.findIndex(
+               (character) => character.id === action.payload.id
+            );
+            state.charactersList[updatedIndex] = action.payload;
+         })
+         .addCase(updateCharacter.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
          });

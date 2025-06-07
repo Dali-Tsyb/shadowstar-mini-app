@@ -26,6 +26,7 @@ export const abilitySlice = createSlice({
          .addCase(getAbilities.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
+            state.abilitiesList = [];
          });
    },
 });

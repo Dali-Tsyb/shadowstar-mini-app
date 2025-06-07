@@ -75,9 +75,6 @@
    background-color: #d3b78863;
 }
 .play-btn {
-   padding: 0.8rem;
-   font-size: clamp(1rem, 3vw, 1rem);
-}
-.play-btn:disabled {
-   opacity: 0.8;
+   font-size: 0.9rem;
+   padding: 0.7rem;
 }

@@ -1,0 +1,31 @@
+.inventory-btns button {
+   width: 2rem;
+   height: 2rem;
+   padding: 0.3rem;
+}
+.inventory-btns div {
+   font-size: 1.3rem;
+}
+
+.inventory-grid-container {
+   overflow-y: auto;
+   height: 100%;
+}
+
+.inventory-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+   gap: 0.5rem;
+}
+
+.inventory-slot {
+   aspect-ratio: 1 / 1;
+   position: relative;
+}
+.item .quantity {
+   position: absolute;
+   bottom: 4%;
+   right: 4%;
+   font-size: 0.8rem;
+   font-weight: 700;
+}
