@@ -21,13 +21,7 @@ export const updateRoleService = async (role) => {
    try {
       const response = await axios.post(
          `${API_URL}/players/switch_role?new_role=${role}`,
-         {},
-         {
-            headers: {
-               Authorization: `Bearer ${localStorage.getItem("token")}`,
-               "Content-Type": "application/json",
-            },
-         }
+         {}
       );
       return response.data;
    } catch (error) {

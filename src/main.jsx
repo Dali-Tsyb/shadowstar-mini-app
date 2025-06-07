@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from "react";
+import { StrictMode } from "react";
 import "./assets/css/index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
@@ -7,17 +7,8 @@ import textureBg from "./assets/images/old-paper-texture.webp";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import "./config/i18n";
-import { login } from "./services/authService";
 
 export default function Root() {
-   useEffect(() => {
-      // сразу пытаемся залогинить пользователя
-      localStorage.removeItem("token");
-      login().catch((err) =>
-         console.error("Telegram login failed:", err.message)
-      );
-   }, []);
-
    return (
       <BrowserRouter>
          <Provider store={store}>

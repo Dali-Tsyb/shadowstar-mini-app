@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRaces } from "./store/slices/raceSlice";
 import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
+import { login } from "./services/authService";
 
 export default function App() {
    useEffect(() => {
@@ -61,6 +62,20 @@ export default function App() {
       playerStatus === "loading" ||
       sessionStatus === "loading";
 
+   //authentication
+   const [authError, setAuthError] = useState(null);
+   useEffect(() => {
+      login().catch((err) => {
+         console.error("Telegram login failed:", err.message);
+         setAuthError("Ошибка авторизации :(");
+      });
+      if (localStorage.getItem("token")) {
+         setAuthError(null);
+      } else {
+         setAuthError("Ошибка авторизации :(");
+      }
+   }, []);
+
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
 
@@ -70,6 +85,18 @@ export default function App() {
             <div>
                <div className="spinner-border" role="status">
                   <span className="visually-hidden">Загрузка...</span>
+               </div>
+            </div>
+         </div>
+      );
+   }
+
+   if (authError) {
+      return (
+         <div className="d-flex justify-content-center align-items-center h-100">
+            <div>
+               <div className="fw-bold" role="alert">
+                  {authError}
                </div>
             </div>
          </div>

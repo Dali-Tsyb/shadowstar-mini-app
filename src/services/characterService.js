@@ -4,12 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getCharactersService = async () => {
    try {
-      const response = await axios.get(`${API_URL}/characters/me`, {
-         headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-         },
-      });
+      const response = await axios.get(`${API_URL}/characters/me`);
       return response.data;
    } catch (error) {
       console.error(error);
@@ -18,12 +13,7 @@ export const getCharactersService = async () => {
 };
 export const addCharacterService = async (data) => {
    try {
-      const response = await axios.post(`${API_URL}/characters`, data, {
-         headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-         },
-      });
+      const response = await axios.post(`${API_URL}/characters`, data);
       return response.data;
    } catch (error) {
       console.error(error);
@@ -33,12 +23,7 @@ export const addCharacterService = async (data) => {
 
 export const deleteCharacterService = async (id) => {
    try {
-      await axios.delete(`${API_URL}/characters/${id}`, {
-         headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-         },
-      });
+      await axios.delete(`${API_URL}/characters/${id}`);
    } catch (error) {
       console.error(error);
       return null;
