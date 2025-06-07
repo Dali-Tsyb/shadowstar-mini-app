@@ -20,6 +20,11 @@ export default function App() {
       return () => window.removeEventListener("resize", setVH);
    }, []);
 
+   //auth
+   useEffect(() => {
+      login();
+   }, []);
+
    //fetching data
    const dispatch = useDispatch();
    const raceStatus = useSelector((state) => state.race.status);
@@ -61,19 +66,6 @@ export default function App() {
       charStatus === "loading" ||
       playerStatus === "loading" ||
       sessionStatus === "loading";
-
-   //authentication
-   if (window.Telegram?.WebApp?.initData) {
-      login(window.Telegram.WebApp.initData).catch((error) => {
-         console.error(error);
-      });
-   } else if (window.location.search.includes("hash=")) {
-      login().catch((error) => {
-         console.error(error);
-      });
-   } else {
-      console.warn("Telegram auth data not found in WebApp.initData or URL");
-   }
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
