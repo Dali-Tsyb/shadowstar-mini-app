@@ -22,15 +22,23 @@ export default function App() {
 
    //auth
    useEffect(() => {
+      // инициализируем WebApp
       window.Telegram.WebApp.ready();
-      const initDataString =
-         window.Telegram?.WebApp?.initDataUnsafe ||
-         window.Telegram?.WebApp?.initData;
-      if (!initDataString) {
-         console.error("Telegram WebApp initData не найдено");
+
+      // берем оригинальную, «сырую» строку без изменений
+      const raw = window.Telegram?.WebApp?.initDataUnsafe;
+      window.Telegram?.WebApp?.initData;
+
+      if (!raw || typeof raw !== "string") {
+         console.error(
+            "Не получилось получить строку initData из WebApp:",
+            raw
+         );
          return;
       }
-      login(initDataString);
+
+      console.log("▶️ Отправляем ровно эту строку initData:", raw);
+      login(raw);
    }, []);
 
    //fetching data
