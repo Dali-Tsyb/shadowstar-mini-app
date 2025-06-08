@@ -54,24 +54,56 @@ export default function App() {
       if (raceStatus === "idle") {
          dispatch(getRaces());
       }
+   }, [
+      dispatch,
+      raceStatus,
+   ]);
+
+   useEffect(() => {
+      if (!localStorage.getItem("token")) {
+         return;
+      }
       if (profStatus === "idle") {
          dispatch(getProfessions());
+      }
+   }, [
+      dispatch,
+      profStatus,
+   ]);
+
+   useEffect(() => {
+      if (!localStorage.getItem("token")) {
+         return;
       }
       if (charStatus === "idle") {
          dispatch(getCharacters());
       }
+   }, [
+      dispatch,
+      charStatus,
+   ]);
+
+   useEffect(() => {
+      if (!localStorage.getItem("token")) {
+         return;
+      }
       if (playerStatus === "idle") {
          dispatch(getPlayer());
+      }
+   }, [
+      dispatch,
+      playerStatus,
+   ]);
+
+   useEffect(() => {
+      if (!localStorage.getItem("token")) {
+         return;
       }
       if (sessionStatus === "idle") {
          dispatch(getSessions());
       }
    }, [
       dispatch,
-      raceStatus,
-      profStatus,
-      charStatus,
-      playerStatus,
       sessionStatus,
    ]);
 

@@ -44,11 +44,7 @@ export const login = async (initDataString) => {
 
       const token = response.data.access_token;
 
-      axios.interceptors.request.use((config) => {
-         config.headers.Authorization = `Bearer ${token}`;
-         config.headers["X-Telegram-Init-Data"] = initDataString;
-         return config;
-      });
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       localStorage.setItem("token", token);
    } catch (error) {
       console.error("Auth error:", error);
