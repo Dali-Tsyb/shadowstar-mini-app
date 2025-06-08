@@ -26,8 +26,7 @@ export default function App() {
       window.Telegram.WebApp.ready();
 
       // берем оригинальную, «сырую» строку без изменений
-      const raw = window.Telegram?.WebApp?.initDataUnsafe;
-      window.Telegram?.WebApp?.initData;
+      const raw = window.Telegram?.WebApp?.initData;
 
       if (!raw || typeof raw !== "string") {
          console.error(
