@@ -11,6 +11,21 @@ export const isTokenValid = (token) => {
       return false;
    }
 };
+
+function filterParams(input) {
+   const allowedKeys = ["query_id", "user", "auth_date", "hash"];
+   const params = new URLSearchParams(input);
+   const filtered = new URLSearchParams();
+
+   for (const key of allowedKeys) {
+      if (params.has(key)) {
+         filtered.set(key, params.get(key));
+      }
+   }
+
+   return filtered.toString();
+}
+
 /**
  * @param {string} initDataString
  */
@@ -25,7 +40,7 @@ export const login = async (initDataString) => {
       const response = await axios.post(
          `${API_URL}/auth/telegram`,
          {
-            initData: initDataString,
+            initData: filterParams(initDataString),
          },
          {
             headers: {
