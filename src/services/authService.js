@@ -22,6 +22,9 @@ export const login = async (initDataString) => {
       localStorage.getItem("token") &&
       isTokenValid(localStorage.getItem("token"))
    ) {
+      axios.defaults.headers.common[
+         "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
       return;
    }
 
@@ -42,11 +45,13 @@ export const login = async (initDataString) => {
          }
       );
 
+      const token = response.data.access_token;
+      
       localStorage.setItem("token", token);
 
-      const token = response.data.access_token;
-
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.headers.common[
+         "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
    } catch (error) {
       console.error("Auth error:", error);
    }
