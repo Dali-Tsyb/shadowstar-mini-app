@@ -14,11 +14,32 @@ export const isTokenValid = (token) => {
 
 function filterParams(input) {
    const allowedKeys = ["query_id", "user", "auth_date", "hash"];
+   const allowedUserFields = ["id", "first_name", "username"];
+
    const params = new URLSearchParams(input);
    const filtered = new URLSearchParams();
 
    for (const key of allowedKeys) {
-      if (params.has(key)) {
+      if (key === "user" && params.has("user")) {
+         try {
+            const userRaw = decodeURIComponent(params.get("user"));
+            const userObj = JSON.parse(userRaw);
+
+            const cleanedUser = {};
+            for (const field of allowedUserFields) {
+               if (Object.prototype.hasOwnProperty.call(userObj, field)) {
+                  cleanedUser[field] = userObj[field];
+               }
+            }
+
+            const cleanedUserStr = encodeURIComponent(
+               JSON.stringify(cleanedUser)
+            );
+            filtered.set("user", cleanedUserStr);
+         } catch (e) {
+            console.error("Failed to parse or clean user field:", e);
+         }
+      } else if (params.has(key)) {
          filtered.set(key, params.get(key));
       }
    }
