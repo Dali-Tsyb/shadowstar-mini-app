@@ -36,6 +36,7 @@ export const login = async (initDataString) => {
          },
          {
             headers: {
+               "X-Telegram-Init-Data": initDataString,
                "Content-Type": "application/json",
             },
          }
