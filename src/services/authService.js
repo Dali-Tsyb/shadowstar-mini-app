@@ -11,8 +11,10 @@ export const isTokenValid = (token) => {
       return false;
    }
 };
-
-export const login = async () => {
+/**
+ * @param {string} initDataString
+ */
+export const login = async (initDataString) => {
    if (
       localStorage.getItem("token") &&
       isTokenValid(localStorage.getItem("token"))
@@ -23,7 +25,7 @@ export const login = async () => {
       const response = await axios.post(
          `${API_URL}/auth/telegram`,
          {
-            initData: JSON.stringify(window.Telegram.WebApp.initData),
+            initData: initDataString,
          },
          {
             headers: {
@@ -31,12 +33,11 @@ export const login = async () => {
             },
          }
       );
-      const data = await response.json();
-      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("token", response.data.access_token);
       axios.defaults.headers.common[
          "Authorization"
-      ] = `Bearer ${data.access_token}`;
-      return data;
+      ] = `Bearer ${response.data.access_token}`;
+      return response.data;
    } catch (error) {
       console.error("Auth error:", error);
    }
