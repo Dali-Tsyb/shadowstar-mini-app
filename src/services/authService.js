@@ -42,10 +42,11 @@ export const login = async (initDataString) => {
          }
       );
 
+      localStorage.setItem("token", token);
+
       const token = response.data.access_token;
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      localStorage.setItem("token", token);
    } catch (error) {
       console.error("Auth error:", error);
    }
