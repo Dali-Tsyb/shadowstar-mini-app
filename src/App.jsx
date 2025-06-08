@@ -7,7 +7,6 @@ import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
 import { login } from "./services/authService";
-import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
 export default function App() {
    useEffect(() => {
@@ -25,10 +24,9 @@ export default function App() {
    useEffect(() => {
       // инициализируем WebApp
       window.Telegram.WebApp.ready();
-      const { initData } = retrieveLaunchParams();
 
       // берем оригинальную, «сырую» строку без изменений
-      const raw = initData;
+      const raw = window.Telegram?.WebApp?.initData;
 
       if (!raw || typeof raw !== "string") {
          console.error(
