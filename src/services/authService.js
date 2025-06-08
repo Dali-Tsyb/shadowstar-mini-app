@@ -36,11 +36,12 @@ export const login = async (initDataString) => {
    ) {
       return;
    }
+   const data = filterParams(initDataString);
    try {
       const response = await axios.post(
          `${API_URL}/auth/telegram`,
          {
-            initData: filterParams(initDataString),
+            initData: data,
          },
          {
             headers: {
