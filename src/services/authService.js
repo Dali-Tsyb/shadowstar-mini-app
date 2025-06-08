@@ -16,6 +16,7 @@ export const isTokenValid = (token) => {
  * @param {string} initDataString
  */
 export const login = async (initDataString) => {
+   +console.log("▶️ Отправляем initData на бэкенд:", initDataString);
    if (
       localStorage.getItem("token") &&
       isTokenValid(localStorage.getItem("token"))
