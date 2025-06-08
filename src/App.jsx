@@ -24,7 +24,12 @@ export default function App() {
    useEffect(() => {
       window.Telegram.WebApp.ready();
 
-      login();
+      const initDataString = window.Telegram?.WebApp?.initData;
+      if (!initDataString) {
+         console.error("Telegram WebApp initData не найдено");
+         return;
+      }
+      login(initDataString);
    }, []);
 
    //fetching data

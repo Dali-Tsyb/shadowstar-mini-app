@@ -14,22 +14,18 @@ export const isTokenValid = (token) => {
 /**
  * @param {string} initDataString
  */
-export const login = async () => {
+export const login = async (initDataString) => {
    if (
       localStorage.getItem("token") &&
       isTokenValid(localStorage.getItem("token"))
    ) {
       return;
    }
-   if (!window.Telegram?.WebApp?.initDataUnsafe) {
-      console.error("Telegram WebApp initDataUnsafe не найдено");
-      return;
-   }
    try {
       const response = await axios.post(
          `${API_URL}/auth/telegram`,
          {
-            initData: window.Telegram?.WebApp?.initDataUnsafe,
+            initData: initDataString,
          },
          {
             headers: {
