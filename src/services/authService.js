@@ -42,10 +42,12 @@ export const login = async (initDataString) => {
          }
       );
 
-      const { token } = response.data;
-      localStorage.setItem("token", token);
+      const token = response.data.access_token;
+
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios.defaults.headers.common["X-Telegram-Init-Data"] = initDataString;
+
+      localStorage.setItem("token", token);
    } catch (error) {
       console.error("Auth error:", error);
    }
