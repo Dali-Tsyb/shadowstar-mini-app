@@ -31,6 +31,11 @@ export default function App() {
       window.Telegram.WebApp.ready();
 
       const raw = window.Telegram?.WebApp?.initData;
+      let token = null;
+      if (localStorage.getItem("token")) {
+         token = localStorage.getItem("token");
+         localStorage.removeItem("token");
+      }
 
       if (!raw || typeof raw !== "string") {
          console.log("❌ Не удалось получить initData");
@@ -46,6 +51,7 @@ export default function App() {
             "❌ Пользователь уже авторизован, токен все еще действителен. playerStatus:" +
                playerStatus
          );
+         localStorage.setItem("token", token);
          axios.defaults.headers.common[
             "Authorization"
          ] = `Bearer ${localStorage.getItem("token")}`;
@@ -62,10 +68,6 @@ export default function App() {
 
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
       login(raw);
-
-      axios.defaults.headers.common[
-         "Authorization"
-      ] = `Bearer ${localStorage.getItem("token")}`;
    }, [playerStatus, dispatch, authStatus]);
 
    //getting player
