@@ -39,7 +39,7 @@ export default function App() {
 
       //если не удалось получить player
       if (playerStatus !== "failed") {
-         console.error("Игрок не найден или аутентификация уже прошла");
+         console.log("Игрок не найден или аутентификация уже прошла");
          return;
       }
 
@@ -49,9 +49,6 @@ export default function App() {
 
    //getting player
    useEffect(() => {
-      if (!localStorage.getItem("token")) {
-         return;
-      }
       if (playerStatus === "idle") {
          dispatch(getPlayer());
       }
