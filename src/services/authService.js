@@ -15,7 +15,7 @@ export const isTokenValid = (token) => {
 /**
  * @param {string} initDataString
  */
-export const login = async (initDataString) => {
+export const loginService = async (initDataString) => {
    console.log("▶️ Отправляем initData на бэкенд:", initDataString);
 
    try {

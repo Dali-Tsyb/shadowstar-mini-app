@@ -6,7 +6,7 @@ import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
-import { isTokenValid, login } from "./services/authService";
+import { login } from "./store/slices/authorizationSlice";
 import axios from "axios";
 
 export default function App() {
@@ -24,6 +24,7 @@ export default function App() {
 
    //auth
    const playerStatus = useSelector((state) => state.player.status);
+   const authStatus = useSelector((state) => state.authorization.status);
    //login
    useEffect(() => {
       window.Telegram.WebApp.ready();
@@ -62,10 +63,13 @@ export default function App() {
 
    //getting player
    useEffect(() => {
-      if (playerStatus === "idle") {
+      if (
+         playerStatus === "idle" ||
+         (playerStatus !== "succeeded" && authStatus === "succeeded")
+      ) {
          dispatch(getPlayer());
       }
-   }, [dispatch, playerStatus]);
+   }, [dispatch, playerStatus, authStatus]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
@@ -73,40 +77,40 @@ export default function App() {
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
    useEffect(() => {
-      if (!localStorage.getItem("token")) {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (raceStatus === "idle") {
          dispatch(getRaces());
       }
-   }, [dispatch, raceStatus]);
+   }, [dispatch, raceStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token")) {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (profStatus === "idle") {
          dispatch(getProfessions());
       }
-   }, [dispatch, profStatus]);
+   }, [dispatch, profStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || !playerStatus === "succeeded") {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (charStatus === "idle") {
          dispatch(getCharacters());
       }
-   }, [dispatch, charStatus, playerStatus]);
+   }, [dispatch, charStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token")) {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (sessionStatus === "idle") {
          dispatch(getSessions());
       }
-   }, [dispatch, sessionStatus]);
+   }, [dispatch, sessionStatus, authStatus]);
 
    const isLoading =
       raceStatus === "loading" ||
