@@ -39,11 +39,14 @@ export default function App() {
       }
 
       //если не удалось получить player
-      if (playerStatus !== "failed") {
-         console.log("Игрок не был получен или аутентификация уже прошла");
+      if (playerStatus === "idle") {
+         console.log("Еще не проверен player");
          return;
       }
-
+      if (playerStatus === "loading") {
+         console.log("Проверяем player");
+         return;
+      }
       if (
          localStorage.getItem("token") &&
          isTokenValid(localStorage.getItem("token")) && playerStatus === "succeeded"
@@ -52,6 +55,9 @@ export default function App() {
             "Authorization"
          ] = `Bearer ${localStorage.getItem("token")}`;
          return;
+      }
+      if (playerStatus === "failed") {
+         console.log("Не удалось получить player");
       }
 
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
