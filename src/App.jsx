@@ -73,7 +73,7 @@ export default function App() {
    //getting player
    useEffect(() => {
       if (
-         (playerStatus === "idle" && localStorage.getItem("token")) ||
+         playerStatus === "idle" ||
          (playerStatus === "failed" && authStatus === "succeeded")
       ) {
          dispatch(getPlayer());
