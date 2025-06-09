@@ -9,6 +9,7 @@ import { getSessions } from "./store/slices/sessionSlice.js";
 import { login } from "./services/authService";
 
 export default function App() {
+   const dispatch = useDispatch();
    useEffect(() => {
       const setVH = () =>
          document.documentElement.style.setProperty(
@@ -57,7 +58,6 @@ export default function App() {
    }, [dispatch, playerStatus]);
 
    //fetching data
-   const dispatch = useDispatch();
    const raceStatus = useSelector((state) => state.race.status);
    const profStatus = useSelector((state) => state.profession.status);
    const charStatus = useSelector((state) => state.character.status);
