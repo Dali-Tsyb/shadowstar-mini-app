@@ -47,21 +47,17 @@ export default function App() {
          console.log("Проверяем player");
          return;
       }
-      if (
-         localStorage.getItem("token") &&
-         isTokenValid(localStorage.getItem("token")) && playerStatus === "succeeded"
-      ) {
-         axios.defaults.headers.common[
-            "Authorization"
-         ] = `Bearer ${localStorage.getItem("token")}`;
-         return;
-      }
+
       if (playerStatus === "failed") {
          console.log("Не удалось получить player");
       }
 
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
       login(raw);
+
+      axios.defaults.headers.common[
+         "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
    }, [playerStatus]);
 
    //getting player
