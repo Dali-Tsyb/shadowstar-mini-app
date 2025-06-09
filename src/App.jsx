@@ -81,40 +81,40 @@ export default function App() {
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
    useEffect(() => {
-      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (raceStatus === "idle") {
          dispatch(getRaces());
       }
-   }, [dispatch, raceStatus, playerStatus]);
+   }, [dispatch, raceStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (profStatus === "idle") {
          dispatch(getProfessions());
       }
-   }, [dispatch, profStatus, playerStatus]);
+   }, [dispatch, profStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (charStatus === "idle") {
          dispatch(getCharacters());
       }
-   }, [dispatch, charStatus, playerStatus]);
+   }, [dispatch, charStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
          return;
       }
       if (sessionStatus === "idle") {
          dispatch(getSessions());
       }
-   }, [dispatch, sessionStatus, playerStatus]);
+   }, [dispatch, sessionStatus, authStatus]);
 
    const isLoading =
       raceStatus === "loading" ||
