@@ -5,6 +5,7 @@ import professionReducer from "./slices/professionSlice";
 import playerReducer from "./slices/playerSlice.js";
 import sessionReducer from "./slices/sessionSlice.js";
 import abilityReducer from "./slices/abilitySlice.js";
+import authorizationReducer from "./slices/authorizationSlice.js";
 
 export const store = configureStore({
    reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
       player: playerReducer,
       session: sessionReducer,
       ability: abilityReducer,
+      authorization: authorizationReducer,
    },
 });
