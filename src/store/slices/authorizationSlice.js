@@ -12,7 +12,11 @@ export const authorizationSlice = createSlice({
       status: "idle",
       error: null,
    },
-   reducers: {},
+   reducers: {
+      updateStatus: (state, action) => {
+         state.status = action.payload;
+      }
+   },
    extraReducers: (builder) => {
       builder
          .addCase(login.pending, (state) => {
@@ -27,5 +31,7 @@ export const authorizationSlice = createSlice({
          });
    },
 });
+
+export const { updateStatus } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;

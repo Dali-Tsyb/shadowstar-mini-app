@@ -6,7 +6,7 @@ import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
-import { login } from "./store/slices/authorizationSlice";
+import { login, updateStatus } from "./store/slices/authorizationSlice";
 import axios from "axios";
 import { isTokenValid } from "./services/authService.js";
 
@@ -49,6 +49,8 @@ export default function App() {
          axios.defaults.headers.common[
             "Authorization"
          ] = `Bearer ${localStorage.getItem("token")}`;
+         //change auth status
+         dispatch(updateStatus("succeeded"));
          return;
       }
 
