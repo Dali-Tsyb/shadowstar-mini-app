@@ -22,6 +22,7 @@ export default function App() {
    }, []);
 
    //auth
+   const playerStatus = useSelector((state) => state.player.status);
    //login
    useEffect(() => {
       window.Telegram.WebApp.ready();
@@ -47,7 +48,6 @@ export default function App() {
    }, [playerStatus]);
 
    //getting player
-   const playerStatus = useSelector((state) => state.player.status);
    useEffect(() => {
       if (!localStorage.getItem("token")) {
          return;
