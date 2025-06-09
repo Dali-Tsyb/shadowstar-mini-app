@@ -8,6 +8,7 @@ export const getSessionsService = async () => {
       return response.data;
    } catch (error) {
       console.error(error);
+      throw error;
    }
 };
 
@@ -22,6 +23,6 @@ export const addSessionService = async (data) => {
       return response.data;
    } catch (error) {
       console.error(error);
-      return null;
+      throw error;
    }
 };

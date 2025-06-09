@@ -33,9 +33,10 @@ export const loginService = async (initDataString) => {
       );
 
       const token = response.data.access_token;
-      
+
       localStorage.setItem("token", token);
    } catch (error) {
       console.error("Auth error:", error);
+      throw error;
    }
 };

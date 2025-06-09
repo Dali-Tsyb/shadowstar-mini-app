@@ -8,7 +8,7 @@ export const getCharactersService = async () => {
       return response.data;
    } catch (error) {
       console.error(error);
-      return null;
+      throw error;
    }
 };
 export const addCharacterService = async (data) => {
@@ -17,6 +17,7 @@ export const addCharacterService = async (data) => {
       return response.data;
    } catch (error) {
       console.error(error);
+      throw error;
    }
 };
 
@@ -25,5 +26,6 @@ export const deleteCharacterService = async (id) => {
       await axios.delete(`${API_URL}/characters/${id}`);
    } catch (error) {
       console.error(error);
+      throw error;
    }
 };

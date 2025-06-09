@@ -13,6 +13,7 @@ export const getPlayerService = async () => {
       return response.data;
    } catch (error) {
       console.error(error);
+      throw error;
    }
 };
 
@@ -25,5 +26,6 @@ export const updateRoleService = async (role) => {
       return response.data;
    } catch (error) {
       console.error(error);
+      throw error;
    }
 };
