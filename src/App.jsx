@@ -67,13 +67,13 @@ export default function App() {
       }
 
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
-      login(raw);
+      dispatch(login(raw));
    }, [playerStatus, dispatch, authStatus]);
 
    //getting player
    useEffect(() => {
       if (
-         playerStatus === "idle" ||
+         (playerStatus === "idle" && localStorage.getItem("token")) ||
          (playerStatus === "failed" && authStatus === "succeeded")
       ) {
          dispatch(getPlayer());
