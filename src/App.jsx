@@ -65,7 +65,7 @@ export default function App() {
       axios.defaults.headers.common[
          "Authorization"
       ] = `Bearer ${localStorage.getItem("token")}`;
-   }, [playerStatus]);
+   }, [playerStatus, dispatch]);
 
    //getting player
    useEffect(() => {
