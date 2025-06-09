@@ -37,6 +37,7 @@ export const playerSlice = createSlice({
             state.status = "loading";
          })
          .addCase(getPlayer.fulfilled, (state, action) => {
+            console.log("player fulfilled", action.payload);
             state.status = "succeeded";
             state.currentPlayer = action.payload;
          })
