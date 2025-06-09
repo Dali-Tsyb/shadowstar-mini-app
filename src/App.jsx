@@ -51,6 +51,7 @@ export default function App() {
          ] = `Bearer ${localStorage.getItem("token")}`;
          //change auth status
          dispatch(updateStatus("succeeded"));
+         console.log("authStatus:", authStatus);
          return;
       }
 
@@ -65,7 +66,7 @@ export default function App() {
       axios.defaults.headers.common[
          "Authorization"
       ] = `Bearer ${localStorage.getItem("token")}`;
-   }, [playerStatus, dispatch]);
+   }, [playerStatus, dispatch, authStatus]);
 
    //getting player
    useEffect(() => {
