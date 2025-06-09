@@ -8,6 +8,7 @@ import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
 import { login } from "./store/slices/authorizationSlice";
 import axios from "axios";
+import { isTokenValid } from "./services/authService.js";
 
 export default function App() {
    const dispatch = useDispatch();
@@ -31,11 +32,27 @@ export default function App() {
 
       const raw = window.Telegram?.WebApp?.initData;
 
+      if (!raw || typeof raw !== "string") {
+         console.log("❌ Не удалось получить initData");
+         return;
+      }
+
       if (
-         !raw ||
-         typeof raw !== "string" ||
-         playerStatus !== "failed"
+         playerStatus === "succeeded" &&
+         localStorage.getItem("token") &&
+         isTokenValid(localStorage.getItem("token"))
       ) {
+         console.log(
+            "❌ Пользователь уже авторизован, токен все еще действителен"
+         );
+         axios.defaults.headers.common[
+            "Authorization"
+         ] = `Bearer ${localStorage.getItem("token")}`;
+         return;
+      }
+
+      if (playerStatus === "idle" || playerStatus === "loading") {
+         console.log("❌ Player еще не получен или в процессе проверки");
          return;
       }
 
