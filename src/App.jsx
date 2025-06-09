@@ -6,7 +6,8 @@ import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
-import { login } from "./services/authService";
+import { isTokenValid, login } from "./services/authService";
+import axios from "axios";
 
 export default function App() {
    const dispatch = useDispatch();
@@ -39,7 +40,17 @@ export default function App() {
 
       //если не удалось получить player
       if (playerStatus !== "failed") {
-         console.log("Игрок не найден или аутентификация уже прошла");
+         console.log("Игрок не был получен или аутентификация уже прошла");
+         return;
+      }
+
+      if (
+         localStorage.getItem("token") &&
+         isTokenValid(localStorage.getItem("token")) && playerStatus === "succeeded"
+      ) {
+         axios.defaults.headers.common[
+            "Authorization"
+         ] = `Bearer ${localStorage.getItem("token")}`;
          return;
       }
 
