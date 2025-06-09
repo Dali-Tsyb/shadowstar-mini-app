@@ -31,26 +31,13 @@ export default function App() {
 
       const raw = window.Telegram?.WebApp?.initData;
 
-      if (!raw || typeof raw !== "string") {
-         console.error(
-            "Не получилось получить строку initData из WebApp:",
-            raw
-         );
+      if (
+         !raw ||
+         typeof raw !== "string" ||
+         playerStatus === "idle" ||
+         playerStatus !== "loading"
+      ) {
          return;
-      }
-
-      //если не удалось получить player
-      if (playerStatus === "idle") {
-         console.log("Еще не проверен player");
-         return;
-      }
-      if (playerStatus === "loading") {
-         console.log("Проверяем player");
-         return;
-      }
-
-      if (playerStatus === "failed") {
-         console.log("Не удалось получить player");
       }
 
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
@@ -77,47 +64,48 @@ export default function App() {
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
    useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
          return;
       }
       if (raceStatus === "idle") {
          dispatch(getRaces());
       }
-   }, [dispatch, raceStatus, authStatus]);
+   }, [dispatch, raceStatus, playerStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
          return;
       }
       if (profStatus === "idle") {
          dispatch(getProfessions());
       }
-   }, [dispatch, profStatus, authStatus]);
+   }, [dispatch, profStatus, playerStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
          return;
       }
       if (charStatus === "idle") {
          dispatch(getCharacters());
       }
-   }, [dispatch, charStatus, authStatus]);
+   }, [dispatch, charStatus, playerStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
+      if (!localStorage.getItem("token") || playerStatus !== "succeeded") {
          return;
       }
       if (sessionStatus === "idle") {
          dispatch(getSessions());
       }
-   }, [dispatch, sessionStatus, authStatus]);
+   }, [dispatch, sessionStatus, playerStatus]);
 
    const isLoading =
       raceStatus === "loading" ||
       profStatus === "loading" ||
       charStatus === "loading" ||
       playerStatus === "loading" ||
-      sessionStatus === "loading";
+      sessionStatus === "loading" ||
+      authStatus === "loading";
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));

@@ -35,10 +35,6 @@ export const loginService = async (initDataString) => {
       const token = response.data.access_token;
       
       localStorage.setItem("token", token);
-
-      axios.defaults.headers.common[
-         "Authorization"
-      ] = `Bearer ${localStorage.getItem("token")}`;
    } catch (error) {
       console.error("Auth error:", error);
    }
