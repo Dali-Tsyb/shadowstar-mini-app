@@ -43,7 +43,8 @@ export default function App() {
          isTokenValid(localStorage.getItem("token"))
       ) {
          console.log(
-            "❌ Пользователь уже авторизован, токен все еще действителен"
+            "❌ Пользователь уже авторизован, токен все еще действителен. playerStatus:" +
+               playerStatus
          );
          axios.defaults.headers.common[
             "Authorization"
@@ -68,7 +69,7 @@ export default function App() {
    useEffect(() => {
       if (
          playerStatus === "idle" ||
-         (playerStatus !== "succeeded" && authStatus === "succeeded")
+         (playerStatus === "failed" && authStatus === "succeeded")
       ) {
          dispatch(getPlayer());
       }
