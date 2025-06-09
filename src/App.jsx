@@ -34,8 +34,7 @@ export default function App() {
       if (
          !raw ||
          typeof raw !== "string" ||
-         playerStatus === "idle" ||
-         playerStatus !== "loading"
+         playerStatus !== "failed"
       ) {
          return;
       }
