@@ -56,6 +56,7 @@ export default function App() {
             .catch(() => {
                //if player fetch fails (deleted or token invalid), authenticate again
                dispatch(login(rawInitData));
+               dispatch(getPlayer());
             });
       }
    }, [dispatch, playerStatus, authStatus]);
