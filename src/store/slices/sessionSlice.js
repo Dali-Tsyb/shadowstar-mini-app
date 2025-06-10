@@ -43,6 +43,7 @@ export const sessionSlice = createSlice({
          .addCase(getSessions.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
+            state.sessionsList = [];
          });
       builder
          .addCase(addSession.fulfilled, (state, action) => {

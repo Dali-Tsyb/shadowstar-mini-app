@@ -44,6 +44,7 @@ export const playerSlice = createSlice({
          .addCase(getPlayer.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
+            state.currentPlayer = {};
          });
    },
 });

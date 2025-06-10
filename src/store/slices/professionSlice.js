@@ -26,6 +26,7 @@ export const professionSlice = createSlice({
          .addCase(getProfessions.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
+            state.professionsList = [];
          });
    },
 });

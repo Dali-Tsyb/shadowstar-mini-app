@@ -35,30 +35,30 @@ export default function App() {
       const token = localStorage.getItem("token");
 
       if (!token) {
-         dispatch(login(rawInitData)); // no token, authenticate
+         dispatch(login(rawInitData)); //no token, authenticate
          return;
       }
 
       if (!isTokenValid(token)) {
-         dispatch(login(rawInitData)); // token expired, authenticate
+         dispatch(login(rawInitData)); //token expired, authenticate
          return;
       }
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      if (playerStatus === "idle") {
+      if (playerStatus === "idle" && authStatus !== "succeeded") {
          dispatch(getPlayer())
             .unwrap()
-            // .then(() => {
-            //    // Player fetch succeeded, update authStatus
-            //    dispatch(updateAuthStatus("succeeded"));
-            // })
+            .then(() => {
+               //player fetch succeeded, update authStatus to succeeded
+               dispatch(updateAuthStatus("succeeded"));
+            })
             .catch(() => {
-               // If player fetch fails (deleted or token invalid), authenticate again
+               //if player fetch fails (deleted or token invalid), authenticate again
                dispatch(login(rawInitData));
             });
       }
-   }, [dispatch, playerStatus]);
+   }, [dispatch, playerStatus, authStatus]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
