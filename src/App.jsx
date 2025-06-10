@@ -49,10 +49,10 @@ export default function App() {
       if (playerStatus === "idle") {
          dispatch(getPlayer())
             .unwrap()
-            .then(() => {
-               // Player fetch succeeded, update authStatus
-               dispatch(updateAuthStatus("succeeded"));
-            })
+            // .then(() => {
+            //    // Player fetch succeeded, update authStatus
+            //    dispatch(updateAuthStatus("succeeded"));
+            // })
             .catch(() => {
                // If player fetch fails (deleted or token invalid), authenticate again
                dispatch(login(rawInitData));
