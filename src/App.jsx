@@ -31,51 +31,47 @@ export default function App() {
       window.Telegram.WebApp.ready();
 
       const raw = window.Telegram?.WebApp?.initData;
-      let token = null;
-      if (localStorage.getItem("token")) {
-         token = localStorage.getItem("token");
-         localStorage.removeItem("token");
-      }
 
+      //если не получилось вытянуть данные пользователя то уходим
       if (!raw || typeof raw !== "string") {
          console.log("❌ Не удалось получить initData");
          return;
       }
-
+      //если токен есть и он валиден то уходим
       if (
          playerStatus === "succeeded" &&
          localStorage.getItem("token") &&
          isTokenValid(localStorage.getItem("token"))
       ) {
-         console.log(
-            "❌ Пользователь уже авторизован, токен все еще действителен. playerStatus:" +
-               playerStatus
-         );
-         localStorage.setItem("token", token);
          axios.defaults.headers.common[
             "Authorization"
          ] = `Bearer ${localStorage.getItem("token")}`;
          //change auth status
          dispatch(updateStatus("succeeded"));
-         console.log("authStatus:", authStatus);
+
+         console.log(
+            "❌ Пользователь уже авторизован, токен все еще действителен. playerStatus:" +
+               playerStatus,
+            "authStatus:" + authStatus
+         );
          return;
       }
-
+      //если игрока еще не проверили, то уходим
       if (playerStatus === "idle" || playerStatus === "loading") {
          console.log("❌ Player еще не получен или в процессе проверки");
          return;
       }
-
+      //если нет токена, или он просрочен, или игрока удалили на сервере, то проводим авторизацию
       console.log("▶️ Отправляем ровно эту строку initData:", raw);
       dispatch(login(raw));
    }, [playerStatus, dispatch, authStatus]);
 
    //getting player
    useEffect(() => {
-      if (
-         playerStatus === "idle" ||
-         (playerStatus === "failed" && authStatus === "succeeded")
-      ) {
+      if (!localStorage.getItem("token")) {
+         return;
+      }
+      if (playerStatus === "idle") {
          dispatch(getPlayer());
       }
    }, [dispatch, playerStatus, authStatus]);
