@@ -6,7 +6,7 @@ import { getProfessions } from "./store/slices/professionSlice";
 import { getCharacters } from "./store/slices/characterSlice";
 import { getPlayer } from "./store/slices/playerSlice.js";
 import { getSessions } from "./store/slices/sessionSlice.js";
-import { login, updateStatus } from "./store/slices/authorizationSlice";
+import { login, updateAuthStatus } from "./store/slices/authorizationSlice";
 import axios from "axios";
 import { isTokenValid } from "./services/authService.js";
 
@@ -27,95 +27,60 @@ export default function App() {
    const playerStatus = useSelector((state) => state.player.status);
    const authStatus = useSelector((state) => state.authorization.status);
    //login
+
    useEffect(() => {
       window.Telegram.WebApp.ready();
 
-      const raw = window.Telegram?.WebApp?.initData;
+      const rawInitData = window.Telegram?.WebApp?.initData;
+      const token = localStorage.getItem("token");
 
-      //если не получилось вытянуть данные пользователя то уходим
-      if (!raw || typeof raw !== "string") {
-         console.log("❌ Не удалось получить initData");
+      if (!token) {
+         dispatch(login(rawInitData)); // no token, authenticate
          return;
       }
-      //если токен есть и он валиден то уходим
-      if (
-         playerStatus === "succeeded" &&
-         localStorage.getItem("token") &&
-         isTokenValid(localStorage.getItem("token"))
-      ) {
-         axios.defaults.headers.common[
-            "Authorization"
-         ] = `Bearer ${localStorage.getItem("token")}`;
-         //change auth status
-         dispatch(updateStatus("succeeded"));
 
-         console.log(
-            "❌ Пользователь уже авторизован, токен все еще действителен. playerStatus:" +
-               playerStatus,
-            "authStatus:" + authStatus
-         );
+      if (!isTokenValid(token)) {
+         dispatch(login(rawInitData)); // token expired, authenticate
          return;
       }
-      //если игрока еще не проверили, то уходим
-      if (playerStatus === "idle" || playerStatus === "loading") {
-         console.log("❌ Player еще не получен или в процессе проверки");
-         return;
-      }
-      //если нет токена, или он просрочен, или игрока удалили на сервере, то проводим авторизацию
-      console.log("▶️ Отправляем ровно эту строку initData:", raw);
-      dispatch(login(raw));
-   }, [playerStatus, dispatch, authStatus]);
 
-   //getting player
-   useEffect(() => {
-      if (!localStorage.getItem("token")) {
-         return;
-      }
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       if (playerStatus === "idle") {
-         dispatch(getPlayer());
+         dispatch(getPlayer())
+            .unwrap()
+            .then(() => {
+               // Player fetch succeeded, update authStatus
+               dispatch(updateAuthStatus("succeeded"));
+            })
+            .catch(() => {
+               // If player fetch fails (deleted or token invalid), authenticate again
+               dispatch(login(rawInitData));
+            });
       }
-   }, [dispatch, playerStatus, authStatus]);
+   }, [dispatch, playerStatus]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
    const profStatus = useSelector((state) => state.profession.status);
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
-   useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
-         return;
-      }
-      if (raceStatus === "idle") {
-         dispatch(getRaces());
-      }
-   }, [dispatch, raceStatus, authStatus]);
 
    useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
-         return;
+      if (authStatus === "succeeded") {
+         if (raceStatus === "idle") dispatch(getRaces());
+         if (profStatus === "idle") dispatch(getProfessions());
+         if (charStatus === "idle") dispatch(getCharacters());
+         if (sessionStatus === "idle") dispatch(getSessions());
       }
-      if (profStatus === "idle") {
-         dispatch(getProfessions());
-      }
-   }, [dispatch, profStatus, authStatus]);
-
-   useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
-         return;
-      }
-      if (charStatus === "idle") {
-         dispatch(getCharacters());
-      }
-   }, [dispatch, charStatus, authStatus]);
-
-   useEffect(() => {
-      if (!localStorage.getItem("token") || authStatus !== "succeeded") {
-         return;
-      }
-      if (sessionStatus === "idle") {
-         dispatch(getSessions());
-      }
-   }, [dispatch, sessionStatus, authStatus]);
+   }, [
+      authStatus,
+      raceStatus,
+      profStatus,
+      charStatus,
+      sessionStatus,
+      dispatch,
+   ]);
 
    const isLoading =
       raceStatus === "loading" ||

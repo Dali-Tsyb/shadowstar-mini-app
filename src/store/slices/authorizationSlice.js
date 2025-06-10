@@ -13,9 +13,9 @@ export const authorizationSlice = createSlice({
       error: null,
    },
    reducers: {
-      updateStatus: (state, action) => {
+      updateAuthStatus: (state, action) => {
          state.status = action.payload;
-      }
+      },
    },
    extraReducers: (builder) => {
       builder
@@ -32,6 +32,6 @@ export const authorizationSlice = createSlice({
    },
 });
 
-export const { updateStatus } = authorizationSlice.actions;
+export const { updateAuthStatus } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;
