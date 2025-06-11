@@ -15,7 +15,7 @@ const TelegramLoginWidget = () => {
       script.setAttribute("data-size", "large");
       script.setAttribute(
          "data-auth-url",
-         "https://mini.shadstar.ru/telegram-auth-callback"
+         "https://mini.shadstar.ru/login"
       );
       script.setAttribute("data-request-access", "write");
       script.setAttribute("data-userpic", "false");
