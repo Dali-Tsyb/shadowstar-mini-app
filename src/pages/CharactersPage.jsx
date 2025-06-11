@@ -1,12 +1,9 @@
 import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, EffectCoverflow } from "swiper/modules";
+import { EffectCreative } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
+import "swiper/css/effect-creative";
 import { useRef, useState } from "react";
-import { EffectCards } from "swiper/modules";
 import backArrowIcon from "../assets/images/back-arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -132,6 +129,7 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
+                  modules={[EffectCreative]}
                   effect="creative"
                   creativeEffect={{
                      prev: {
