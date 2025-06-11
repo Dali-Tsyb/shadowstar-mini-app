@@ -248,11 +248,13 @@
 .swiper-slide {
    will-change: transform;
    backface-visibility: hidden;
+   -webkit-backface-visibility: hidden;
    transform-style: preserve-3d;
-}
-.swiper-slide:not(.swiper-slide-active) {
-   pointer-events: none;
+   -webkit-transform-style: preserve-3d;
+   touch-action: manipulation;
+   -webkit-tap-highlight-color: transparent;
 }
 .swiper-slide-active {
    pointer-events: auto;
+   z-index: 10;
 }
