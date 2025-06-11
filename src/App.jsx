@@ -156,7 +156,6 @@ export default function App() {
                   }
                >
                   <HomePage />
-                  <TelegramAuthWidget />
                </React.Suspense>
             }
          />
