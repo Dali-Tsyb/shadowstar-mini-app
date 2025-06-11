@@ -39,14 +39,20 @@ export default function App() {
             localStorage.getItem("token") &&
             isTokenValid(localStorage.getItem("token"))
          ) {
-            dispatch(getPlayer())
-               .unwrap()
-               .then(() => {
-                  return true;
-               })
-               .catch(() => {
-                  return false;
-               });
+            if (playerStatus === "succeeded" || playerStatus === "loading") {
+               return true;
+            } else if (playerStatus === "failed") {
+               return false;
+            } else if (playerStatus === "idle") {
+               dispatch(getPlayer())
+                  .unwrap()
+                  .then(() => {
+                     return true;
+                  })
+                  .catch(() => {
+                     return false;
+                  });
+            }
          } else {
             return false;
          }
