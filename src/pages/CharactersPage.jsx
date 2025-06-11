@@ -14,6 +14,8 @@ import CreateCharacterCard from "../components/CreateCharacterCard.jsx";
 import { addCharacter } from "../store/slices/characterSlice";
 import DeleteCharacterModal from "../components/DeleteCharacterModal.jsx";
 import { Link } from "react-router-dom";
+import { EffectCreative } from "swiper/modules";
+import "swiper/css/effect-creative";
 
 export default function CharacterPage() {
    const dispatch = useDispatch();
@@ -46,7 +48,7 @@ export default function CharacterPage() {
          ) {
             swiperRef.current.slideNext();
          }
-      }, 200);
+      }, 100);
    };
    //stop character creation and remove default character
    const handleStopCreation = () => {
@@ -127,19 +129,36 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
-                  effect="slide"
+                  modules={[EffectCreative]}
+                  effect="creative"
                   grabCursor={true}
                   loop={false}
+                  slidesPerView={1}
+                  centeredSlides={true}
                   onSwiper={(swiper) => (swiperRef.current = swiper)}
                   onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-                  className="custom-stack-swiper w-100 h-100 px-4"
+                  className="w-100 h-100 px-4"
+                  creativeEffect={{
+                     limitProgress: 2,
+                     perspective: false,
+                     prev: {
+                        translate: ["-50%", 0, 0],
+                        rotate: [0, 0, -3],
+                        scale: 0.9,
+                     },
+                     next: {
+                        translate: ["50%", 0, 0],
+                        rotate: [0, 0, 3],
+                        scale: 0.9,
+                     },
+                  }}
                >
                   {characters.map((character, index) => (
                      <SwiperSlide
                         key={index}
-                        className=" w-100 d-flex justify-content-center align-items-center brown-border character-slide"
+                        className=" w-100  character-slide"
                      >
-                        {/* {character.id && (
+                        {character.id && (
                            <CharacterCard
                               character={character}
                               index={index}
@@ -154,10 +173,7 @@ export default function CharacterPage() {
                               index={index}
                               sendCharacter={handleSendCharacter}
                            />
-                        )} */}
-                        <button className="base-button brown-bg beige-text rounded">
-                           Клик
-                        </button>
+                        )}
                      </SwiperSlide>
                   ))}
                </Swiper>

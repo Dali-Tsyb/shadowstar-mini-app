@@ -48,7 +48,6 @@ export default function CharacterCard({
          className={`blocks-container h-100 w-100 brown-border rounded dark-beige-bg ${
             pulsingIndex === index ? "pulse" : ""
          }`}
-         style={{ boxShadow: "0 0 0.5rem #382610" }}
       >
          {/* NAME */}
          <div

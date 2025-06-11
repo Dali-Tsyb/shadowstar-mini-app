@@ -4,6 +4,6 @@
 .modal-content {
    margin: 0 2rem;
 }
-.btn {
+button {
    font-size: clamp(0.8rem, 1vw, 3rem);
 }

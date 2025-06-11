@@ -11,7 +11,7 @@ export default function DeleteCharacterModal({ onConfirm, id }) {
                <div className="modal-footer border-0">
                   <button
                      type="button"
-                     className="btn dark-beige-bg brown-border brown-text"
+                     className="rounded py-1 px-2 dark-beige-bg brown-border brown-text"
                      data-bs-dismiss="modal"
                      onClick={() => document.activeElement?.blur()}
                   >
@@ -19,7 +19,7 @@ export default function DeleteCharacterModal({ onConfirm, id }) {
                   </button>
                   <button
                      type="button"
-                     className="btn brown-bg brown-border beige-text"
+                     className="rounded py-1 px-2 brown-bg brown-border beige-text"
                      data-bs-dismiss="modal"
                      onClick={() => {
                         onConfirm(id);
