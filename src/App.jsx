@@ -49,15 +49,11 @@ export default function App() {
          dispatch(getPlayer())
             .unwrap()
             .then(() => dispatch(updateAuthStatus("succeeded")))
-            .catch((error) => {
+            .catch(() => {
                //if unauthorized, clear token and restart auth flow
-               if (error?.response?.status === 401) {
-                  localStorage.removeItem("token");
-                  dispatch(updateAuthStatus("idle"));
-                  window.location.reload();
-               } else {
-                  console.error("Player fetch failed", error);
-               }
+               localStorage.removeItem("token");
+               dispatch(updateAuthStatus("idle"));
+               window.location.reload();
             });
       }
    }, [dispatch, playerStatus, authStatus]);
