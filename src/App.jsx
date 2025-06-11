@@ -68,7 +68,11 @@ export default function App() {
       }
 
       //find out whether we are in browser or in mobile app
-      if (window.Telegram && window.Telegram.WebApp) {
+      if (
+         window.Telegram &&
+         window.Telegram.WebApp &&
+         window.Telegram.WebApp.initData
+      ) {
          dispatch(login(window.Telegram.WebApp.initData))
             .unwrap()
             .then(() => {
