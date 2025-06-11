@@ -133,7 +133,7 @@ export default function CharacterPage() {
             {characters && characters.length > 0 && (
                <Swiper
                   modules={[Navigation, EffectCoverflow, EffectCards]}
-                  effect={"cards"}
+                  effect="fade"
                   cardsEffect={{
                      perSlideOffset: 10,
                      perSlideRotate: 1,
