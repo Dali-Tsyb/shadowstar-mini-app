@@ -2,8 +2,6 @@ import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
-
-import "./styles.css";
 import { EffectCards } from "swiper/modules";
 import { useRef, useState } from "react";
 import backArrowIcon from "../assets/images/back-arrow.svg";
