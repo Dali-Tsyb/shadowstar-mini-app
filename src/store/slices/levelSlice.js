@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getLevelsService } from "../../services/raceService";
+import { getLevelsService } from "../../services/levelService";
 
 export const getLevels = createAsyncThunk("levels/load", async () => {
    const data = await getLevelsService();
