@@ -34,11 +34,6 @@ export default function App() {
       if (authStatus === "succeeded") {
          return;
       }
-
-      localStorage.setItem(
-         "token",
-         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzUwMjgyNjU1fQ.aoZdKuzwf7LlaoTaw3jpRUsVlnF7xd6HvBnZw7L_eEM"
-      );
       const checkAuth = () => {
          if (
             localStorage.getItem("token") &&
