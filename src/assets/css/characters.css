@@ -253,6 +253,7 @@
    -webkit-transform-style: preserve-3d;
    touch-action: manipulation;
    -webkit-tap-highlight-color: transparent;
+   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 .swiper-slide-active {
    pointer-events: auto;

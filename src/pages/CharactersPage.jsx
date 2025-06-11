@@ -133,14 +133,14 @@ export default function CharacterPage() {
                   effect="creative"
                   creativeEffect={{
                      prev: {
-                        shadow: false,
-                        translate: ["-100%", 0, -1],
+                        translate: ["-30%", 0, -80],
                         rotate: [0, 0, -3],
+                        opacity: 0.8,
                      },
                      next: {
-                        shadow: false,
-                        translate: ["100%", 0, -1],
+                        translate: ["30%", 0, -80],
                         rotate: [0, 0, 3],
+                        opacity: 0.8,
                      },
                   }}
                   grabCursor={true}
