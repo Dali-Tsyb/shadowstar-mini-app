@@ -65,6 +65,9 @@ export default function App() {
          console.log("initData not found");
          return;
       }
+      if (authStatus === "succeeded") {
+         return;
+      }
 
       dispatch(login(initData))
          .unwrap()
