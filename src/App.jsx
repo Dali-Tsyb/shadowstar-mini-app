@@ -9,6 +9,7 @@ import { getSessions } from "./store/slices/sessionSlice.js";
 import { login, updateAuthStatus } from "./store/slices/authorizationSlice";
 import axios from "axios";
 import { isTokenValid } from "./services/authService.js";
+import { getLevels } from "./store/slices/levelSlice.js";
 
 export default function App() {
    const dispatch = useDispatch();
@@ -69,6 +70,7 @@ export default function App() {
    const profStatus = useSelector((state) => state.profession.status);
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
+   const levelStatus = useSelector((state) => state.level.status);
 
    useEffect(() => {
       if (authStatus === "succeeded") {
@@ -76,6 +78,7 @@ export default function App() {
          if (profStatus === "idle") dispatch(getProfessions());
          if (charStatus === "idle") dispatch(getCharacters());
          if (sessionStatus === "idle") dispatch(getSessions());
+         if (levelStatus === "idle") dispatch(getLevels());
       }
    }, [
       authStatus,
@@ -83,6 +86,7 @@ export default function App() {
       profStatus,
       charStatus,
       sessionStatus,
+      levelStatus,
       dispatch,
    ]);
 

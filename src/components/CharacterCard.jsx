@@ -38,10 +38,8 @@ export default function CharacterCard({
 
       if (diffY > 50) {
          //detected swipe up
-         setShowCharsAs("value");
-      } else if (diffY < -50) {
-         //detected swipe down
-         setShowCharsAs("bonus");
+         if (showCharsAs === "value") setShowCharsAs("bonus");
+         if (showCharsAs === "bonus") setShowCharsAs("value");
       }
    };
 
@@ -203,8 +201,10 @@ export default function CharacterCard({
             className={`grid-area-select base-button w-100 ${
                isSelected ? "beige-bg" : "brown-bg"
             }`}
-            style={{ borderRadius: "0 0 0 0.375rem" }}
+            style={{ borderRadius: "0 0 0 0.375rem", cursor: "pointer" }}
             onClick={handleSelect}
+            role="button"
+            tabIndex="0"
             disabled={isSelected}
          >
             <span
@@ -219,6 +219,8 @@ export default function CharacterCard({
             style={{ borderRadius: "0 0 0.375rem 0", padding: ".97rem" }}
             data-bs-toggle="modal"
             data-bs-target="#deleteCharacterModal"
+            role="button"
+            tabIndex="0"
          >
             <img src={binIcon} alt="delete" className="w-100" />
          </button>

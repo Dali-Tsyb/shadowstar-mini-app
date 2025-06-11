@@ -20,7 +20,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
       race_id: null,
       profession_id: null,
       level_id: 1,
-      hp: 8,
+      hp: 4,
       armor: 8,
       shards: Math.random() < 0.5 ? 0 : 1,
    });
@@ -43,12 +43,24 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
    };
 
    //count hp
+   const levels = useSelector((state) => state.level.levelsList);
    useEffect(() => {
+      if (!characterForm.race_id) return;
       setCharacterForm((prev) => ({
          ...prev,
-         hp: 8 + Math.floor((prev.constitution_user - 10) / 2),
+         hp:
+            races.find((race) => race.id === characterForm.race_id).extra_hp +
+            levels.find((level) => level.id === characterForm.level_id)
+               .hp_increase +
+            Math.floor((prev.constitution_user - 10) / 2),
       }));
-   }, [characterForm.constitution_user]);
+   }, [
+      characterForm.constitution_user,
+      races,
+      characterForm.race_id,
+      levels,
+      characterForm.level_id,
+   ]);
    //count armor
    useEffect(() => {
       setCharacterForm((prev) => ({
@@ -239,7 +251,10 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                borderRadius: "0 0.375rem 0 0",
                opacity: fieldsShowing.includes("race") ? "1" : "0",
                transition: "opacity 0.2s ease-in-out",
+               cursor: "pointer",
             }}
+            role="button"
+            tabIndex="0"
             onClick={() => {
                setCurrentField("race");
                toggleDropdown("race");
@@ -291,7 +306,10 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             style={{
                opacity: fieldsShowing.includes("profession") ? "1" : "0",
                transition: "opacity 0.2s ease-in-out",
+               cursor: "pointer",
             }}
+            role="button"
+            tabIndex="0"
             onClick={() => {
                setCurrentField("profession");
                toggleDropdown("profession");
@@ -342,6 +360,9 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
          <div
             className="grid-area-hint brown-border overflow-hidden dark-beige-bg beige-text d-flex flex-column justify-content-center align-items-center p-2 text-center gap-3"
             onClick={validateCurrentField}
+            role="button"
+            tabIndex="0"
+            style={{ cursor: "pointer" }}
          >
             <span>
                {currentField === "name" &&
@@ -372,10 +393,13 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                opacity: fieldsShowing.includes("characteristics") ? 1 : 0,
                transition: "opacity 0.2s ease-in-out",
                padding: "0.7rem",
+               cursor: "pointer",
             }}
             onClick={() => {
                setCurrentField("characteristics");
             }}
+            role="button"
+            tabIndex="0"
          >
             {/* DEXTERITY */}
             <div className="characteristics">
@@ -389,6 +413,8 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
+                     role="button"
+                     tabIndex="0"
                      disabled={
                         characterForm.dexterity_user <=
                         4 +
@@ -413,6 +439,8 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
+                     role="button"
+                     tabIndex="0"
                      disabled={
                         characterForm.dexterity_user >= 16 || statPoints === 0
                      }
@@ -435,6 +463,8 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
+                     role="button"
+                     tabIndex="0"
                      disabled={
                         characterForm.strength_user <=
                         4 +
@@ -459,6 +489,8 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
+                     role="button"
+                     tabIndex="0"
                      disabled={
                         characterForm.strength_user >= 16 || statPoints === 0
                      }
