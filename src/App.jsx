@@ -32,12 +32,14 @@ export default function App() {
       const isInTelegram = !!window.Telegram?.WebApp?.initData;
       const token = localStorage.getItem("token");
 
-      //handle Telegram Mini App login
+      // ✅ 1. Auth via Mini App
       if (isInTelegram) {
          window.Telegram.WebApp.ready();
 
+         const initData = window.Telegram.WebApp.initData;
+
          if (!token || !isTokenValid(token)) {
-            dispatch(login(window.Telegram.WebApp.initData));
+            dispatch(login(initData));
             return;
          }
 
@@ -48,7 +50,7 @@ export default function App() {
                .unwrap()
                .then(() => dispatch(updateAuthStatus("succeeded")))
                .catch(() => {
-                  dispatch(login(window.Telegram.WebApp.initData))
+                  dispatch(login(initData))
                      .unwrap()
                      .then(() => dispatch(getPlayer()));
                });
@@ -57,25 +59,46 @@ export default function App() {
          return;
       }
 
-      //handle browser login
+      // ✅ 2. Auth via Browser
+      const params = new URLSearchParams(window.location.search);
+      const hash = params.get("hash");
+
+      if (hash && !token) {
+         // User just came back from Telegram login
+         const userData = Object.fromEntries(params.entries());
+
+         axios
+            .post(`${import.meta.env.VITE_API_URL}/auth/telegram`, userData)
+            .then((res) => {
+               const token = res.data.access_token;
+               localStorage.setItem("token", token);
+               axios.defaults.headers.common[
+                  "Authorization"
+               ] = `Bearer ${token}`;
+               dispatch(getPlayer());
+               window.history.replaceState({}, "", "/"); // Clean up URL
+            })
+            .catch((err) => {
+               console.error("Telegram browser auth failed", err);
+            });
+
+         return;
+      }
+
       if (!token || !isTokenValid(token)) {
-         //redirect to Telegram login page
          const redirectUrl = encodeURIComponent(window.location.href);
          const botUsername = "Shadowstar_master_bot";
          window.location.href = `https://oauth.telegram.org/auth?bot=${botUsername}&origin=${redirectUrl}&embed=0`;
          return;
       }
+
+      // ✅ 3. Token exists and is valid (Browser)
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       if (playerStatus === "idle" && authStatus !== "succeeded") {
          dispatch(getPlayer())
             .unwrap()
-            .then(() => dispatch(updateAuthStatus("succeeded")))
-            .catch(() => {
-               dispatch(login(window.Telegram.WebApp.initData))
-                  .unwrap()
-                  .then(() => dispatch(getPlayer()));
-            });
+            .then(() => dispatch(updateAuthStatus("succeeded")));
       }
    }, [dispatch, playerStatus, authStatus]);
 
