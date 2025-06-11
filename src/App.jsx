@@ -30,10 +30,8 @@ export default function App() {
    const authStatus = useSelector((state) => state.authorization.status);
    //login
    useEffect(() => {
-      const isInTelegram = !!window.Telegram?.WebApp?.initData;
       const token = localStorage.getItem("token");
 
-      //helper to clear auth state and trigger Telegram OAuth redirect
       const clearAuthAndRedirect = () => {
          localStorage.removeItem("token");
          dispatch(updateAuthStatus("idle"));
@@ -42,40 +40,13 @@ export default function App() {
          window.location.href = `https://oauth.telegram.org/auth?bot=${botUsername}&origin=${redirectUrl}&embed=0`;
       };
 
-      //auth via Mini App
-      if (isInTelegram) {
-         window.Telegram.WebApp.ready();
-
-         const initData = window.Telegram.WebApp.initData;
-
-         if (!token || !isTokenValid(token)) {
-            dispatch(login(initData));
-            return;
-         }
-
-         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-         if (playerStatus === "idle" && authStatus !== "succeeded") {
-            dispatch(getPlayer())
-               .unwrap()
-               .then(() => dispatch(updateAuthStatus("succeeded")))
-               .catch(() => {
-                  clearAuthAndRedirect();
-               });
-         }
-
-         return;
-      }
-
-      //auth via Browser (after Telegram OAuth redirect)
       const params = new URLSearchParams(window.location.search);
       const hash = params.get("hash");
 
       if (hash && !token) {
-         //user just came back from Telegram login
-         const userData = Object.fromEntries(params.entries());
+         const telegramUserData = Object.fromEntries(params.entries());
 
-         login(userData)
+         login(telegramUserData)
             .unwrap()
             .then((res) => {
                const token = res.data.access_token;
@@ -93,7 +64,7 @@ export default function App() {
                         console.error("Player fetch failed", error);
                      }
                   });
-               window.history.replaceState({}, "", "/"); //clean up URL
+               window.history.replaceState({}, "", "/");
             })
             .catch((err) => {
                console.error("Telegram browser auth failed", err);
@@ -103,7 +74,6 @@ export default function App() {
          return;
       }
 
-      //token exists and is valid (Browser)
       if (!token || !isTokenValid(token)) {
          clearAuthAndRedirect();
          return;
