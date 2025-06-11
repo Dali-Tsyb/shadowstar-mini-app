@@ -36,14 +36,11 @@ export default function App() {
          const miniAppUrl = encodeURIComponent(window.location.origin + "/");
          const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
          const fallbackLink = `https://t.me/${botUsername}?start=webapp_${miniAppUrl}`;
-
          window.location.href = deepLink;
-
          setTimeout(() => {
             window.location.href = fallbackLink;
          }, 2000);
-
-         return; //prevent further execution until authenticated
+         return;
       }
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -52,17 +49,15 @@ export default function App() {
          dispatch(getPlayer())
             .unwrap()
             .then(() => dispatch(updateAuthStatus("succeeded")))
-            .catch(() => {
-               dispatch(login(window.Telegram.WebApp.initData))
-                  .unwrap()
-                  .then((res) => {
-                     const token = res.data.access_token;
-                     localStorage.setItem("token", token);
-                     dispatch(updateAuthStatus("succeeded"));
-                     if (playerStatus !== "succeeded") {
-                        dispatch(getPlayer());
-                     }
-                  });
+            .catch((error) => {
+               //if unauthorized, clear token and restart auth flow
+               if (error?.response?.status === 401) {
+                  localStorage.removeItem("token");
+                  dispatch(updateAuthStatus("idle"));
+                  window.location.reload();
+               } else {
+                  console.error("Player fetch failed", error);
+               }
             });
       }
    }, [dispatch, playerStatus, authStatus]);
