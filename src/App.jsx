@@ -65,15 +65,13 @@ export default function App() {
          console.log("initData not found");
          return;
       }
-      if (authStatus === "succeeded") {
+      if (authStatus === "succeeded" || authStatus === "loading") {
          return;
       }
 
       dispatch(login(initData))
          .unwrap()
-         .then((res) => {
-            const token = res.data.access_token;
-            localStorage.setItem("token", token);
+         .then(() => {
             dispatch(updateAuthStatus("succeeded"));
             //redirect user back to browser app main page
             window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
