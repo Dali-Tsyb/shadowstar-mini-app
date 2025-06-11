@@ -31,6 +31,9 @@ export default function App() {
 
    //login
    useEffect(() => {
+      if (authStatus === "succeeded") {
+         return;
+      }
       const checkAuth = () => {
          if (
             localStorage.getItem("token") &&
@@ -44,8 +47,6 @@ export default function App() {
                .catch(() => {
                   return false;
                });
-         } else if (authStatus === "succeeded") {
-            return true;
          } else {
             return false;
          }
