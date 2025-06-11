@@ -9,12 +9,17 @@ const TelegramLoginWidget = () => {
       telegramRef.current.innerHTML = "";
 
       const script = document.createElement("script");
-      script.src = "https://telegram.org/js/telegram-widget.js?22";
+      script.src = "https://telegram.org/js/telegram-widget.js?15";
       script.async = true;
       script.setAttribute("data-telegram-login", "Shadowstar_master_bot");
       script.setAttribute("data-size", "large");
-      script.setAttribute("data-auth-url", "https://mini.shadstar.ru/api/auth/telegram");
+      script.setAttribute(
+         "data-auth-url",
+         "https://mini.shadstar.ru/telegram-auth-callback"
+      );
       script.setAttribute("data-request-access", "write");
+      script.setAttribute("data-userpic", "false");
+      script.setAttribute("data-redirect", "true");
 
       telegramRef.current.appendChild(script);
    }, []);

@@ -130,6 +130,7 @@ export default function App() {
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
+   const TelegramAuthCallbackPage = React.lazy(() => import("./pages/TelegramAuthCallback"));
 
    if (isLoading) {
       return (
@@ -175,6 +176,26 @@ export default function App() {
                >
                   <HomePage />
                   <TelegramAuthWidget />
+               </React.Suspense>
+            }
+         />
+         <Route
+            path="/login"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <TelegramAuthCallbackPage />
                </React.Suspense>
             }
          />
