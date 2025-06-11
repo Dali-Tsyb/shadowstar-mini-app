@@ -84,11 +84,11 @@ export default function App() {
                console.log("Authentication in mini app failed");
             });
       } else {
+         setIsBrowser(true);
          const botUsername = "Shadowstar_master_bot";
          const miniAppUrl = encodeURIComponent(window.location.origin + "/");
          const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
          window.location.href = deepLink;
-         setIsBrowser(true);
       }
    }, [dispatch, playerStatus, authStatus, isBrowser]);
 
