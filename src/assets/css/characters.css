@@ -100,6 +100,7 @@
 }
 .grid-area-characteristics {
    grid-area: characteristics;
+   overflow: auto;
 }
 .grid-area-stats {
    grid-area: stats;
@@ -190,7 +191,7 @@
 }
 /*specifically for character creation*/
 .characteristics div button {
-   width: 1rem;
+   width: 1.1rem;
    height: 1.1rem;
    border-radius: 100%;
 }
@@ -206,6 +207,8 @@
 }
 .characteristics-btn {
    transition: all 0.1s ease-in-out;
+   transform: scale(1);
+   padding: 0;
 }
 .characteristics-btn:active {
    transform: scale(0.8);

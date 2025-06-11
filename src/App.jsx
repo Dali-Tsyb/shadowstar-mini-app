@@ -28,39 +28,53 @@ export default function App() {
    const playerStatus = useSelector((state) => state.player.status);
    const authStatus = useSelector((state) => state.authorization.status);
    //login
-
    useEffect(() => {
-      window.Telegram.WebApp.ready();
-
-      const rawInitData = window.Telegram?.WebApp?.initData;
+      const isInTelegram = !!window.Telegram?.WebApp?.initData;
       const token = localStorage.getItem("token");
 
-      if (!token) {
-         dispatch(login(rawInitData)); //no token, authenticate
+      //handle Telegram Mini App login
+      if (isInTelegram) {
+         window.Telegram.WebApp.ready();
+
+         if (!token || !isTokenValid(token)) {
+            dispatch(login(window.Telegram.WebApp.initData));
+            return;
+         }
+
+         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+         if (playerStatus === "idle" && authStatus !== "succeeded") {
+            dispatch(getPlayer())
+               .unwrap()
+               .then(() => dispatch(updateAuthStatus("succeeded")))
+               .catch(() => {
+                  dispatch(login(window.Telegram.WebApp.initData))
+                     .unwrap()
+                     .then(() => dispatch(getPlayer()));
+               });
+         }
+
          return;
       }
 
-      if (!isTokenValid(token)) {
-         dispatch(login(rawInitData)); //token expired, authenticate
+      //handle browser login
+      if (!token || !isTokenValid(token)) {
+         //redirect to Telegram login page
+         const redirectUrl = encodeURIComponent(window.location.href);
+         const botUsername = "Shadowstar_master_bot";
+         window.location.href = `https://oauth.telegram.org/auth?bot=${botUsername}&origin=${redirectUrl}&embed=0`;
          return;
       }
-
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       if (playerStatus === "idle" && authStatus !== "succeeded") {
          dispatch(getPlayer())
             .unwrap()
-            .then(() => {
-               //player fetch succeeded, update authStatus to succeeded
-               dispatch(updateAuthStatus("succeeded"));
-            })
+            .then(() => dispatch(updateAuthStatus("succeeded")))
             .catch(() => {
-               //if player fetch fails (deleted or token invalid), authenticate again
-               dispatch(login(rawInitData))
+               dispatch(login(window.Telegram.WebApp.initData))
                   .unwrap()
-                  .then(() => {
-                     dispatch(getPlayer());
-                  });
+                  .then(() => dispatch(getPlayer()));
             });
       }
    }, [dispatch, playerStatus, authStatus]);

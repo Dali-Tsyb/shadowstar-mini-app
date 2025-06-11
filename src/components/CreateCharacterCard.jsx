@@ -20,7 +20,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
       race_id: null,
       profession_id: null,
       level_id: 1,
-      hp: 4,
+      hp: 0,
       armor: 8,
       shards: Math.random() < 0.5 ? 0 : 1,
    });
@@ -191,7 +191,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
       input = input.trimStart();
 
       // 4. Prevent input that doesn't start with a letter
-      if (input.length === 1 && !/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
+      if (!/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
 
       setCharacterForm((prev) => ({ ...prev, name: input }));
    };
@@ -245,11 +245,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             />
          </div>
          {/* RACE */}
-         <div
+         <button
             className="grid-area-race brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative w-100"
             style={{
                borderRadius: "0 0.375rem 0 0",
                opacity: fieldsShowing.includes("race") ? "1" : "0",
+               pointerEvents: fieldsShowing.includes("race") ? "auto" : "none",
                transition: "opacity 0.2s ease-in-out",
                cursor: "pointer",
             }}
@@ -299,12 +300,15 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   entity="races"
                />
             )}
-         </div>
+         </button>
          {/* CLASS */}
-         <div
+         <button
             className="grid-area-profession brown-border brown-bg text-uppercase text-center fw-bold d-flex justify-content-between align-items-center ps-2 position-relative w-100"
             style={{
                opacity: fieldsShowing.includes("profession") ? "1" : "0",
+               pointerEvents: fieldsShowing.includes("profession")
+                  ? "auto"
+                  : "none",
                transition: "opacity 0.2s ease-in-out",
                cursor: "pointer",
             }}
@@ -355,9 +359,9 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   entity="professions"
                />
             )}
-         </div>
+         </button>
          {/* HINT */}
-         <div
+         <button
             className="grid-area-hint brown-border overflow-hidden dark-beige-bg beige-text d-flex flex-column justify-content-center align-items-center p-2 text-center gap-3"
             onClick={validateCurrentField}
             role="button"
@@ -385,12 +389,15 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   errorText.length === 0 &&
                   "Осталось очков характеристик: " + statPoints}
             </span>
-         </div>
+         </button>
          {/* CHARACTERISTICS */}
          <div
             className="grid-area-characteristics brown-border beige-bg d-flex flex-column justify-content-between align-items-center"
             style={{
                opacity: fieldsShowing.includes("characteristics") ? 1 : 0,
+               pointerEvents: fieldsShowing.includes("characteristics")
+                  ? "auto"
+                  : "none",
                transition: "opacity 0.2s ease-in-out",
                padding: "0.7rem",
                cursor: "pointer",
@@ -693,6 +700,9 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             style={{
                borderRadius: "0 0 0 0.375rem",
                opacity: fieldsShowing.includes("characteristics") ? 1 : 0,
+               pointerEvents: fieldsShowing.includes("characteristics")
+                  ? "auto"
+                  : "none",
                transition: "opacity 0.3s ease-in-out",
             }}
          >

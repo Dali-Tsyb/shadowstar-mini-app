@@ -92,6 +92,8 @@ export default function CharacterPage() {
                {!editMode && (
                   <button
                      className="base-button brown-bg beige-text rounded"
+                     role="button"
+                     tabIndex="0"
                      onClick={handleAddCharacter}
                   >
                      + Новый персонаж

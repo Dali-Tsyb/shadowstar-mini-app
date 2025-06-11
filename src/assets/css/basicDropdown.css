@@ -12,10 +12,19 @@ li:last-child {
 }
 .dropdown-menu {
    min-width: unset !important;
-   width: 104% !important;
+   width: 100% !important;
    max-height: 20rem;
    overflow: auto;
    top: 100%;
-   left: -2%;
+   left: 0;
    border-radius: 0 0 0.375rem 0.375rem;
+}
+.dropdown-menu:scrollbar {
+   width: 0.5rem;
+}
+.dropdown-menu::-webkit-scrollbar-track {
+   background-color: #38261094;
+}
+.dropdown-menu::-webkit-scrollbar-thumb {
+   background-color: #382610;
 }

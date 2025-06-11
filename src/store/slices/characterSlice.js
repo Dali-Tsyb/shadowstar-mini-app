@@ -22,7 +22,7 @@ export const deleteCharacter = createAsyncThunk(
    }
 );
 
-export const characterSlice = createSlice({
+export const characterSlice = createSlice({ 
    name: "character",
    initialState: {
       charactersList: [],
