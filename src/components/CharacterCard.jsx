@@ -189,7 +189,11 @@ export default function CharacterCard({
             </div>
          </div>
          {/* ABILITIES */}
-         <button className="grid-area-abilities base-button brown-bg beige-text d-flex align-items-center justify-content-center">
+         <button
+            className="grid-area-abilities base-button brown-bg beige-text d-flex align-items-center justify-content-center"
+            role="button"
+            tabIndex="0"
+         >
             способности
          </button>
          {/* INVENTORY */}

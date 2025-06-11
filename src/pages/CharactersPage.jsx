@@ -137,6 +137,13 @@ export default function CharacterPage() {
                         rotate: [0, 0, -3],
                         filter: "brightness(0.5)",
                      },
+                     active: {
+                        translate: [0, 0, 0],
+                        rotate: [0, 0, 0],
+                        filter: "brightness(1)",
+                        zIndex: 100,
+                        scale: 1.2,
+                     },
                      next: {
                         translate: ["10%", 0, -80],
                         rotate: [0, 0, 3],
