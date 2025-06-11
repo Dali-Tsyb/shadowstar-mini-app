@@ -73,15 +73,15 @@ export default function App() {
          window.Telegram.WebApp &&
          window.Telegram.WebApp.initData
       ) {
+         setIsBrowser(false);
          dispatch(login(window.Telegram.WebApp.initData))
             .unwrap()
             .then(() => {
                dispatch(updateAuthStatus("succeeded"));
                //redirect user back to browser app main page
-               if (isBrowser) {
+               if (window.location.pathname === "/login") {
                   window.Telegram.WebApp.close();
                   window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
-                  setIsBrowser(false);
                }
             })
             .catch(() => {
@@ -90,7 +90,7 @@ export default function App() {
       } else {
          setIsBrowser(true);
          const botUsername = "Shadowstar_master_bot";
-         const miniAppUrl = encodeURIComponent(window.location.origin + "/");
+         const miniAppUrl = encodeURIComponent(window.location.origin + "/login");
          const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
          window.location.href = deepLink;
       }
@@ -131,6 +131,7 @@ export default function App() {
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
+   const BrowserAuthPage = React.lazy(() => import("./pages/BrowserAuthPage"));
 
    if (isLoading) {
       return (
@@ -175,6 +176,26 @@ export default function App() {
                   }
                >
                   <HomePage />
+               </React.Suspense>
+            }
+         />
+         <Route
+            path="/login"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <BrowserAuthPage />
                </React.Suspense>
             }
          />
