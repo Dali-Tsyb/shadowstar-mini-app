@@ -250,3 +250,9 @@
    backface-visibility: hidden;
    transform-style: preserve-3d;
 }
+.swiper-slide:not(.swiper-slide-active) {
+   pointer-events: none;
+}
+.swiper-slide-active {
+   pointer-events: auto;
+}

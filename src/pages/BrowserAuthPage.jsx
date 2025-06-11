@@ -11,8 +11,8 @@ export default function BrowserAuthPage() {
 
    return (
       <div className="d-flex flex-column gap-4 align-items-center justify-content-center h-100 w-100">
-         <h1>Авторизуйся через Telegram</h1>
-         <button onClick={handleLoginClick} className="base-button brown-bg beige-text p-2">Перейти к боту</button>
+         <h4 className="fw-bold">Авторизуйся через Telegram</h4>
+         <button onClick={handleLoginClick} className="base-button brown-bg beige-text rounded">Перейти к боту</button>
       </div>
    );
 }
