@@ -51,7 +51,19 @@ export default function App() {
       if (playerStatus === "idle" && authStatus !== "succeeded") {
          dispatch(getPlayer())
             .unwrap()
-            .then(() => dispatch(updateAuthStatus("succeeded")));
+            .then(() => dispatch(updateAuthStatus("succeeded")))
+            .catch(() => {
+               login(window.Telegram.WebApp.initData)
+                  .unwrap()
+                  .then((res) => {
+                     const token = res.data.access_token;
+                     localStorage.setItem("token", token);
+                     dispatch(updateAuthStatus("succeeded"));
+                     if (playerStatus !== "succeeded") {
+                        dispatch(getPlayer());
+                     }
+                  });
+            });
       }
    }, [dispatch, playerStatus, authStatus]);
 
@@ -68,14 +80,14 @@ export default function App() {
          .then((res) => {
             const token = res.data.access_token;
             localStorage.setItem("token", token);
-
+            dispatch(updateAuthStatus("succeeded"));
             //redirect user back to browser app main page
             window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
          })
          .catch((err) => {
             console.error("Mini App auth failed", err);
          });
-   }, []);
+   }, [authStatus, dispatch]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
