@@ -248,7 +248,7 @@
 .character-slide {
    transition: transform 0.3s ease, opacity 0.3s ease;
    pointer-events: none;
-   transform: scale(0.94) translateX(-10px);
+   transform: scale(0.94) translateX(-50%);
    opacity: 0.5;
    z-index: 1;
 }
