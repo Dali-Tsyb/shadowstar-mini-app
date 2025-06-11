@@ -48,7 +48,7 @@ export default function App() {
             return false;
          }
       };
-      
+
       //if user is successfully logged in, return
       if (checkAuth()) {
          axios.defaults.headers.common[
@@ -81,7 +81,7 @@ export default function App() {
          window.location.href = deepLink;
          setIsBrowser(true);
       }
-   }, [dispatch, playerStatus, authStatus, checkAuth, isBrowser]);
+   }, [dispatch, playerStatus, authStatus, isBrowser]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
