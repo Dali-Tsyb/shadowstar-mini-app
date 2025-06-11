@@ -32,51 +32,19 @@ export default function App() {
    useEffect(() => {
       const token = localStorage.getItem("token");
 
-      const clearAuthAndRedirect = () => {
-         localStorage.removeItem("token");
-         dispatch(updateAuthStatus("idle"));
-         const redirectUrl = encodeURIComponent(window.location.href);
-         const botUsername = "Shadowstar_master_bot";
-         window.location.href = `https://oauth.telegram.org/auth?bot=${botUsername}&origin=${redirectUrl}&embed=0`;
-      };
-
-      const params = new URLSearchParams(window.location.search);
-      const hash = params.get("hash");
-
-      if (hash && !token) {
-         const telegramUserData = Object.fromEntries(params.entries());
-
-         login(telegramUserData)
-            .unwrap()
-            .then((res) => {
-               const token = res.data.access_token;
-               localStorage.setItem("token", token);
-               axios.defaults.headers.common[
-                  "Authorization"
-               ] = `Bearer ${token}`;
-               dispatch(getPlayer())
-                  .unwrap()
-                  .then(() => dispatch(updateAuthStatus("succeeded")))
-                  .catch((error) => {
-                     if (error.response?.status === 401) {
-                        clearAuthAndRedirect();
-                     } else {
-                        console.error("Player fetch failed", error);
-                     }
-                  });
-               window.history.replaceState({}, "", "/");
-            })
-            .catch((err) => {
-               console.error("Telegram browser auth failed", err);
-               clearAuthAndRedirect();
-            });
-
-         return;
-      }
-
       if (!token || !isTokenValid(token)) {
-         clearAuthAndRedirect();
-         return;
+         const botUsername = "Shadowstar_master_bot";
+         const miniAppUrl = encodeURIComponent(window.location.origin + "/");
+         const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
+         const fallbackLink = `https://t.me/${botUsername}?start=webapp_${miniAppUrl}`;
+
+         window.location.href = deepLink;
+
+         setTimeout(() => {
+            window.location.href = fallbackLink;
+         }, 2000);
+
+         return; //prevent further execution until authenticated
       }
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -84,16 +52,31 @@ export default function App() {
       if (playerStatus === "idle" && authStatus !== "succeeded") {
          dispatch(getPlayer())
             .unwrap()
-            .then(() => dispatch(updateAuthStatus("succeeded")))
-            .catch((error) => {
-               if (error.response?.status === 401) {
-                  clearAuthAndRedirect();
-               } else {
-                  console.error("Player fetch failed", error);
-               }
-            });
+            .then(() => dispatch(updateAuthStatus("succeeded")));
       }
    }, [dispatch, playerStatus, authStatus]);
+
+   useEffect(() => {
+      const initData = window.Telegram.WebApp.initData;
+
+      if (!initData) {
+         console.log("initData not found");
+         return;
+      }
+
+      login(initData)
+         .unwrap()
+         .then((res) => {
+            const token = res.data.access_token;
+            localStorage.setItem("token", token);
+
+            //redirect user back to browser app main page
+            window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
+         })
+         .catch((err) => {
+            console.error("Mini App auth failed", err);
+         });
+   }, []);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
@@ -130,9 +113,6 @@ export default function App() {
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
-   const TelegramAuthCallbackPage = React.lazy(() =>
-      import("./pages/TelegramAuthCallbackPage")
-   );
 
    if (isLoading) {
       return (
@@ -178,26 +158,6 @@ export default function App() {
                >
                   <HomePage />
                   <TelegramAuthWidget />
-               </React.Suspense>
-            }
-         />
-         <Route
-            path="/login"
-            element={
-               <React.Suspense
-                  fallback={
-                     <div className="d-flex justify-content-center align-items-center h-100">
-                        <div>
-                           <div className="spinner-border" role="status">
-                              <span className="visually-hidden">
-                                 Загрузка...
-                              </span>
-                           </div>
-                        </div>
-                     </div>
-                  }
-               >
-                  <TelegramAuthCallbackPage />
                </React.Suspense>
             }
          />
