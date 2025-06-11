@@ -258,5 +258,5 @@
 }
 .swiper-slide-active {
    pointer-events: auto;
-   z-index: 10;
+   z-index: 100 !important;
 }

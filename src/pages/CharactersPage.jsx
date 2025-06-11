@@ -141,7 +141,6 @@ export default function CharacterPage() {
                         translate: [0, 0, 0],
                         rotate: [0, 0, 0],
                         filter: "brightness(1)",
-                        zIndex: 100,
                         scale: 1.2,
                      },
                      next: {
@@ -158,7 +157,7 @@ export default function CharacterPage() {
                >
                   {characters.map((character, index) => (
                      <SwiperSlide key={index} className=" w-100">
-                        {character.id && (
+                        {/* {character.id && (
                            <CharacterCard
                               character={character}
                               index={index}
@@ -173,7 +172,10 @@ export default function CharacterPage() {
                               index={index}
                               sendCharacter={handleSendCharacter}
                            />
-                        )}
+                        )} */}
+                        <button className="base-button brown-bg beige-text rounded">
+                           Клик
+                        </button>
                      </SwiperSlide>
                   ))}
                </Swiper>
