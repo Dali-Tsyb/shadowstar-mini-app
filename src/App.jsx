@@ -44,6 +44,8 @@ export default function App() {
                .catch(() => {
                   return false;
                });
+         } else if (authStatus === "succeeded") {
+            return true;
          } else {
             return false;
          }
