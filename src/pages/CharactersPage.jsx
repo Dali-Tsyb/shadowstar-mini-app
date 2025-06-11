@@ -1,8 +1,6 @@
 import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/effect-cards";
-import { EffectCards } from "swiper/modules";
 import { useRef, useState } from "react";
 import backArrowIcon from "../assets/images/back-arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
@@ -129,17 +127,17 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
-                  effect={"cards"}
+                  effect="slide"
                   grabCursor={true}
-                  modules={[EffectCards]}
+                  loop={false}
                   onSwiper={(swiper) => (swiperRef.current = swiper)}
                   onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-                  className="w-100 h-100 px-4"
+                  className="custom-stack-swiper w-100 h-100 px-4"
                >
                   {characters.map((character, index) => (
                      <SwiperSlide
                         key={index}
-                        className=" w-100 d-flex justify-content-center align-items-center brown-border"
+                        className=" w-100 d-flex justify-content-center align-items-center brown-border character-slide"
                      >
                         {/* {character.id && (
                            <CharacterCard
