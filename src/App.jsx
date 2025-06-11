@@ -130,7 +130,9 @@ export default function App() {
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
-   const TelegramAuthCallbackPage = React.lazy(() => import("./pages/TelegramAuthCallback"));
+   const TelegramAuthCallbackPage = React.lazy(() =>
+      import("./pages/TelegramAuthCallbackPage")
+   );
 
    if (isLoading) {
       return (
