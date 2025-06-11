@@ -2,7 +2,12 @@ import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/effect-creative";
+import "swiper/css/effect-cards";
+
+import "./styles.css";
+
+// import required modules
+import { EffectCards } from "swiper/modules";
 import { useRef, useState } from "react";
 import backArrowIcon from "../assets/images/back-arrow.svg";
 import CharacterCard from "../components/CharacterCard.jsx";
@@ -129,34 +134,18 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
-                  modules={[EffectCreative]}
-                  effect="creative"
-                  creativeEffect={{
-                     prev: {
-                        translate: ["-10%", 0, -80],
-                        rotate: [0, 0, -3],
-                        filter: "brightness(0.5)",
-                     },
-                     active: {
-                        translate: [0, 0, 0],
-                        rotate: [0, 0, 0],
-                        filter: "brightness(1)",
-                        scale: 1.2,
-                     },
-                     next: {
-                        translate: ["10%", 0, -80],
-                        rotate: [0, 0, 3],
-                        filter: "brightness(0.5)",
-                     },
-                  }}
+                  effect={"cards"}
                   grabCursor={true}
-                  loop={false}
+                  modules={[EffectCards]}
                   onSwiper={(swiper) => (swiperRef.current = swiper)}
                   onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                   className="w-100 h-100 px-4"
                >
                   {characters.map((character, index) => (
-                     <SwiperSlide key={index} className=" w-100">
+                     <SwiperSlide
+                        key={index}
+                        className=" w-100 d-flex justify-content-center align-items-center brown-border"
+                     >
                         {/* {character.id && (
                            <CharacterCard
                               character={character}
