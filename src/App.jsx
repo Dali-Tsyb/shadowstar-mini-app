@@ -79,9 +79,12 @@ export default function App() {
             .then(() => {
                dispatch(updateAuthStatus("succeeded"));
                //redirect user back to browser app main page
-               if (window.location.pathname === "/login") {
-                  window.Telegram.WebApp.close();
+               if (
+                  URLSearchParams(window.location.search).get("mode") ===
+                  "browser"
+               ) {
                   window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
+                  window.Telegram.WebApp.close();
                }
             })
             .catch(() => {
@@ -177,27 +180,7 @@ export default function App() {
                      </div>
                   }
                >
-                  <HomePage />
-               </React.Suspense>
-            }
-         />
-         <Route
-            path="/login"
-            element={
-               <React.Suspense
-                  fallback={
-                     <div className="d-flex justify-content-center align-items-center h-100">
-                        <div>
-                           <div className="spinner-border" role="status">
-                              <span className="visually-hidden">
-                                 Загрузка...
-                              </span>
-                           </div>
-                        </div>
-                     </div>
-                  }
-               >
-                  <BrowserAuthPage />
+                  { isBrowser ? <BrowserAuthPage /> : <HomePage />}
                </React.Suspense>
             }
          />

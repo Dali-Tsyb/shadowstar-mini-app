@@ -1,26 +1,18 @@
 export default function BrowserAuthPage() {
+   const botUsername = "Shadowstar_master_bot";
+   const miniAppUrl = encodeURIComponent(
+      window.location.origin + "/"
+   );
+   const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}?mode=browser`;
+
+   const handleLoginClick = () => {
+      window.location.href = deepLink;
+   };
+
    return (
       <div className="d-flex flex-column gap-4 align-items-center justify-content-center h-100 w-100">
-         <h2 className="text-center fw-bold">Авторизация...</h2>
-         <div className="loader d-flex justify-content-center">
-            <div className="loader-inner">
-               <div className="loader-line-wrap">
-                  <div className="loader-line"></div>
-               </div>
-               <div className="loader-line-wrap">
-                  <div className="loader-line"></div>
-               </div>
-               <div className="loader-line-wrap">
-                  <div className="loader-line"></div>
-               </div>
-               <div className="loader-line-wrap">
-                  <div className="loader-line"></div>
-               </div>
-               <div className="loader-line-wrap">
-                  <div className="loader-line"></div>
-               </div>
-            </div>
-         </div>
+         <h1>Авторизуйся через Telegram</h1>
+         <button onClick={handleLoginClick} className="base-button brown-bg beige-text p-2">Перейти к боту</button>
       </div>
    );
 }
