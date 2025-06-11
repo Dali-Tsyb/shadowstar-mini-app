@@ -27,59 +27,61 @@ export default function App() {
    //auth
    const playerStatus = useSelector((state) => state.player.status);
    const authStatus = useSelector((state) => state.authorization.status);
+   const [isBrowser, setIsBrowser] = React.useState(false);
+
    //login
    useEffect(() => {
-      const token = localStorage.getItem("token");
+      const checkAuth = () => {
+         if (
+            localStorage.getItem("token") &&
+            isTokenValid(localStorage.getItem("token"))
+         ) {
+            dispatch(getPlayer())
+               .unwrap()
+               .then(() => {
+                  return true;
+               })
+               .catch(() => {
+                  return false;
+               });
+         } else {
+            return false;
+         }
+      };
+      
+      //if user is successfully logged in, return
+      if (checkAuth()) {
+         axios.defaults.headers.common[
+            "Authorization"
+         ] = `Bearer ${localStorage.getItem("token")}`;
+         dispatch(updateAuthStatus("succeeded"));
+         return;
+      }
 
-      if (!token || !isTokenValid(token)) {
+      //find out whether we are in browser or in mobile app
+      if (window.Telegram && window.Telegram.WebApp) {
+         dispatch(login(window.Telegram.WebApp.initData))
+            .unwrap()
+            .then(() => {
+               dispatch(updateAuthStatus("succeeded"));
+               //redirect user back to browser app main page
+               if (isBrowser) {
+                  window.Telegram.WebApp.close();
+                  window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
+                  setIsBrowser(false);
+               }
+            })
+            .catch(() => {
+               console.log("Authentication in mini app failed");
+            });
+      } else {
          const botUsername = "Shadowstar_master_bot";
          const miniAppUrl = encodeURIComponent(window.location.origin + "/");
          const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
-         const fallbackLink = `https://t.me/${botUsername}?start=webapp_${miniAppUrl}`;
          window.location.href = deepLink;
-         setTimeout(() => {
-            window.location.href = fallbackLink;
-         }, 2000);
-         return;
+         setIsBrowser(true);
       }
-
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      if (playerStatus === "idle" && authStatus !== "succeeded") {
-         dispatch(getPlayer())
-            .unwrap()
-            .then(() => dispatch(updateAuthStatus("succeeded")))
-            .catch(() => {
-               //if unauthorized, clear token and restart auth flow
-               localStorage.removeItem("token");
-               dispatch(updateAuthStatus("idle"));
-               window.location.reload();
-            });
-      }
-   }, [dispatch, playerStatus, authStatus]);
-
-   useEffect(() => {
-      const initData = window.Telegram.WebApp.initData;
-
-      if (!initData) {
-         console.log("initData not found");
-         return;
-      }
-      if (authStatus === "succeeded" || authStatus === "loading") {
-         return;
-      }
-
-      dispatch(login(initData))
-         .unwrap()
-         .then(() => {
-            dispatch(updateAuthStatus("succeeded"));
-            //redirect user back to browser app main page
-            window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
-         })
-         .catch((err) => {
-            console.error("Mini App auth failed", err);
-         });
-   }, [authStatus, dispatch]);
+   }, [dispatch, playerStatus, authStatus, checkAuth, isBrowser]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
