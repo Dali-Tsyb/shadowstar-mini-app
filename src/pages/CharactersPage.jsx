@@ -132,12 +132,18 @@ export default function CharacterPage() {
             {/* FULFILLED & CHARACTERS */}
             {characters && characters.length > 0 && (
                <Swiper
-                  modules={[Navigation, EffectCoverflow, EffectCards]}
-                  effect={"cards"}
-                  cardsEffect={{
-                     perSlideOffset: 10,
-                     perSlideRotate: 1,
-                     slideShadows: false,
+                  effect="creative"
+                  creativeEffect={{
+                     prev: {
+                        shadow: false,
+                        translate: ["-100%", 0, -1],
+                        rotate: [0, 0, -3],
+                     },
+                     next: {
+                        shadow: false,
+                        translate: ["100%", 0, -1],
+                        rotate: [0, 0, 3],
+                     },
                   }}
                   grabCursor={true}
                   loop={false}
