@@ -254,7 +254,7 @@
    touch-action: manipulation;
    -webkit-tap-highlight-color: transparent;
    transition: transform 0.5s ease, opacity 0.5s ease;
-   overflow: visible;
+   overflow: visible !important;
 }
 .swiper-slide-active {
    pointer-events: auto;

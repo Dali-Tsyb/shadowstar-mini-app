@@ -135,10 +135,12 @@ export default function CharacterPage() {
                      prev: {
                         translate: ["-10%", 0, -80],
                         rotate: [0, 0, -3],
+                        filter: "brightness(0.5)",
                      },
                      next: {
                         translate: ["10%", 0, -80],
                         rotate: [0, 0, 3],
+                        filter: "brightness(0.5)",
                      },
                   }}
                   grabCursor={true}
