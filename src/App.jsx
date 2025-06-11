@@ -90,8 +90,10 @@ export default function App() {
       } else {
          setIsBrowser(true);
          const botUsername = "Shadowstar_master_bot";
-         const miniAppUrl = encodeURIComponent(window.location.origin + "/login");
-         const deepLink = `tg://resolve?domain=${botUsername}&start=webapp_${miniAppUrl}`;
+         const miniAppUrl = encodeURIComponent(
+            window.location.origin + "/login"
+         );
+         const deepLink = `https://t.me/${botUsername}?start=webapp_${miniAppUrl}`;
          window.location.href = deepLink;
       }
    }, [dispatch, playerStatus, authStatus, isBrowser]);
