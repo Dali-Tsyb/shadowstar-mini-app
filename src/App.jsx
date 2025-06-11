@@ -10,6 +10,7 @@ import { login, updateAuthStatus } from "./store/slices/authorizationSlice";
 import axios from "axios";
 import { isTokenValid } from "./services/authService.js";
 import { getLevels } from "./store/slices/levelSlice.js";
+import TelegramAuthWidget from "./components/TelegramAuthWidget.jsx";
 
 export default function App() {
    const dispatch = useDispatch();
@@ -203,6 +204,7 @@ export default function App() {
                   }
                >
                   <HomePage />
+                  <TelegramAuthWidget />
                </React.Suspense>
             }
          />
