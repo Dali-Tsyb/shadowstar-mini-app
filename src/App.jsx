@@ -53,7 +53,7 @@ export default function App() {
             .unwrap()
             .then(() => dispatch(updateAuthStatus("succeeded")))
             .catch(() => {
-               login(window.Telegram.WebApp.initData)
+               dispatch(login(window.Telegram.WebApp.initData))
                   .unwrap()
                   .then((res) => {
                      const token = res.data.access_token;
@@ -75,7 +75,7 @@ export default function App() {
          return;
       }
 
-      login(initData)
+      dispatch(login(initData))
          .unwrap()
          .then((res) => {
             const token = res.data.access_token;
