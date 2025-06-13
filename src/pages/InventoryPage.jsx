@@ -22,7 +22,7 @@ export default function InventoryPage() {
                   <img className="w-100" src={backArrowIcon} alt="back" />
                </button>
             </Link>
-            <div className="fw-bold m-0">Список способностей</div>
+            <div className="fw-bold m-0">Инвентарь</div>
          </div>
       </div>
    );

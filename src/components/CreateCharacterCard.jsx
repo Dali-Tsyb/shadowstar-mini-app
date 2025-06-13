@@ -19,7 +19,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             white: Math.random() < 0.2 ? 1 : 0,
          };
       } else {
-         return null;
+         return undefined;
       }
    }
 

@@ -57,6 +57,7 @@ export default function AbilitiesPage() {
             abilities: prev.abilities.filter((a) => a !== ability.id),
          }));
       }
+      console.log(characterAbilitiesForm);
    };
 
    const saveAbilities = () => {
@@ -73,7 +74,7 @@ export default function AbilitiesPage() {
             </Link>
             <div className="fw-bold m-0">Список способностей</div>
          </div>
-         {!characterAbilities.length && (
+         {characterAbilities.length === 0 && (
             <div className="d-flex flex-column gap-2">
                {allowedAbilities.map((ability) => (
                   <div
@@ -108,7 +109,7 @@ export default function AbilitiesPage() {
                         <input
                            type="checkbox"
                            checked={characterAbilitiesForm.abilities.includes(
-                              ability
+                              ability.id
                            )}
                            onChange={(e) =>
                               toggleAbility(ability, e.target.checked)
@@ -120,7 +121,7 @@ export default function AbilitiesPage() {
                ))}
             </div>
          )}
-         {characterAbilities.length && (
+         {characterAbilities.length > 0 && (
             <div className="d-flex flex-column gap-2">
                {characterAbilities.map((ability) => (
                   <div
@@ -155,7 +156,10 @@ export default function AbilitiesPage() {
          {!characterAbilities.length && (
             <button
                className="base-button brown-bg beige-text rounded mt-auto save-btn"
-               disabled={!characterAbilitiesForm.abilities.length}
+               disabled={
+                  !characterAbilitiesForm.abilities.length ||
+                  character.abilities === characterAbilitiesForm.abilities
+               }
                onClick={saveAbilities}
             >
                Сохранить
