@@ -13,7 +13,20 @@ export const getCharactersService = async () => {
 };
 export const addCharacterService = async (data) => {
    try {
-      const response = await axios.post(`${API_URL}/characters`, data);
+      const response = await axios.post(`${API_URL}/characters/`, data);
+      return response.data;
+   } catch (error) {
+      console.error(error);
+      throw error;
+   }
+};
+
+export const updateCharacterService = async (data) => {
+   try {
+      const response = await axios.put(
+         `${API_URL}/characters/${data.character_id}`,
+         data
+      );
       return response.data;
    } catch (error) {
       console.error(error);

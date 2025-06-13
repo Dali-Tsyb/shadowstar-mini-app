@@ -10,6 +10,7 @@ import { login, updateAuthStatus } from "./store/slices/authorizationSlice";
 import axios from "axios";
 import { isTokenValid } from "./services/authService.js";
 import { getLevels } from "./store/slices/levelSlice.js";
+import { getAbilities } from "./store/slices/abilitySlice.js";
 
 export default function App() {
    const dispatch = useDispatch();
@@ -101,6 +102,7 @@ export default function App() {
    const charStatus = useSelector((state) => state.character.status);
    const sessionStatus = useSelector((state) => state.session.status);
    const levelStatus = useSelector((state) => state.level.status);
+   const abilityStatus = useSelector((state) => state.ability.status);
 
    useEffect(() => {
       if (authStatus === "succeeded") {
@@ -109,6 +111,7 @@ export default function App() {
          if (charStatus === "idle") dispatch(getCharacters());
          if (sessionStatus === "idle") dispatch(getSessions());
          if (levelStatus === "idle") dispatch(getLevels());
+         if (abilityStatus === "idle") dispatch(getAbilities());
       }
    }, [
       authStatus,
@@ -117,6 +120,7 @@ export default function App() {
       charStatus,
       sessionStatus,
       levelStatus,
+      abilityStatus,
       dispatch,
    ]);
 
@@ -130,7 +134,7 @@ export default function App() {
 
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
-   const BrowserAuthPage = React.lazy(() => import("./pages/BrowserAuthPage"));
+   const AbilitiesPage = React.lazy(() => import("./pages/AbilitiesPage.jsx"));
 
    if (isLoading) {
       return (
@@ -195,6 +199,26 @@ export default function App() {
                   }
                >
                   <CharactersPage />
+               </React.Suspense>
+            }
+         />
+         <Route
+            path="/characters/:id/abilities"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <AbilitiesPage />
                </React.Suspense>
             }
          />

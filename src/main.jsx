@@ -13,8 +13,8 @@ export default function Root() {
       <BrowserRouter>
          <Provider store={store}>
             <div
-               className="d-flex flex-column flex-grow-1 h-100 bg-container"
-               style={{ padding: "7vh 0" }}
+               className="d-flex flex-column h-100 bg-container"
+               style={{ padding: "10vh 0 7vh 0" }}
             >
                <img src={textureBg} alt="texture" className="texture" />
                <App />

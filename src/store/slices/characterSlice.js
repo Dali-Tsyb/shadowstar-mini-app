@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
    getCharactersService,
    addCharacterService,
+   updateCharacterService,
    deleteCharacterService,
 } from "/src/services/characterService";
 
@@ -15,6 +16,14 @@ export const addCharacter = createAsyncThunk("characters/add", async (data) => {
    return response;
 });
 
+export const updateCharacter = createAsyncThunk(
+   "characters/update",
+   async (data) => {
+      const response = await updateCharacterService(data);
+      return response;
+   }
+);
+
 export const deleteCharacter = createAsyncThunk(
    "characters/delete",
    async (id) => {
@@ -22,10 +31,11 @@ export const deleteCharacter = createAsyncThunk(
    }
 );
 
-export const characterSlice = createSlice({ 
+export const characterSlice = createSlice({
    name: "character",
    initialState: {
-      charactersList: [],
+      charactersList: [
+      ],
       status: "idle",
       error: null,
       selectedCharacter: null,
@@ -56,9 +66,25 @@ export const characterSlice = createSlice({
       builder
          .addCase(addCharacter.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.charactersList[state.charactersList.length - 1] = action.payload;
+            state.charactersList[state.charactersList.length - 1] =
+               action.payload;
          })
          .addCase(addCharacter.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message;
+         });
+
+      builder
+         .addCase(updateCharacter.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.charactersList = state.charactersList.map((character) => {
+               if (character.id === action.meta.arg.id) {
+                  return action.meta.arg;
+               }
+               return character;
+            });
+         })
+         .addCase(updateCharacter.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
          });

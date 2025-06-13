@@ -79,7 +79,7 @@ export default function CharacterPage() {
       <>
          <div className="d-flex flex-column justify-content-center align-items-center h-100 position-relative">
             {/* HEADER */}
-            <div className="d-flex justify-content-between align-items-center p-4 py-0 header-btns">
+            <div className="d-flex justify-content-between align-items-center px-4 header-btns">
                <Link to="/">
                   <button className="base-button brown-bg rounded">
                      <img className="w-100" src={backArrowIcon} alt="back" />

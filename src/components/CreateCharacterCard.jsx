@@ -8,21 +8,45 @@ import { useTranslation } from "react-i18next";
 
 export default function CreateCharacterCard({ character, sendCharacter }) {
    const { t } = useTranslation();
+
+   function generateShards() {
+      if (Math.random() < 0.5) {
+         return {
+            green: Math.random() < 0.2 ? 1 : 0,
+            blue: Math.random() < 0.2 ? 1 : 0,
+            red: Math.random() < 0.2 ? 1 : 0,
+            black: Math.random() < 0.2 ? 1 : 0,
+            white: Math.random() < 0.2 ? 1 : 0,
+         };
+      } else {
+         return {
+            green: 0,
+            blue: 0,
+            red: 0,
+            black: 0,
+            white: 0,
+         };
+      }
+   }
+
    //character form
    const [characterForm, setCharacterForm] = useState({
       name: "",
-      strength_user: 10,
-      dexterity_user: 10,
-      constitution_user: 10,
-      intelligence_user: 10,
-      wisdom_user: 10,
-      charisma_user: 10,
+      strength: 10,
+      dexterity: 10,
+      constitution: 10,
+      intelligence: 10,
+      wisdom: 10,
+      charisma: 10,
       race_id: null,
       profession_id: null,
       level_id: 1,
       hp: 0,
       armor: 8,
-      shards: Math.random() < 0.5 ? 0 : 1,
+      shards: generateShards(),
+      is_npc: false,
+      avatar_url: "",
+      session_id: null,
    });
 
    //races
@@ -52,10 +76,10 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             races.find((race) => race.id === characterForm.race_id).extra_hp +
             levels.find((level) => level.id === characterForm.level_id)
                .hp_increase +
-            Math.floor((prev.constitution_user - 10) / 2),
+            Math.floor((prev.constitution - 10) / 2),
       }));
    }, [
-      characterForm.constitution_user,
+      characterForm.constitution,
       races,
       characterForm.race_id,
       levels,
@@ -65,9 +89,9 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
    useEffect(() => {
       setCharacterForm((prev) => ({
          ...prev,
-         armor: 8 + Math.floor((prev.dexterity_user - 10) / 2),
+         armor: 8 + Math.floor((prev.dexterity - 10) / 2),
       }));
-   }, [characterForm.dexterity_user]);
+   }, [characterForm.dexterity]);
 
    //count stats bonuses from race and profession
    const [statPoints, setStatPoints] = useState(2);
@@ -75,42 +99,42 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
       if (!characterForm.race_id || !characterForm.profession_id) return;
       setCharacterForm((prev) => ({
          ...prev,
-         strength_user:
+         strength:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .strength_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
             ).strength_bonus,
-         dexterity_user:
+         dexterity:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .dexterity_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
             ).dexterity_bonus,
-         constitution_user:
+         constitution:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .constitution_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
             ).constitution_bonus,
-         intelligence_user:
+         intelligence:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .intelligence_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
             ).intelligence_bonus,
-         wisdom_user:
+         wisdom:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .wisdom_bonus +
             professions.find(
                (profession) => profession.id === characterForm.profession_id
             ).wisdom_bonus,
-         charisma_user:
+         charisma:
             10 +
             races.find((race) => race.id === characterForm.race_id)
                .charisma_bonus +
@@ -162,12 +186,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
          }
       } else if (currentField === "characteristics") {
          if (
-            !characterForm.strength_user ||
-            !characterForm.dexterity_user ||
-            !characterForm.constitution_user ||
-            !characterForm.intelligence_user ||
-            !characterForm.wisdom_user ||
-            !characterForm.charisma_user
+            !characterForm.strength ||
+            !characterForm.dexterity ||
+            !characterForm.constitution ||
+            !characterForm.intelligence ||
+            !characterForm.wisdom ||
+            !characterForm.charisma
          ) {
             return false;
          } else {
@@ -416,14 +440,14 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           dexterity_user: characterForm.dexterity_user - 1,
+                           dexterity: characterForm.dexterity - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      role="button"
                      tabIndex="0"
                      disabled={
-                        characterForm.dexterity_user <=
+                        characterForm.dexterity <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -436,20 +460,20 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.dexterity_user}</span>
+                  <span>{characterForm.dexterity}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           dexterity_user: characterForm.dexterity_user + 1,
+                           dexterity: characterForm.dexterity + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
                      role="button"
                      tabIndex="0"
                      disabled={
-                        characterForm.dexterity_user >= 16 || statPoints === 0
+                        characterForm.dexterity >= 16 || statPoints === 0
                      }
                   >
                      +
@@ -466,14 +490,14 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           strength_user: characterForm.strength_user - 1,
+                           strength: characterForm.strength - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      role="button"
                      tabIndex="0"
                      disabled={
-                        characterForm.strength_user <=
+                        characterForm.strength <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -486,21 +510,19 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.strength_user}</span>
+                  <span>{characterForm.strength}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           strength_user: characterForm.strength_user + 1,
+                           strength: characterForm.strength + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
                      role="button"
                      tabIndex="0"
-                     disabled={
-                        characterForm.strength_user >= 16 || statPoints === 0
-                     }
+                     disabled={characterForm.strength >= 16 || statPoints === 0}
                   >
                      +
                   </button>
@@ -515,13 +537,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           constitution_user:
-                              characterForm.constitution_user - 1,
+                           constitution: characterForm.constitution - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      disabled={
-                        characterForm.constitution_user <=
+                        characterForm.constitution <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -534,20 +555,18 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.constitution_user}</span>
+                  <span>{characterForm.constitution}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           constitution_user:
-                              characterForm.constitution_user + 1,
+                           constitution: characterForm.constitution + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
                      disabled={
-                        characterForm.constitution_user >= 16 ||
-                        statPoints === 0
+                        characterForm.constitution >= 16 || statPoints === 0
                      }
                   >
                      +
@@ -563,13 +582,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           intelligence_user:
-                              characterForm.intelligence_user - 1,
+                           intelligence: characterForm.intelligence - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      disabled={
-                        characterForm.intelligence_user <=
+                        characterForm.intelligence <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -582,20 +600,18 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.intelligence_user}</span>
+                  <span>{characterForm.intelligence}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           intelligence_user:
-                              characterForm.intelligence_user + 1,
+                           intelligence: characterForm.intelligence + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
                      disabled={
-                        characterForm.intelligence_user >= 16 ||
-                        statPoints === 0
+                        characterForm.intelligence >= 16 || statPoints === 0
                      }
                   >
                      +
@@ -611,12 +627,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           charisma_user: characterForm.charisma_user - 1,
+                           charisma: characterForm.charisma - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      disabled={
-                        characterForm.charisma_user <=
+                        characterForm.charisma <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -629,19 +645,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.charisma_user}</span>
+                  <span>{characterForm.charisma}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           charisma_user: characterForm.charisma_user + 1,
+                           charisma: characterForm.charisma + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
-                     disabled={
-                        characterForm.charisma_user >= 16 || statPoints === 0
-                     }
+                     disabled={characterForm.charisma >= 16 || statPoints === 0}
                   >
                      +
                   </button>
@@ -656,12 +670,12 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           wisdom_user: characterForm.wisdom_user - 1,
+                           wisdom: characterForm.wisdom - 1,
                         });
                         setStatPoints((prev) => prev + 1);
                      }}
                      disabled={
-                        characterForm.wisdom_user <=
+                        characterForm.wisdom <=
                         4 +
                            races.find(
                               (race) => race.id === characterForm.race_id
@@ -674,19 +688,17 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
                   >
                      -
                   </button>
-                  <span>{characterForm.wisdom_user}</span>
+                  <span>{characterForm.wisdom}</span>
                   <button
                      className="brown-bg brown-border beige-text d-flex align-items-center justify-content-center characteristics-btn"
                      onClick={() => {
                         setCharacterForm({
                            ...characterForm,
-                           wisdom_user: characterForm.wisdom_user + 1,
+                           wisdom: characterForm.wisdom + 1,
                         });
                         setStatPoints((prev) => prev - 1);
                      }}
-                     disabled={
-                        characterForm.wisdom_user >= 16 || statPoints === 0
-                     }
+                     disabled={characterForm.wisdom >= 16 || statPoints === 0}
                   >
                      +
                   </button>

@@ -218,13 +218,13 @@
 /*buttons at the under card and over it*/
 .header-btns a button,
 .footer-btns button {
-   width: clamp(2rem, 3vw, 3.5rem);
-   height: clamp(2rem, 3vw, 3.5rem);
-   padding: clamp(0.2rem, 1vw, 1rem);
+   width: 2rem;
+   height: 2rem;
+   padding: 0.3rem;
 }
 .header-btns button {
-   font-size: clamp(0.5rem, 3.3vw, 4rem);
-   padding: clamp(0.2rem, 2.2vw, 1rem);
+   font-size: 0.9rem;
+   padding: 0.4rem;
 }
 .header-btns,
 .footer-btns {

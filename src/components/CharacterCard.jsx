@@ -5,6 +5,7 @@ import characterAvatar from "../assets/images/character-avatar.webp";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import binIcon from "../assets/images/bin-icon.svg";
+import { Link } from "react-router-dom";
 
 export default function CharacterCard({
    character,
@@ -188,13 +189,18 @@ export default function CharacterCard({
             </div>
          </div>
          {/* ABILITIES */}
-         <button
-            className="grid-area-abilities base-button brown-bg beige-text d-flex align-items-center justify-content-center"
-            role="button"
-            tabIndex="0"
+         <Link
+            className="grid-area-abilities"
+            to={`/characters/${character.id}/abilities`}
          >
-            способности
-         </button>
+            <button
+               className="w-100 h-100 base-button brown-bg beige-text"
+               role="button"
+               tabIndex="0"
+            >
+               способности
+            </button>
+         </Link>
          {/* INVENTORY */}
          <button className="grid-area-inventory base-button brown-bg beige-text d-flex align-items-center justify-content-center">
             инвентарь
