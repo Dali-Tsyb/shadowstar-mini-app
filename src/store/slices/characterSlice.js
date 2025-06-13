@@ -76,12 +76,10 @@ export const characterSlice = createSlice({
       builder
          .addCase(updateCharacter.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.charactersList = state.charactersList.map((character) => {
-               if (character.id === action.meta.arg.id) {
-                  return action.meta.arg;
-               }
-               return character;
-            });
+            const updatedIndex = state.charactersList.findIndex(
+               (character) => character.id === action.meta.arg.id
+            );
+            state.charactersList[updatedIndex] = action.meta.arg;
          })
          .addCase(updateCharacter.rejected, (state, action) => {
             state.status = "failed";

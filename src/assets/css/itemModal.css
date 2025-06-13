@@ -12,16 +12,26 @@
    top: 50%;
    transform: translateY(-50%);
 }
-.modal-dialog .type {
+.modal-dialog .img {
+   flex-shrink: 0;
+   width: 4rem;
+}
+.modal-dialog .text {
+   flex-grow: 1;
+}
+.modal-dialog .name {
+   font-size: 1.2rem;
+}
+.modal-dialog .equipped {
    font-size: 0.6rem;
    opacity: 0.9;
    letter-spacing: 0.02rem;
    font-weight: 900;
 }
 .modal-dialog .description {
-   font-size: 0.9rem;
+   font-size: 0.8rem;
    word-wrap: break-word;
 }
-.modal-dialog .condition {
+.modal-dialog .delete-btn {
    font-size: 0.8rem;
 }

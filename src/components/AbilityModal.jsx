@@ -2,12 +2,10 @@ import diceIcon from "../assets/images/dice-icon.svg";
 import crossIcon from "../assets/images/cross-icon.svg";
 import "../assets/css/abilityModal.css";
 
-export default function AbilitiesPage({ ability }) {
-
-
+export default function AbilityModal({ ability }) {
    return (
       <div
-         className="modal fade p-5"
+         className="modal fade p-3"
          tabIndex="-1"
          aria-labelledby="abilityModalLabel"
          onClick={() => document.activeElement?.blur()}
@@ -32,7 +30,7 @@ export default function AbilitiesPage({ ability }) {
                </div>
                <div className="text-center text-uppercase type">
                   {ability?.cooldown
-                     ? `Актив(${ability?.cooldown} сек)`
+                     ? `Актив (${ability?.cooldown} сек)`
                      : "Пассив"}
                </div>
                <div className="brown-border rounded beige-bg d-flex align-items-center justify-content-between my-3">
@@ -45,6 +43,57 @@ export default function AbilitiesPage({ ability }) {
                <div className="text-center description">
                   {ability?.description}
                </div>
+               {ability?.cooldown > 0 && (
+                  <div className="d-flex flex-column gap-1 mt-2">
+                     <div className="fw-bold">Условия активации:</div>
+                     <div className="d-flex justify-content-between condition">
+                        <span>Осколки:</span>
+                        <span>
+                           <span>
+                              {ability?.activation_condition.requires_shards
+                                 ?.green || "-"}
+                           </span>
+                           <span>{" / "}</span>
+                           <span>
+                              {ability?.activation_condition.requires_shards
+                                 ?.blue || "-"}
+                           </span>
+                           <span>{" / "}</span>
+                           <span>
+                              {ability?.activation_condition.requires_shards
+                                 ?.red || "-"}
+                           </span>
+                           <span>{" / "}</span>
+                           <span>
+                              {ability?.activation_condition.requires_shards
+                                 ?.black || "-"}
+                           </span>
+                           <span>{" / "}</span>
+                           <span>
+                              {ability?.activation_condition.requires_shards
+                                 ?.white || "-"}
+                           </span>
+                        </span>
+                     </div>
+                     <div className="d-flex justify-content-between condition">
+                        <span>Расстояние:</span>
+                        <span>
+                           {" "}
+                           {ability?.activation_condition.range_meters
+                              ? ability?.activation_condition.range_meters +
+                                " м"
+                              : "-"}
+                        </span>
+                     </div>
+                     <div className="d-flex justify-content-between condition">
+                        <span>Использований до долгого отдыха:</span>
+                        <span>
+                           {ability?.activation_condition.uses_per_long_rest ||
+                              "-"}
+                        </span>
+                     </div>
+                  </div>
+               )}
             </div>
          </div>
       </div>
