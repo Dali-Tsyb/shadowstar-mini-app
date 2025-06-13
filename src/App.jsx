@@ -25,76 +25,46 @@ export default function App() {
       return () => window.removeEventListener("resize", setVH);
    }, []);
 
-   //auth
+   //authMore actions
    const playerStatus = useSelector((state) => state.player.status);
    const authStatus = useSelector((state) => state.authorization.status);
-   const [isBrowser, setIsBrowser] = React.useState(false);
-
    //login
+
    useEffect(() => {
-      if (authStatus === "succeeded") {
-         return;
-      }
-      const checkAuth = () => {
-         if (
-            localStorage.getItem("token") &&
-            isTokenValid(localStorage.getItem("token"))
-         ) {
-            if (playerStatus === "succeeded" || playerStatus === "loading") {
-               return true;
-            } else if (playerStatus === "failed") {
-               return false;
-            } else if (playerStatus === "idle") {
-               dispatch(getPlayer())
-                  .unwrap()
-                  .then(() => {
-                     return true;
-                  })
-                  .catch(() => {
-                     return false;
-                  });
-            }
-         } else {
-            return false;
-         }
-      };
+      window.Telegram.WebApp.ready();
 
-      //if user is successfully logged in, return
-      if (checkAuth()) {
-         axios.defaults.headers.common[
-            "Authorization"
-         ] = `Bearer ${localStorage.getItem("token")}`;
-         dispatch(updateAuthStatus("succeeded"));
+      const rawInitData = window.Telegram?.WebApp?.initData;
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+         dispatch(login(rawInitData)); //no token, authenticate
          return;
       }
 
-      //find out whether we are in browser or in mobile app
-      if (
-         window.Telegram &&
-         window.Telegram.WebApp &&
-         window.Telegram.WebApp.initData
-      ) {
-         setIsBrowser(false);
-         dispatch(login(window.Telegram.WebApp.initData))
+      if (!isTokenValid(token)) {
+         dispatch(login(rawInitData)); //token expired, authenticate
+         return;
+      }
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      if (playerStatus === "idle" && authStatus !== "succeeded") {
+         dispatch(getPlayer())
             .unwrap()
             .then(() => {
+               //player fetch succeeded, update authStatus to succeeded
                dispatch(updateAuthStatus("succeeded"));
-               //redirect user back to browser app main page
-               if (
-                  URLSearchParams(window.location.search).get("mode") ===
-                  "browser"
-               ) {
-                  window.Telegram.WebApp.openLink("https://mini.shadstar.ru/");
-                  window.Telegram.WebApp.close();
-               }
             })
             .catch(() => {
-               console.log("Authentication in mini app failed");
+               //if player fetch fails (deleted or token invalid), authenticate again
+               dispatch(login(rawInitData))
+                  .unwrap()
+                  .then(() => {
+                     dispatch(getPlayer());
+                  });
             });
-      } else {
-         setIsBrowser(true);
       }
-   }, [dispatch, playerStatus, authStatus, isBrowser]);
+   }, [dispatch, playerStatus, authStatus]);
 
    //fetching data
    const raceStatus = useSelector((state) => state.race.status);
@@ -135,6 +105,7 @@ export default function App() {
    const HomePage = React.lazy(() => import("./pages/HomePage"));
    const CharactersPage = React.lazy(() => import("./pages/CharactersPage"));
    const AbilitiesPage = React.lazy(() => import("./pages/AbilitiesPage.jsx"));
+   const InventoryPage = React.lazy(() => import("./pages/InventoryPage.jsx"));
 
    if (isLoading) {
       return (
@@ -219,6 +190,26 @@ export default function App() {
                   }
                >
                   <AbilitiesPage />
+               </React.Suspense>
+            }
+         />
+         <Route
+            path="/characters/:id/inventory"
+            element={
+               <React.Suspense
+                  fallback={
+                     <div className="d-flex justify-content-center align-items-center h-100">
+                        <div>
+                           <div className="spinner-border" role="status">
+                              <span className="visually-hidden">
+                                 Загрузка...
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  }
+               >
+                  <InventoryPage />
                </React.Suspense>
             }
          />

@@ -34,8 +34,7 @@ export const deleteCharacter = createAsyncThunk(
 export const characterSlice = createSlice({
    name: "character",
    initialState: {
-      charactersList: [
-      ],
+      charactersList: [],
       status: "idle",
       error: null,
       selectedCharacter: null,

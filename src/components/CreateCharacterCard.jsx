@@ -19,13 +19,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
             white: Math.random() < 0.2 ? 1 : 0,
          };
       } else {
-         return {
-            green: 0,
-            blue: 0,
-            red: 0,
-            black: 0,
-            white: 0,
-         };
+         return null;
       }
    }
 

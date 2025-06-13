@@ -63,7 +63,7 @@ export default function CharacterPage() {
       setTimeout(() => {
          while (
             swiperRef.current &&
-            swiperRef.current.realIndex < swiperRef.current.slides.length - 1
+            swiperRef.current.realIndex < swiperRef.current.slides?.length - 1
          ) {
             swiperRef.current.slideNext();
          }

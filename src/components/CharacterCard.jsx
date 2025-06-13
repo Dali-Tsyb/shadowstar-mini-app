@@ -179,7 +179,13 @@ export default function CharacterCard({
                className="stats"
                style={{ backgroundImage: `url(${shardIcon})` }}
             >
-               <span className="fw-bold beige-text">{character.shards}</span>
+               <span className="fw-bold beige-text">
+                  {character.shards.green +
+                     character.shards.blue +
+                     character.shards.red +
+                     character.shards.black +
+                     character.shards.white}
+               </span>
             </div>
             <div
                className="stats"
@@ -202,9 +208,15 @@ export default function CharacterCard({
             </button>
          </Link>
          {/* INVENTORY */}
-         <button className="grid-area-inventory base-button brown-bg beige-text d-flex align-items-center justify-content-center">
-            инвентарь
-         </button>
+         <Link
+            className="grid-area-inventory"
+            to={`/characters/${character.id}/inventory`}
+         >
+            <button className="w-100 h-100 base-button brown-bg beige-text d-flex align-items-center justify-content-center">
+               инвентарь
+            </button>
+         </Link>
+
          {/* SELECT */}
          <button
             className={`grid-area-select base-button w-100 ${
