@@ -103,9 +103,11 @@ export default function App() {
          <Route
             path="/"
             element={
-               <React.Suspense fallback={<LoadingSpinner />}>
-                  <HomePage />
-               </React.Suspense>
+               <RequireAuth>
+                  <React.Suspense fallback={<LoadingSpinner />}>
+                     <HomePage />
+                  </React.Suspense>
+               </RequireAuth>
             }
          />
          <Route
