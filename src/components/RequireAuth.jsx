@@ -1,46 +1,87 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isTokenValid } from "../services/authService";
 import { getPlayer } from "../store/slices/playerSlice";
 import { updateAuthStatus, login } from "../store/slices/authorizationSlice";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function RequireAuth({ children }) {
    const dispatch = useDispatch();
    const location = useLocation();
+   const navigate = useNavigate();
 
    const token = localStorage.getItem("token");
-   const isInTelegram = !!window.Telegram?.WebApp?.initData;
    const authStatus = useSelector((state) => state.authorization.status);
    const playerStatus = useSelector((state) => state.player.status);
 
+   const [initialized, setInitialized] = useState(false);
+
    useEffect(() => {
-      const authenticate = async () => {
+      const init = async () => {
+         const isInTelegram = !!window.Telegram?.WebApp?.initData;
          if (isInTelegram) {
             window.Telegram.WebApp.ready();
-            if (!token || !isTokenValid(token)) {
-               const initData = window.Telegram.WebApp.initData;
+            await new Promise((resolve) => setTimeout(resolve, 100));
+         }
+         setInitialized(true);
+      };
+
+      init();
+   }, []);
+
+   useEffect(() => {
+      if (!initialized) return;
+
+      const isInTelegram = !!window.Telegram?.WebApp?.initData;
+
+      if (!token || !isTokenValid(token)) {
+         if (isInTelegram) {
+            const initData = window.Telegram?.WebApp?.initData;
+            if (initData) {
                dispatch(login({ initData, mode: "miniapp" }));
             }
          } else {
-            if (!token || !isTokenValid(token)) {
-               return;
+            navigate("/web-login", { state: { from: location.pathname } });
+            return;
+         }
+      }
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      try {
+         dispatch(getPlayer()).unwrap();
+         dispatch(updateAuthStatus("succeeded"));
+      } catch (err) {
+         console.warn("getPlayer failed (possibly deleted):", err);
+         localStorage.removeItem("token");
+
+         if (isInTelegram) {
+            const initData = window.Telegram.WebApp.initData;
+            if (initData) {
+               dispatch(login({ initData, mode: "miniapp" }));
+               dispatch(getPlayer());
             }
+         } else {
+            navigate("/web-login", { state: { from: location.pathname } });
          }
+      }
+   }, [
+      initialized,
+      token,
+      dispatch,
+      location.pathname,
+      navigate,
+      playerStatus,
+      authStatus,
+   ]);
 
-         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+   if (!initialized) {
+      return <LoadingSpinner />;
+   }
 
-         if (playerStatus === "idle" && authStatus !== "succeeded") {
-            await dispatch(getPlayer()).unwrap();
-            dispatch(updateAuthStatus("succeeded"));
-         }
-      };
-
-      authenticate();
-   }, [token, dispatch, authStatus, playerStatus, isInTelegram]);
-
-   if (!token || !isTokenValid(token)) {
+   if (!token && !window.Telegram?.WebApp?.initData) {
       return <Navigate to="/web-login" state={{ from: location }} replace />;
    }
 
