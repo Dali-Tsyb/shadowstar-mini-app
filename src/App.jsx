@@ -7,8 +7,8 @@ import { getCharacters } from "./store/slices/characterSlice";
 import { getSessions } from "./store/slices/sessionSlice.js";
 import { getLevels } from "./store/slices/levelSlice.js";
 import { getAbilities } from "./store/slices/abilitySlice.js";
-import LoadingSpinner from "./components/LoadingSpinner";
-import RequireAuth from "./components/RequireAuth.jsx";
+import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
+import RequireAuth from "./components/common/RequireAuth.jsx";
 
 export default function App() {
    const dispatch = useDispatch();

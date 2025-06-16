@@ -1,21 +1,27 @@
-import "../assets/css/characters.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { useRef, useState } from "react";
-import backArrowIcon from "../assets/images/back-arrow.svg";
-import CharacterCard from "../components/CharacterCard.jsx";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { EffectCreative } from "swiper/modules";
+import "swiper/css/effect-creative";
+import "swiper/css";
+
+import backArrowIcon from "../assets/images/navigation/back-arrow.svg";
+
+import "../assets/css/characters/characters.css";
+
 import {
    deleteCharacter,
    selectCharacter,
    setCharacters,
+   addCharacter,
+   updateCharacter,
+   updateCharacterAvatar,
 } from "../store/slices/characterSlice.js";
-import CreateCharacterCard from "../components/CreateCharacterCard.jsx";
-import { addCharacter } from "../store/slices/characterSlice";
-import DeleteCharacterModal from "../components/DeleteCharacterModal.jsx";
-import { Link } from "react-router-dom";
-import { EffectCreative } from "swiper/modules";
-import "swiper/css/effect-creative";
+
+import CharacterCard from "../components/characters/CharacterCard.jsx";
+import CreateCharacterCard from "../components/characters/CreateCharacterCard.jsx";
+import DeleteCharacterModal from "../components/characters/DeleteCharacterModal.jsx";
 
 export default function CharacterPage() {
    const dispatch = useDispatch();
@@ -55,7 +61,6 @@ export default function CharacterPage() {
       setEditMode(false);
       dispatch(setCharacters(characters.slice(0, -1)));
    };
-
    //send new character to backend
    const handleSendCharacter = (form) => {
       dispatch(addCharacter(form));
@@ -68,6 +73,24 @@ export default function CharacterPage() {
             swiperRef.current.slideNext();
          }
       }, 200);
+   };
+
+   //send updated character to backend
+   const handleUpdateCharacter = (form) => {
+      dispatch(updateCharacter(form));
+   };
+
+   const handleUpdateCharacterAvatar = (form) => {
+      dispatch(updateCharacterAvatar(form))
+         .unwrap()
+         .then((res) => {
+            dispatch(
+               updateCharacter({
+                  id: form.id,
+                  image_url: res.url,
+               })
+            );
+         });
    };
 
    //delete character
@@ -165,6 +188,10 @@ export default function CharacterPage() {
                               selectedCharacter={selectedCharacter}
                               setSelectedCharacter={handleSelect}
                               deleteCharacter={deleteCharacter}
+                              updateCharacter={handleUpdateCharacter}
+                              updateCharacterAvatar={
+                                 handleUpdateCharacterAvatar
+                              }
                            />
                         )}
                         {editMode && !character.id && (

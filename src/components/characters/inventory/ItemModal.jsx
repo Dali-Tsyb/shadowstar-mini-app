@@ -1,6 +1,6 @@
-import diceIcon from "../assets/images/dice-icon.svg";
-import crossIcon from "../assets/images/cross-icon.svg";
-import "../assets/css/itemModal.css";
+import diceIcon from "../../../assets/images/fallbacks/dice-icon.svg";
+import crossIcon from "../../../assets/images/navigation/cross-icon.svg";
+import "../../../assets/css/characters/inventory/itemModal.css";
 
 export default function ItemModal({ item }) {
    return (

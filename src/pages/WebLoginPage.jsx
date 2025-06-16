@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { login } from "../store/slices/authorizationSlice";
 
 export default function WebLoginPage() {
@@ -24,9 +25,11 @@ export default function WebLoginPage() {
                initData: authParams,
                mode: "web",
             })
-         );
-
-         navigate("/");
+         )
+            .unwrap()
+            .then(() => {
+               navigate("/");
+            });
       };
       if (
          !widgetLoaded &&

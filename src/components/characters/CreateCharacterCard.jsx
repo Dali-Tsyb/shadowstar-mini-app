@@ -1,10 +1,12 @@
-import hpIcon from "../assets/images/hp-icon.webp";
-import shieldIcon from "../assets/images/shield-icon.webp";
 import { useEffect, useRef, useState } from "react";
-import arrowIcon from "../assets/images/arrow.svg";
-import BasicDropdown from "./BasicDropdown";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+
+import hpIcon from "../../assets/images/characters/hp-icon.webp";
+import shieldIcon from "../../assets/images/characters/shield-icon.webp";
+import arrowIcon from "../../assets/images/navigation/arrow.svg";
+
+import BasicDropdown from "../common/BasicDropdown";
 
 export default function CreateCharacterCard({ character, sendCharacter }) {
    const { t } = useTranslation();
@@ -209,7 +211,7 @@ export default function CreateCharacterCard({ character, sendCharacter }) {
       input = input.trimStart();
 
       // 4. Prevent input that doesn't start with a letter
-      if (!/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
+      if (input !== "" && !/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
 
       setCharacterForm((prev) => ({ ...prev, name: input }));
    };

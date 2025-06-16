@@ -1,6 +1,6 @@
-import diceIcon from "../assets/images/dice-icon.svg";
-import crossIcon from "../assets/images/cross-icon.svg";
-import "../assets/css/abilityModal.css";
+import diceIcon from "../../../assets/images/fallbacks/dice-icon.svg";
+import crossIcon from "../../../assets/images/navigation/cross-icon.svg";
+import "../../../assets/css/characters/abilities/abilityModal.css";
 
 export default function AbilityModal({ ability }) {
    return (

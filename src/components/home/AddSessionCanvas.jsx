@@ -1,9 +1,12 @@
 import { useState } from "react";
-import "../assets/css/addSessionCanvas.css";
-import DOMPurify from "dompurify";
-import crossIcon from "../assets/images/cross-icon.svg";
 import { useDispatch } from "react-redux";
-import { addSession } from "../store/slices/sessionSlice";
+import DOMPurify from "dompurify";
+
+import "../../assets/css/home/addSessionCanvas.css";
+
+import crossIcon from "../../assets/images/navigation/cross-icon.svg";
+
+import { addSession } from "../../store/slices/sessionSlice";
 
 export default function AddSessionCanvas() {
    const dispatch = useDispatch();

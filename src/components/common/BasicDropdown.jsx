@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import "../assets/css/basicDropdown.css";
+
+import "../../assets/css/common/basicDropdown.css";
 
 export default function BasicDropdown({ options, onSelect, entity }) {
    const handleChange = (e) => {

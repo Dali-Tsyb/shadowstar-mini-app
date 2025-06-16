@@ -1,12 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import diceIcon from "../assets/images/dice-icon.svg";
-import backArrowIcon from "../assets/images/back-arrow.svg";
-import "../assets/css/ability.css";
-import AbilityModal from "../components/AbilityModal";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as bootstrap from "bootstrap";
+import { useParams } from "react-router-dom";
+
+import diceIcon from "../assets/images/fallbacks/dice-icon.svg";
+import backArrowIcon from "../assets/images/navigation/back-arrow.svg";
+
+import "../assets/css/characters/abilities/ability.css";
+
+import AbilityModal from "../components/characters/abilities/AbilityModal";
+
 import { updateCharacter } from "../store/slices/characterSlice";
 
 export default function AbilitiesPage() {

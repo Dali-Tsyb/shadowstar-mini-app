@@ -1,8 +1,10 @@
-import "../assets/css/addSessionCanvas.css";
-import DOMPurify from "dompurify";
-import crossIcon from "../assets/images/cross-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentSession } from "../store/slices/sessionSlice";
+
+import "../../assets/css/home/addSessionCanvas.css";
+
+import crossIcon from "../../assets/images/navigation/cross-icon.svg";
+
+import { setCurrentSession } from "../../store/slices/sessionSlice";
 
 export default function SessionsListCanvas() {
    const dispatch = useDispatch();

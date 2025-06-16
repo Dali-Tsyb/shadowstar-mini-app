@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import diceIcon from "../assets/images/dice-icon.svg";
-import backArrowIcon from "../assets/images/back-arrow.svg";
-import "../assets/css/inventory.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import * as bootstrap from "bootstrap";
-import ItemModal from "../components/ItemModal";
+
+import diceIcon from "../assets/images/fallbacks/dice-icon.svg";
+import backArrowIcon from "../assets/images/navigation/back-arrow.svg";
+
+import "../assets/css/characters/inventory/inventory.css";
+
+import ItemModal from "../components/characters/inventory/ItemModal";
 
 export default function InventoryPage() {
    const dispatch = useDispatch();

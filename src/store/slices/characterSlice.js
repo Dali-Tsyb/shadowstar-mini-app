@@ -3,8 +3,9 @@ import {
    getCharactersService,
    addCharacterService,
    updateCharacterService,
+   updateCharacterAvatarService,
    deleteCharacterService,
-} from "/src/services/characterService";
+} from "../../services/characterService";
 
 export const getCharacters = createAsyncThunk("characters/load", async () => {
    const data = await getCharactersService();
@@ -20,6 +21,16 @@ export const updateCharacter = createAsyncThunk(
    "characters/update",
    async (data) => {
       const response = await updateCharacterService(data);
+      return response;
+   }
+);
+
+export const updateCharacterAvatar = createAsyncThunk(
+   "characters/avatar",
+   async (data, { getState }) => {
+      const state = getState();
+      const player_id = state.player.currentPlayer.id;
+      const response = await updateCharacterAvatarService(data, player_id);
       return response;
    }
 );
@@ -75,13 +86,20 @@ export const characterSlice = createSlice({
 
       builder
          .addCase(updateCharacter.fulfilled, (state, action) => {
-            state.status = "succeeded";
             const updatedIndex = state.charactersList.findIndex(
                (character) => character.id === action.payload.id
             );
             state.charactersList[updatedIndex] = action.payload;
          })
          .addCase(updateCharacter.rejected, (state, action) => {
+            state.error = action.error.message;
+         });
+
+      builder
+         .addCase(updateCharacterAvatar.fulfilled, (state) => {
+            state.status = "succeeded";
+         })
+         .addCase(updateCharacterAvatar.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
          });

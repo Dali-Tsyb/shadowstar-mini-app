@@ -1,4 +1,4 @@
-import "../assets/css/deleteCharacterModal.css";
+import "../../assets/css/characters/deleteCharacterModal.css";
 
 export default function DeleteCharacterModal({ onConfirm, id }) {
    return (

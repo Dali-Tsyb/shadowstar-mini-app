@@ -1,19 +1,25 @@
-import hpIcon from "../assets/images/hp-icon.webp";
-import shardIcon from "../assets/images/shard-icon.webp";
-import shieldIcon from "../assets/images/shield-icon.webp";
-import characterAvatar from "../assets/images/character-avatar.webp";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import binIcon from "../assets/images/bin-icon.svg";
 import { Link } from "react-router-dom";
+
+import hpIcon from "../../assets/images/characters/hp-icon.webp";
+import shardIcon from "../../assets/images/characters/shard-icon.webp";
+import shieldIcon from "../../assets/images/characters/shield-icon.webp";
+import characterAvatar from "../../assets/images/fallbacks/character-avatar.webp";
+import binIcon from "../../assets/images/navigation/bin-icon.svg";
 
 export default function CharacterCard({
    character,
    index,
    setSelectedCharacter,
    selectedCharacter,
+   updateCharacter,
+   updateCharacterAvatar,
 }) {
    const { t } = useTranslation();
+
+   //copy character object
+   const [name, setName] = useState(character.name);
 
    //select animation
    const [pulsingIndex, setPulsingIndex] = useState(null);
@@ -55,7 +61,36 @@ export default function CharacterCard({
             className="grid-area-name brown-border p-2 beige-bg d-flex justify-content-center align-items-center"
             style={{ borderRadius: "0.375rem 0 0 0" }}
          >
-            {character.name}
+            <input
+               type="text"
+               value={name}
+               className="p-0 border-0"
+               onChange={(e) => {
+                  let input = e.target.value;
+                  input = input.replace(/[^a-zA-Zа-яА-ЯёЁ ]/g, "");
+                  input = input.replace(/\s{2,}/g, " ");
+                  input = input.trimStart();
+                  if (input !== "" && !/[a-zA-Zа-яА-ЯёЁ]/.test(input)) return;
+
+                  setName(input);
+               }}
+               onBlur={() => {
+                  if (name === "") {
+                     setName(character.name);
+                     return;
+                  }
+
+                  updateCharacter({
+                     id: character.id,
+                     name: name,
+                  });
+               }}
+               onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                     e.target.blur();
+                  }
+               }}
+            />
          </div>
          {/* RACE & CLASS */}
          <div
@@ -81,24 +116,66 @@ export default function CharacterCard({
          </div>
          {/* AVATAR */}
          <div className="grid-area-avatar brown-border overflow-hidden dark-beige-bg">
-            <img
-               style={{
-                  minWidth: "100%",
-                  minHeight: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  display: "block",
-                  width: "100%",
-               }}
-               src={characterAvatar}
-               alt="avatar"
-            />
+            <label htmlFor={`avatar-${character.id}`} className="w-100 h-100">
+               <img
+                  style={{
+                     minWidth: "100%",
+                     minHeight: "100%",
+                     objectFit: "cover",
+                     objectPosition: "center",
+                     display: "block",
+                     width: "100%",
+                     cursor: "pointer",
+                  }}
+                  src={
+                     character.image_url === null
+                        ? characterAvatar
+                        : import.meta.env.VITE_API_URL.replace("/api", "") +
+                          character.image_url
+                  }
+                  alt="avatar"
+               />
+               <input
+                  type="file"
+                  id={`avatar-${character.id}`}
+                  accept="image/png, image/jpeg, image/gif"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                     const file = e.target.files?.[0];
+                     if (!file) return;
+                     console.log(
+                        "Uploading avatar for character id:",
+                        character.id,
+                        character.name
+                     );
+
+                     updateCharacterAvatar({
+                        id: character.id,
+                        file: file,
+                     });
+                  }}
+               />
+            </label>
          </div>
+
          {/* CHARACTERISTICS */}
          <div
             className="grid-area-characteristics brown-border px-2 py-3 beige-bg d-flex flex-column justify-content-between align-items-center"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
+            onTouchStart={() => {
+               if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                  handleTouchStart();
+               }
+            }}
+            onTouchEnd={() => {
+               if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                  handleTouchEnd();
+               }
+            }}
+            onClick={() => {
+               if (!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                  setShowCharsAs(showCharsAs === "value" ? "bonus" : "value");
+               }
+            }}
          >
             <div className="characteristics">
                {showCharsAs === "bonus" ? (

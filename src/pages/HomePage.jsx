@@ -1,21 +1,25 @@
 import { Link } from "react-router-dom";
-import "../assets/css/home.css";
-import "../assets/css/characters.css";
 import { useEffect, useState } from "react";
-import titleBg from "../assets/images/title-bg.webp";
-import homeMap from "../assets/images/home-map-img.webp";
-import profileIcon from "../assets/images/profile-icon.webp";
-import settingsIcon from "../assets/images/settings-icon.webp";
-import arrowIcon from "../assets/images/arrow.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { updateRole } from "../store/slices/playerSlice";
-import DemoVersionModal from "../components/DemoVersionModal";
-import AddSessionCanvas from "../components/AddSessionCanvas";
-import SessionsListCanvas from "../components/SessionsListCanvas";
-import editIcon from "../assets/images/edit-icon.webp";
-import { setCurrentSession } from "../store/slices/sessionSlice";
 import { Modal } from "bootstrap";
 import DOMPurify from "dompurify";
+
+import "../assets/css/home/home.css";
+import "../assets/css/characters/characters.css";
+
+import titleBg from "../assets/images/homePage/title-bg.webp";
+import homeMap from "../assets/images/homePage/home-map-img.webp";
+import profileIcon from "../assets/images/homePage/profile-icon.webp";
+import settingsIcon from "../assets/images/homePage/settings-icon.webp";
+import arrowIcon from "../assets/images/navigation/arrow.svg";
+import editIcon from "../assets/images/navigation/edit-icon.webp";
+
+import { updateRole } from "../store/slices/playerSlice";
+import { setCurrentSession } from "../store/slices/sessionSlice";
+
+import DemoVersionModal from "../components/home/DemoVersionModal";
+import AddSessionCanvas from "../components/home/AddSessionCanvas";
+import SessionsListCanvas from "../components/home/SessionsListCanvas";
 
 export default function HomePage() {
    const dispatch = useDispatch();
@@ -26,7 +30,7 @@ export default function HomePage() {
    const currentSession = useSelector((state) => state.session.currentSession);
 
    //current role
-   const [role, setRole] = useState('player');
+   const [role, setRole] = useState("player");
    //change roles
    useEffect(() => {
       if (player?.active_as) {
@@ -153,7 +157,7 @@ export default function HomePage() {
             </div>
 
             {/* MASTER INTERFACE */}
-            {role === "master" && player?.active_as === "master" && (
+            {role === "master" && player?.active_as === "player" && (
                <div className="d-flex flex-column gap-3 justify-content-between align-items-center game-code-input my-auto">
                   <div className="d-flex flex-column gap-2 align-items-center">
                      <div className="text-center fw-semibold fs-5 mb-4">
@@ -218,21 +222,23 @@ export default function HomePage() {
             )}
 
             {/* PLAY BUTTON */}
-            <div className="d-flex gap-1">
+            <div className="d-flex gap-1 align-items-start">
                <button
                   className="base-button brown-bg beige-text rounded play-btn"
-                  style={{ flex: "1" }}
                   disabled={!currentSession?.id}
                >
                   начать игру
                </button>
                {currentSession.id && (
                   <button
-                     className="base-button brown-bg beige-text rounded"
-                     style={{ flex: "0.12" }}
+                     className="base-button brown-bg beige-text rounded change-session-btn"
                      onClick={() => handleChangeCurrentSession()}
                   >
-                     <img className="w-100" src={editIcon} alt="" />
+                     <img
+                        className="w-100 h-100 object-fit-contain"
+                        src={editIcon}
+                        alt=""
+                     />
                   </button>
                )}
             </div>

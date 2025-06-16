@@ -17,7 +17,7 @@ a {
 }
 input,
 textarea {
-   font-size: clamp(1rem, 3vw, 1rem);
+   font-size: 1rem;
    padding: 0.8rem;
    background-color: transparent;
 }
@@ -28,7 +28,7 @@ textarea::placeholder {
 }
 label {
    font-weight: 800;
-   font-size: clamp(1rem, 3vw, 1rem);
+   font-size: 1rem;
 }
 
 *:focus {
@@ -74,9 +74,11 @@ body,
    backface-visibility: hidden;
    cursor: pointer;
    font-weight: 700;
+   font-size: 1rem;
    text-transform: uppercase;
-   padding: clamp(0.2rem, 1.7vw, 1rem);
+   padding: 0.5rem 1rem;
    scale: 1;
+   height: 3.3rem;
 }
 .brown-border {
    border: 2px solid #382610;
@@ -108,4 +110,10 @@ body,
 }
 .beige-text {
    color: #e2cfae !important;
+}
+
+@media (width > 600px) {
+   :root {
+      font-size: 12px;
+   }
 }

@@ -1,9 +1,9 @@
-import "../assets/css/deleteCharacterModal.css";
 import { useEffect } from "react";
 import { Modal } from "bootstrap";
 
-export default function DemoVersionModal() {
+import "../../assets/css/characters/deleteCharacterModal.css";
 
+export default function DemoVersionModal() {
    useEffect(() => {
       const hasSeenModal = sessionStorage.getItem("hasSeenDemoVersionModal");
 
